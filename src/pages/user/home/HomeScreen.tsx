@@ -1,49 +1,39 @@
-import Banner from "../../../components/banner/Banner"
-import Navbar from "../../../components/layouts/Navbar"
-
+import Banner from "../../../components/user/Banner";
+import Process from "../../../components/user/Process";
+import Footer from "../../../components/user/layouts/Footer";
+import Navbar from "../../../components/user/layouts/Navbar";
 
 function HomeScreen() {
   return (
     <div>
-        <Navbar/>
-        <Banner/>
-        <div className="flex justify-center">
-        <div className="w-3/4" style={{height:'500px'}}>
-           <div className="justify-center mt-14">
-            <p className="text-primary font-bold text-3xl">We Follow The Process</p>
-           </div>
-           <div className="grid mt-14 text-center justify-between sm:grid-cols-2 lg:grid-cols-3 xl:flex">
-            <div className="">
-                <div className="h-52 w-52 rounded-full flex items-center justify-center" style={{background:'#FAE084'}}>
-                    <img src="/booking (1) 1.png" alt=""/>
-                </div>
-                <div className="mt-10 text-primary font-bold text-xl">Booking Online </div>
-            </div>
-          <div>
-          <div className="h-52 w-52 rounded-full flex items-center justify-center" style={{background:'#FAE084'}}>
-                <img src="Frame.png" alt="" />
-            </div>
-            <div className="mt-10 text-primary font-bold text-xl">Booking Online </div>
-          </div>
-         <div>
-         <div className="h-52 w-52 rounded-full flex items-center justify-center" style={{background:'#FAE084'}}>
-               <img src="image 73.png" alt="" />
-            </div>
-            <div className="mt-10 text-primary font-bold text-xl">Booking Online </div>
-         </div>
-         <div>
-         <div className="h-52 w-52 rounded-full flex items-center justify-center" style={{background:'#FAE084'}}>
-                <div className="h-20 w-20 bg-primary rounded-full flex justify-center items-center">
-                <img src="/Vector 153 (Stroke).png" alt=""/>
-                </div>
-            </div>
-            <div className="mt-10 text-primary font-bold text-xl">Booking Online </div>
-         </div>
-           </div>
+      <Navbar />
+      <Banner />
+      <Process />
+      <div className="flex justify-center mt-5">
+        <div className="w-3/4 ">
+          <img className="w-full rounded-xl" src="/fixIt_banner.jpg" alt="" />
         </div>
+      </div>
+       
+     <div className="flex justify-center mt-10">
+     <div className="bg-gray-400 h-52 w-3/4">
+        <div className=" h-7 flex justify-center">
+            <p className="text-lg font-serif">Happines Guaranty</p>
+        </div>
+        <div className="h-7 flex justify-center">
+            <span>We love servicing you better</span>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+      </div>
+     </div>
+      <Footer />
     </div>
-    </div>
-  )
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;
