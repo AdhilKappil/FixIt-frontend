@@ -1,13 +1,13 @@
-import Navbar from "./components/layouts/Navbar"
+
 import './App.css'
-import Banner from "./components/banner/Banner"
+import HomeScreen from './pages/user/home/HomeScreen'
+
 
 
 function App() {
   return (
     <div>
-     <Navbar/>
-     <Banner/>
+     <HomeScreen/>
     </div>
   )
 }
