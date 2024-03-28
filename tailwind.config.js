@@ -12,6 +12,9 @@ export default {
         // tertiary: '#3B82F6', // Set tertiary color
       },
     },
+    fontFamily: {
+      'sans': ['Poppins', 'sans-serif'],
+    },
   },
   plugins: [],
 }

@@ -1,6 +1,6 @@
 
 import './App.css'
-import HomeScreen from './pages/user/home/HomeScreen'
+import HomeScreen from './pages/user/HomeScreen'
 
 
 
