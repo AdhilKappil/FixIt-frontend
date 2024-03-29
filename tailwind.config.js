@@ -8,12 +8,14 @@ export default {
     extend: {
       colors: {
         primary: '#00255F', // Set primary color
-        secondary: '#F9FAFB', // Set secondary color
+        secondary : '#fff', // secondary color
+        tertiary: '#F9FAFB', // Set tertiary color
+        text_head:'#000'
         // tertiary: '#3B82F6', // Set tertiary color
       },
     },
     fontFamily: {
-      'sans': ['Poppins', 'sans-serif'],
+      'sans': ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
     },
   },
   plugins: [],
