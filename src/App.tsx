@@ -1,6 +1,7 @@
 
 import './App.css'
-import LoginForm from './components/common/Login'
+import Login from './components/common/Login'
+import SignUp from './components/common/SignUp'
 import HomeScreen from './pages/user/HomeScreen'
 import Services from './pages/user/Services'
 
@@ -11,7 +12,8 @@ function App() {
     <div>
      {/* <HomeScreen/> */}
      {/* <Services/> */}
-     <LoginForm/>
+     {/* <Login/> */}
+     <SignUp/>
     </div>
   )
 }
