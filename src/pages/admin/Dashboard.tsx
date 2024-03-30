@@ -43,13 +43,13 @@ const AppBar = styled(MuiAppBar, {
 export default function Dashboard() {
 //   const theme = useTheme();
   const [open, setOpen] = useState(false);
-//   const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(false)
 
-//   const darkTheam = useMemo(()=>createTheme({
-//     palette:{
-//         mode : dark ? 'dark' : 'light'
-//     }
-//   }),[dark])
+  const darkTheam = useMemo(()=>createTheme({
+    palette:{
+        mode : dark ? 'dark' : 'light'
+    }
+  }),[dark])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -77,9 +77,9 @@ export default function Dashboard() {
           <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
             Dashboard
           </Typography>
-          {/* <IconButton onClick={()=>setDark(!dark)}>
+          <IconButton onClick={()=>setDark(!dark)}>
             {dark ? <Brightness7/> : <Brightness4/>}
-          </IconButton> */}
+          </IconButton>
         </Toolbar>
       </AppBar>
       <SideBar {...{open, setOpen}}/>
