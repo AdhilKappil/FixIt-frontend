@@ -1,13 +1,14 @@
-import React from "react";
+
 import Modal from "react-modal";
 import { FcGoogle } from "react-icons/fc";
 import { CustomStyles } from "./ModalStyle";
+import { useState } from "react";
 
 
 Modal.setAppElement("#root");
 
 function Login() {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal() {
     setIsOpen(true);

@@ -1,9 +1,9 @@
-import React from "react";
+import  { useState } from "react";
 import Modal from "react-modal";
 import { CustomStyles } from "./ModalStyle";
 
 function SignUp() {
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
       setIsOpen(true);
