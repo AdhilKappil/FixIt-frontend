@@ -6,6 +6,7 @@ import { MdVerified } from "react-icons/md";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdTime } from "react-icons/io";
 import { FaMoneyCheck } from "react-icons/fa6";
+import UsersReview from "../../components/user/UsersReview";
 
 
 
@@ -15,8 +16,9 @@ function HomeScreen() {
       <Navbar />
       <Banner />
       <Process />
+      <UsersReview/>
      <div>
-     <div className="flex justify-center mt-5">
+     <div className="flex justify-center mt-12">
         <div className="w-3/4 ">
           <img className="w-full rounded-xl" src="src/assets/img/fixIt_banner.jpg" alt="" />
         </div>
@@ -52,7 +54,7 @@ function HomeScreen() {
         </div>
       </div>
      </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }

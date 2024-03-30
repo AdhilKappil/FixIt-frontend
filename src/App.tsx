@@ -10,10 +10,10 @@ import Services from './pages/user/Services'
 function App() {
   return (
     <div>
-     {/* <HomeScreen/> */}
+     <HomeScreen/>
      {/* <Services/> */}
      {/* <Login/> */}
-     <SignUp/>
+     {/* <SignUp/> */}
     </div>
   )
 }
