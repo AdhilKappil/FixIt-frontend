@@ -7,10 +7,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import SideBar from '../../components/common/Sidebar';
 import { useMemo, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import {  Brightness4, Brightness7 } from '@mui/icons-material';
+import {  Brightness4, Brightness7, Home } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
+import SideBar from '../../components/common/Sidebar';
 
 const drawerWidth = 240;
 
@@ -40,7 +41,7 @@ const AppBar = styled(MuiAppBar, {
 
 
 
-export default function Dashboard() {
+export default function Navbar() {
 //   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false)
@@ -73,6 +74,11 @@ export default function Dashboard() {
             }}
           >
             <MenuIcon />
+            <Tooltip title='Go back to home page'>
+                <IconButton sx={{m:1}}>
+                <Home/>
+                </IconButton>
+            </Tooltip>
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
             Dashboard
