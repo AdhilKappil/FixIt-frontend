@@ -1,6 +1,11 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { openLoginModal } from '../../../slices/loginModal';
+import Login from '../../common/Login';
+
 
 type NavigationItem = {
   name: string;
@@ -9,8 +14,8 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Home', href: '#', current: false },
-  { name: 'Services', href: '#', current: false },
+  { name: 'Home', href: '/', current: false },
+  { name: 'Services', href: '/services', current: false },
   { name: 'About', href: '#', current: false },
   { name: 'Contact', href: '#', current: false },
 ];
@@ -20,6 +25,13 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
+
+  const dispatch = useDispatch()
+
+  const handleLoginButtonClick = () => {
+    dispatch(openLoginModal());
+  };
+
   return (
     <Disclosure as="nav" className="bg-white sticky top-0 z-10">
       {({ open }) => (
@@ -49,14 +61,16 @@ export default function Navbar() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4 text-primary font-semibold">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                       <Link
+                       key={item.name}
+                       to={item.href} // Use `to` instead of `href`
+                       className={classNames(
+                         item.current ? 'text-indigo-600' : 'hover:text-indigo-600',
+                         'px-3 py-2 rounded-md text-base font-medium'
+                       )}
+                     >
+                       {item.name}
+                     </Link>
                     ))}
                   </div>
                 </div>
@@ -71,7 +85,10 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </a>
 
-                {/* Profile dropdown */}
+                <button onClick={handleLoginButtonClick}  className='bg-primary text-white rounded w-20 h-8 ml-3 text-sm'>Login
+                </button>
+
+                {/* Profile dropdown
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -125,9 +142,11 @@ export default function Navbar() {
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu>
+                </Menu> */}
+                
               </div>
             </div>
+          <Login/>
           </div>
 
           <Disclosure.Panel className="sm:hidden">

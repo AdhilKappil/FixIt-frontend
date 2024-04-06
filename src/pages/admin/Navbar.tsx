@@ -44,7 +44,7 @@ const AppBar = styled(MuiAppBar, {
 export default function Navbar() {
 //   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(true)
 
   const darkTheam = useMemo(()=>createTheme({
     palette:{

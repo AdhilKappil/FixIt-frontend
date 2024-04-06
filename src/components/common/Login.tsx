@@ -2,25 +2,31 @@
 import Modal from "react-modal";
 import { FcGoogle } from "react-icons/fc";
 import { CustomStyles } from "./ModalStyle";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeLoginModal } from "../../slices/loginModal";
+import { openSignupModal } from "../../slices/signupModal";
+import SignUp from "./SignUp";
+import { RootState } from "../../app/store";
 
 
 Modal.setAppElement("#root");
 
 function Login() {
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
+  // const [modalIsOpen, setIsOpen] = useState(false);
+  const modalIsOpen = useSelector((state: RootState) => state.loginModal.value)
+  const dispatch = useDispatch()
+  
   function closeModal() {
-    setIsOpen(false);
+    dispatch(closeLoginModal())
   }
+
+  const handleSignupButtonClick = () => {
+    dispatch(closeLoginModal())
+    dispatch(openSignupModal());
+  };
 
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
       <Modal
         isOpen={modalIsOpen}
         // onAfterOpen={afterOpenModal}
@@ -68,19 +74,18 @@ function Login() {
                   <button className="bg-primary w-full text-white p-2 rounded-md">Sign in</button>
                 </div>
                 <p className="mt-4 mb-0 leading-normal text-sm">
-                  Already have an account?{" "}
-                  <a
-                    className="font-bold text-slate-700"
-                    href="../pages/sign-in.html"
-                  >
-                    Sign up
-                  </a>
+                  Already have an account?
+                  <button onClick={handleSignupButtonClick}
+                    className="font-bold text-slate-700">
+                      Sing up
+                  </button>
                 </p>
               </form>
             </div>
           </div>
         </div>
       </Modal>
+      <SignUp/>
     </div>
   );
 }
