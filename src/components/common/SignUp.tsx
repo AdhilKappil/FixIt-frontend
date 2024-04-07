@@ -2,19 +2,30 @@
 import Modal from "react-modal";
 import { CustomStyles } from "./ModalStyle";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSignupModal } from "../../slices/signupModal";
-import { openLoginModal } from "../../slices/loginModal";
+import { closeSignupModal } from "../../slices/modalSlices/signupModal";
+import { openLoginModal } from "../../slices/modalSlices/loginModal";
 import { useFormik } from "formik";
 import { validationSchema } from "./Validation";
 import { RootState } from "../../app/store";
+import { toast } from "react-toastify";
+import { useSendOtpToEmailMutation } from "../../slices/userApiSlice";
+import { setCredential } from "../../slices/authSlice";
+import { userLogOut } from "../../slices/authSlice";
+import OTP from "./OTP";
+import { openOtpModal } from "../../slices/modalSlices/OtpModal";
+import { FormValues } from "../../@types/validationTypes";
+
 
 function SignUp() {
     
   const modalIsOpen = useSelector((state: RootState) => state.signupModal.value)
+  const [sendOtpToEmail] = useSendOtpToEmailMutation();
+  
   
   const dispatch = useDispatch()
 
-  const initialValues = {
+
+  const initialValues : FormValues= {
     name: "",
     mobile: "",
     password: "",
@@ -25,14 +36,26 @@ function SignUp() {
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      // Dispatch action or perform any other actions upon form submission
+    onSubmit: async (values) => {
+      dispatch(setCredential({ ...values }));
+      // Dispatch action to pass the data to the DB
+      try {
+
+        const { name, email } = values; // Destructure values
+        const res = await sendOtpToEmail({ name, email }).unwrap();
+        dispatch(closeSignupModal())
+        dispatch(openOtpModal())
+        toast.success(res.message)
+      } catch (err) { 
+        dispatch(userLogOut());
+        toast.error(err?.data?.message || err.error);
+      }
     },
   });
   
-  function closeModal() {
+  function closeModal() { 
     dispatch(closeSignupModal())
+    
   }
 
   const handleSigninButtonClick = () => {
@@ -135,6 +158,7 @@ function SignUp() {
         </div>
       </div>
     </Modal>
+    <OTP/>
   </div>
   )
 }

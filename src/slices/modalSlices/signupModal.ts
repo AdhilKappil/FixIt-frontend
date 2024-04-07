@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { ModalState } from './loginModal'
 
 
-export interface CounterState {
-  value: boolean
-}
-
-const initialState: CounterState = {
+const initialState: ModalState = {
   value: false,
 }
 

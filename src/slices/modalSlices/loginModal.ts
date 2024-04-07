@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 
-export interface CounterState {
+export interface ModalState {
   value: boolean
 }
 
-const initialState: CounterState = {
+const initialState: ModalState = {
   value: false,
 }
 

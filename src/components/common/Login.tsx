@@ -3,10 +3,14 @@ import Modal from "react-modal";
 import { FcGoogle } from "react-icons/fc";
 import { CustomStyles } from "./ModalStyle";
 import { useDispatch, useSelector } from "react-redux";
-import { closeLoginModal } from "../../slices/loginModal";
-import { openSignupModal } from "../../slices/signupModal";
-import SignUp from "./SignUp";
+import { closeLoginModal } from "../../slices/modalSlices/loginModal";
+import { openSignupModal } from "../../slices/modalSlices/signupModal";
 import { RootState } from "../../app/store";
+import { FormLogin } from "../../@types/validationTypes";
+import { useFormik } from "formik";
+import { loginValidation } from "./Validation";
+import SignUp from "./SignUp";
+import { useLoginMutation } from "../../slices/userApiSlice";
 
 
 Modal.setAppElement("#root");
@@ -15,6 +19,8 @@ function Login() {
   // const [modalIsOpen, setIsOpen] = useState(false);
   const modalIsOpen = useSelector((state: RootState) => state.loginModal.value)
   const dispatch = useDispatch()
+
+  const [login] = useLoginMutation();
   
   function closeModal() {
     dispatch(closeLoginModal())
@@ -24,6 +30,30 @@ function Login() {
     dispatch(closeLoginModal())
     dispatch(openSignupModal());
   };
+
+
+  const initialValues : FormLogin= {
+    password: "",
+    email: "",
+  };
+
+  const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+    initialValues: initialValues,
+    validationSchema: loginValidation,
+    onSubmit: async (values) => {
+      try {
+
+        const { password, email } = values; // Destructure values
+        const res = await login({ password, email }).unwrap();
+        dispatch(closeSignupModal())
+        dispatch(openOtpModal())
+        toast.success(res.message)
+      } catch (err) { 
+        dispatch(userLogOut());
+        toast.error(err?.data?.message || err.error);
+      }
+    },
+  });
 
   return (
     <div>
@@ -51,27 +81,33 @@ function Login() {
               </div>
             </div>
             <div className="flex-auto p-4">
-              <form role="form text-left">
+              <form role="form text-left" onSubmit={handleSubmit}>
                 <div className="mb-4 4">
-                  <input
-                    aria-describedby="email-addon"
-                    aria-label="Email"
+                <input
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
                     placeholder="Email"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                     type="email"
-                  />
+                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  {errors.email && touched.email && (
+                    <div className="text-red-500">{errors.email}</div>
+                  )}
                 </div>
                 <div className="mb-4">
-                  <input
-                    aria-describedby="password-addon"
-                    aria-label="Password"
+                   <input
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
                     placeholder="Password"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                     type="password"
-                  />
+                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  {errors.password && touched.password && (
+                    <div className="text-red-500">{errors.password}</div>
+                  )}
                 </div>
                 <div className="text-center">
-                  <button className="bg-primary w-full text-white p-2 rounded-md">Sign in</button>
+                  <button  className="bg-primary w-full text-white p-2 rounded-md">Sign in</button>
                 </div>
                 <p className="mt-4 mb-0 leading-normal text-sm">
                   Already have an account?
