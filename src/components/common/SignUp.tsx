@@ -9,11 +9,10 @@ import { validationSchema } from "./Validation";
 import { RootState } from "../../app/store";
 import { toast } from "react-toastify";
 import { useSendOtpToEmailMutation } from "../../slices/userApiSlice";
-import { setCredential } from "../../slices/authSlice";
-import { userLogOut } from "../../slices/authSlice";
+import { clearRegister, setRegister } from "../../slices/authSlice";
 import OTP from "./OTP";
 import { openOtpModal } from "../../slices/modalSlices/OtpModal";
-import { FormValues } from "../../@types/validationTypes";
+import { FormValues, MyError } from "../../@types/validationTypes";
 
 
 function SignUp() {
@@ -37,18 +36,17 @@ function SignUp() {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      dispatch(setCredential({ ...values }));
+      dispatch(setRegister({ ...values }));
       // Dispatch action to pass the data to the DB
       try {
-
         const { name, email } = values; // Destructure values
         const res = await sendOtpToEmail({ name, email }).unwrap();
         dispatch(closeSignupModal())
         dispatch(openOtpModal())
         toast.success(res.message)
       } catch (err) { 
-        dispatch(userLogOut());
-        toast.error(err?.data?.message || err.error);
+        dispatch(clearRegister());
+        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
     },
   });

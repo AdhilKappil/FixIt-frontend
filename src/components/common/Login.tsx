@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeLoginModal } from "../../slices/modalSlices/loginModal";
 import { openSignupModal } from "../../slices/modalSlices/signupModal";
 import { RootState } from "../../app/store";
-import { FormLogin } from "../../@types/validationTypes";
+import { FormLogin, MyError } from "../../@types/validationTypes";
 import { useFormik } from "formik";
 import { loginValidation } from "./Validation";
 import SignUp from "./SignUp";
 import { useLoginMutation } from "../../slices/userApiSlice";
+import { toast } from "react-toastify";
+import { setCredential } from "../../slices/authSlice";
 
 
 Modal.setAppElement("#root");
@@ -45,12 +47,18 @@ function Login() {
 
         const { password, email } = values; // Destructure values
         const res = await login({ password, email }).unwrap();
-        dispatch(closeSignupModal())
-        dispatch(openOtpModal())
+        const data = res.data
+        const user = {
+            name : data.name,
+            email : data.email,
+            mobile :data.mobile,
+            id : data._id
+        }
+        dispatch(setCredential({...user}))
+        dispatch(closeLoginModal())
         toast.success(res.message)
       } catch (err) { 
-        dispatch(userLogOut());
-        toast.error(err?.data?.message || err.error);
+        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
     },
   });
