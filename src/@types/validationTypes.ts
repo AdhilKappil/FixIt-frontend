@@ -23,8 +23,8 @@ export interface FormValues {
   // this for service form validarion 
   export interface ServiceForm {
     serviceName: string;
-    firstHourPrice: number;
-    laterHourPrice: number;
+    firstHourCharge: number;
+    laterHourCharge: number;
     description: string;
     imageFile: File | null;
   }

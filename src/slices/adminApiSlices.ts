@@ -28,28 +28,22 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       })
     }),
 
-    // deleteUser: builder.mutation({
-    //   query: (data) => ({
-    //     url: `${ADMIN_URL}/users/delete?id=${data}`,
-    //     method: 'DELETE',
-    //   })
-    // }),
-
-
-    // updateUserData: builder.mutation({
-    //   query: (data) => ({
-    //     url: `${ADMIN_URL}/users/update-user`,
-    //     method: 'PUT',
-    //     body: data
-    //   })
-    // }),
 
     putBlockUser: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/users/unblock-block?id=${data}`,
         method: 'PATCH',
       })
-    })
+    }),
+
+    createService: builder.mutation({
+        query: (data) => ({
+          url: `${ADMIN_URL}/createService`,
+          method: 'POST',
+          body: data,
+        }),
+      }),
+
 
   })
 });
@@ -58,7 +52,6 @@ export const {
   useAdminLoginMutation,
 //   useAdminLogoutMutation,
   useGetUsersDataMutation,
-//   useDeleteUserMutation,
-//   useUpdateUserDataMutation,
-  usePutBlockUserMutation
+  usePutBlockUserMutation,
+  useCreateServiceMutation
 } = adminApiSlice;
