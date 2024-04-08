@@ -121,7 +121,7 @@ function Login() {
                   Already have an account?
                   <button onClick={handleSignupButtonClick}
                     className="font-bold text-slate-700">
-                      Sing up
+                      Sign up
                   </button>
                 </p>
               </form>

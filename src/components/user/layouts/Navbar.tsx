@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { openLoginModal } from '../../../slices/modalSlices/loginModal';
 import Login from '../../common/Login';
+import { RootState } from '../../../app/store';
 
 
 type NavigationItem = {
@@ -27,6 +28,8 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
 
   const dispatch = useDispatch()
+
+  const { userInfo } = useSelector((state:RootState) => state.auth);
 
   const handleLoginButtonClick = () => {
     dispatch(openLoginModal());
@@ -85,10 +88,9 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </a>
 
-                <button onClick={handleLoginButtonClick}  className='bg-primary text-white rounded w-20 h-8 ml-3 text-sm'>Login
-                </button>
-
-                {/* Profile dropdown
+                {userInfo ?(
+                  
+                //  Profile dropdown
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -142,7 +144,12 @@ export default function Navbar() {
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu> */}
+                </Menu> 
+
+                ): <button onClick={handleLoginButtonClick}  className='bg-primary text-white rounded w-20 h-8 ml-3 text-sm'>Login
+                </button>
+                
+                }
                 
               </div>
             </div>
