@@ -18,3 +18,14 @@ export interface FormValues {
     };
     error?: string;
   }
+
+
+  // this for service form validarion 
+  export interface ServiceForm {
+    serviceName: string;
+    firstHourPrice: number;
+    laterHourPrice: number;
+    description: string;
+    imageFile: File | null;
+  }
+  

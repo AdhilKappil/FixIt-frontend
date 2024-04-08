@@ -25,4 +25,31 @@ export const loginValidation = Yup.object({
   email: Yup.string().email("Please enter valid email").required("Please enter email"),
   password: Yup.string()
   .required("Please enter password"),
+});   
+
+
+export const serviceValidation = Yup.object().shape({
+  serviceName: Yup.string()
+    .min(3, "Name must be at least 3 characters")
+    .max(30, "Name must be at most 30 characters")
+    .matches(/^[^\s]+(\s[^\s]+)*$/, "Name cannot have adjacent spaces")
+    .required("Please enter name"),
+  firstHourPrice: Yup.number()
+    .required("Please enter First hour price")
+    .positive("Price must be positive")
+    .integer("Price must be an integer")
+    .min(100, "Minimum Price 100")
+    .max(1000, "Maximum Price 1000"),
+  laterHourPrice: Yup.number()
+    .required("Please enter Later hour price")
+    .positive("Price must be positive")
+    .integer("Price must be an integer")
+    .min(100, "Minimum Price 100")
+    .max(1000, "Maximum Price 1000"),
+  description: Yup.string()
+    .min(10, "Description must be at least 10 characters")
+    .max(100, "Description must be at most 100 characters")
+    .matches(/^[^\s]+(\s[^\s]+)*$/, "Description cannot have adjacent spaces")
+    .required("Please enter description"),
+  imageFile: Yup.mixed().required("Please upload an image file"),
 });

@@ -1,91 +1,76 @@
-import {  useEffect, useMemo, useState } from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import moment from 'moment';
-import { grey } from '@mui/material/colors';
-import UsersActions from './UserActions';
-import { Selected } from '../../../@types/Props';
+import { useEffect, useMemo, useState } from "react";
+import { Avatar, Box, Typography } from "@mui/material";
+import { DataGrid, GridCellParams,gridClasses,GridColDef } from "@mui/x-data-grid";
+import moment from "moment";
+import { grey } from "@mui/material/colors";
+import UsersActions from "./UserActions";
+import { Selected } from "../../../@types/Props";
+import { useGetUsersDataMutation } from "../../../slices/adminApiSlices";
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  mobile : number;
+  profile_img: string;
+  isBlocked: boolean;
+  createdAt: string;
+}
 
 
-const UsersManagement = ({setSelectedLink, link}:Selected) => {
-  const [pageSize, setPageSize] = useState(5);
-  const [rowId, setRowId] = useState(null);
+const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
+  const [rowId, setRowId] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [getUsersData] = useGetUsersDataMutation();
 
   useEffect(() => {
     setSelectedLink(link);
-  }, []);
 
-  // Dummy user data
-  const dummyUsers = useMemo(
+    async function fetchUser() {
+      try {
+        const res = await getUsersData("").unwrap();
+        setUsers(res.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+
+    fetchUser();
+  }, [link]); // Add dependencies if needed
+
+  const columns:GridColDef[] = useMemo(
     () => [
       {
-        id: 1,
-        name: 'John Doe',
-        email: 'john@example.com',
-        role: 'admin',
-        active: true,
-        createdAt: '2024-03-31T10:00:00.000Z', // Example date
-      },
-      {
-        id: 2,
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        role: 'editor',
-        active: false,
-        createdAt: '2024-03-30T15:30:00.000Z', // Example date
-      },
-      {
-        id: 3,
-        name: 'Alice Johnson',
-        email: 'alice@example.com',
-        role: 'basic',
-        active: true,
-        createdAt: '2024-03-29T08:45:00.000Z', // Example date
-      },
-    ],
-    []
-  );
-
-  const columns = useMemo(
-    () => [
-      {
-        field: 'photoURL',
-        headerName: 'Avatar',
+        field: "profile_img",
+        headerName: "Avatar",
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.photoURL} />,
+        renderCell: (params: GridCellParams) => <Avatar src={params.row.profile_img} />,
         sortable: false,
         filterable: false,
       },
-      { field: 'name', headerName: 'Name', width: 170 },
-      { field: 'email', headerName: 'Email', width: 200 },
+      { field: "name", headerName: "Name", width: 170 },
+      { field: "email", headerName: "Email", width: 200 },
+      { field: "mobile", headerName: "Mobile", width: 200 },
       {
-        field: 'role',
-        headerName: 'Role',
-        width: 100,
-        type: 'singleSelect',
-        valueOptions: ['basic', 'editor', 'admin'],
-        editable: true,
-      },
-      {
-        field: 'active',
-        headerName: 'Active',
-        width: 100,
-        type: 'boolean',
-        editable: true,
-      },
-      {
-        field: 'createdAt',
-        headerName: 'Created At',
+        field: "createdAt",
+        headerName: "Created At",
         width: 200,
-        renderCell: (params) =>
-          moment(params.row.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+        renderCell: (params: GridCellParams) =>
+          moment(params.row.createdAt).format(" DD-MM-YYYY"),
       },
-      { field: 'id', headerName: 'Id', width: 220 },
+      { field: "_id", headerName: "Id", width: 220 },
       {
-        field: 'actions',
-        headerName: 'Actions',
-        type: 'actions',
-        renderCell: (params) => (
+        field: "isBlocked",
+        headerName: "Blocked",
+        width: 100,
+        type: "boolean",
+        editable: true,
+      },
+      {
+        field: "actions",
+        headerName: "Actions",
+        type: "actions",
+        renderCell: (params: GridCellParams) => (
           <UsersActions {...{ params, rowId, setRowId }} />
         ),
       },
@@ -93,28 +78,20 @@ const UsersManagement = ({setSelectedLink, link}:Selected) => {
     [rowId]
   );
 
-  return ( 
-    <Box
-      sx={{
-        height: 400,
-        width: '100%',
-
-      }}
-    >
+  return (
+    <Box sx={{ height: 400, width: "95%" }}>
       <Typography
         variant="h4"
-        component="h3"
-        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+        component="h4"
+        sx={{ textAlign: "center", mt: 2, mb: 3 }}
       >
         Manage Users
       </Typography>
       <DataGrid
         columns={columns}
-        rows={dummyUsers}
-        getRowId={(row) => row.id}
-        rowsPerPageOptions={[5, 10, 20]}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rows={users}
+        getRowId={(row: User) => row._id}
+        pageSizeOptions={[10, 25, 50, 75, 100]}
         getRowSpacing={(params) => ({
           top: params.isFirstVisible ? 0 : 5,
           bottom: params.isLastVisible ? 0 : 5,
@@ -122,10 +99,11 @@ const UsersManagement = ({setSelectedLink, link}:Selected) => {
         sx={{
           [`& .${gridClasses.row}`]: {
             bgcolor: (theme) =>
-              theme.palette.mode === 'light' ? grey[200] : grey[900],
+              theme.palette.mode === "light" ? grey[200] : grey[900],
           },
         }}
-        onCellEditCommit={(params) => setRowId(params.id)}
+        onCellEditStop={(params) => setRowId(params.id.toString())}
+        onCellEditStart={(params) => setRowId(params.id.toString())}
       />
     </Box>
   );
