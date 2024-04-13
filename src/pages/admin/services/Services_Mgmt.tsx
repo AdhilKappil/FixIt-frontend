@@ -1,153 +1,110 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Avatar, Box, Typography } from "@mui/material";
+import { DataGrid, GridCellParams,gridClasses,GridColDef } from "@mui/x-data-grid";
+import moment from "moment";
+import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
-import { TextField } from "@mui/material";
-import { MyError, ServiceForm } from "../../../@types/validationTypes";
-import { useFormik } from "formik";
-import { serviceValidation } from "../../../components/common/Validation";
-import { storage } from "../../../app/firebase/confiq";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useCreateServiceMutation } from "../../../slices/adminApiSlices";
-import { toast } from "react-toastify";
+import { useGetServiceMutation } from "../../../slices/adminApiSlices";
+import ServiceAction from "./ServiceAction";
+import { IService } from "../../../@types/validationTypes";
+// import { useNavigate } from "react-router-dom";
 
 
 
-function Services_Mgmt({ setSelectedLink, link }: Selected) {
+
+const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
+  const [rowId, setRowId] = useState<string | null>(null);
+  const [service, setService] = useState<IService[]>([]);
+  const [getService] = useGetServiceMutation();
+
+  // const navigate = useNavigate()
+
   useEffect(() => {
     setSelectedLink(link);
-  }, []);
 
- 
-  const [createService] = useCreateServiceMutation();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  const formik = useFormik<ServiceForm>({
-    initialValues: {
-      serviceName: "",
-      firstHourCharge: 0,
-      laterHourCharge: 0,
-      description: "",
-      imageFile: null,
-    },
-    validationSchema: serviceValidation,
-    onSubmit: async (values) => {
-      // Create a storage reference with the generated filename
-      const img: any = values.imageFile;
-
-      const fileName = `${Date.now()}.jpg`;
-
-      const storageRef = ref(storage, `/images/${fileName}`);
-      // Upload the file
-      const snapshot = await uploadBytes(storageRef, img);
-
-      // Get the download URL of the uploaded image
-      const downloadURL = await getDownloadURL(snapshot.ref);
-
-      const service_img = downloadURL;
-
+    async function fetchUser() {
       try {
-        const { serviceName,description, firstHourCharge, laterHourCharge} = values; // Destructure values
-        const res = await createService({ serviceName, service_img, description, firstHourCharge, laterHourCharge }).unwrap();
-        toast.success(res);
-      } catch (err) {
-        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+        const res = await getService("").unwrap();
+        setService(res.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
       }
-    },
-  });
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.currentTarget.files?.[0];
-    formik.setFieldValue("imageFile", file || null);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
     }
-  };
+
+    fetchUser();
+  }, [link]); // Add dependencies if needed
+
+  const columns:GridColDef[] = useMemo(
+    () => [
+      {
+        field: "profile_img",
+        headerName: "Imag",
+        width: 120,
+        renderCell: (params: GridCellParams) => <Avatar src={params.row.service_img} />,
+        sortable: false,
+        filterable: false,
+      },
+      { field: "serviceName", headerName: "Name", width: 150 ,editable: true,},
+      {
+        field: "createdAt",
+        headerName: "Created At",
+        width: 150,
+        renderCell: (params: GridCellParams) =>
+          moment(params.row.createdAt).format(" DD-MM-YYYY"),
+      },
+      { field: "description", headerName: "Description", width: 300 ,editable: true,},
+      {
+        field: "isBlocked",
+        headerName: "Blocked",
+        width: 150,
+        type: "boolean",
+        editable: true,
+      },
+      {
+        field: "actions",
+        headerName: "Actions",
+        type: "actions",
+        renderCell: (params: GridCellParams) => (
+          <ServiceAction {...{ params, rowId, setRowId }} />
+        ),
+      },
+    ],
+    [rowId]
+  );
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div className="w-full flex justify-center">
-        <div className="text-2xl font-bold">Add New Service</div>
-      </div>
-      <div className="sm:flex gap-5 mt-10">
-        <TextField
-          className=" w-full my-3"
-          label="Service Name"
-          variant="outlined"
-          {...formik.getFieldProps("serviceName")}
-          error={formik.touched.serviceName && !!formik.errors.serviceName}
-          helperText={formik.touched.serviceName && formik.errors.serviceName}
-        />
-        <TextField
-          className=" w-full my-3"
-          label="First hour charge"
-          variant="outlined"
-          {...formik.getFieldProps("firstHourCharge")}
-          error={
-            formik.touched.firstHourCharge && !!formik.errors.firstHourCharge
-          }
-          helperText={
-            formik.touched.firstHourCharge && formik.errors.firstHourCharge
-          }
-        />
-      </div>
-
-      <div className="sm:flex gap-5 mt-5">
-        <TextField
-          className=" w-full my-3"
-          label="Later hour charge"
-          variant="outlined"
-          {...formik.getFieldProps("laterHourCharge")}
-          error={
-            formik.touched.laterHourCharge && !!formik.errors.laterHourCharge
-          }
-          helperText={
-            formik.touched.laterHourCharge && formik.errors.laterHourCharge
-          }
-        />
-        <TextField
-          className=" w-full my-3"
-          type="file"
-          label=""
-          variant="outlined"
-          onChange={handleImageChange}
-          error={formik.touched.imageFile && !!formik.errors.imageFile}
-          helperText={formik.touched.imageFile && formik.errors.imageFile}
-        />
-      </div>
-
-      <div className="my-3">
-        <TextField
-          label="Description"
-          className="w-full"
-          variant="outlined"
-          {...formik.getFieldProps("description")}
-          error={formik.touched.description && !!formik.errors.description}
-          helperText={formik.touched.description && formik.errors.description}
-        />
-      </div>
-
-      {imagePreview && (
-        <div className="my-3">
-          <img
-            src={imagePreview}
-            alt="Preview"
-            style={{ maxWidth: "100%", maxHeight: "200px" }}
-          />
-        </div>
-      )}
-
-      <div className="w-full flex justify-center my-3">
-        <button type="submit" className="bg-blue-700 w-44 h-10 rounded-md">
-          Add Service
-        </button>
-      </div>
-    </form>
+    <Box sx={{ height: 400, width: "95%" }}>
+      <Typography
+        variant="h4"
+        component="h4"
+        sx={{ textAlign: "center", mt: 2, mb: 3 }}
+      >
+        Manage Service
+      </Typography>
+       <div className="flex justify-end mb-3">
+        <button  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
+       </div>
+      <DataGrid
+        columns={columns}
+        rows={service}
+        getRowId={(row: IService) => row._id ?? ''}
+        pageSizeOptions={[10, 25, 50, 75, 100]}
+        getRowSpacing={(params) => ({
+          top: params.isFirstVisible ? 0 : 5,
+          bottom: params.isLastVisible ? 0 : 5,
+        })}
+        sx={{
+          [`& .${gridClasses.row}`]: {
+            bgcolor: (theme) =>
+              theme.palette.mode === "light" ? grey[200] : grey[900],
+          },
+        }}
+        onCellEditStop={(params) => setRowId(params.id.toString())}
+        onCellEditStart={(params) => setRowId(params.id.toString())}
+      />
+    </Box>
   );
-}
+};
 
 export default Services_Mgmt;
+

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openLoginModal } from '../../../slices/modalSlices/loginModal';
 import Login from '../../common/Login';
 import { RootState } from '../../../app/store';
+import { userLogOut } from '../../../slices/authSlice';
+import { useLogoutMutation } from '../../../slices/userApiSlice';
 
 
 type NavigationItem = {
@@ -30,10 +32,21 @@ export default function Navbar() {
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state:RootState) => state.auth);
+  const [logOut] = useLogoutMutation();
+
 
   const handleLoginButtonClick = () => {
     dispatch(openLoginModal());
   };
+
+  const handleLogout = async()=>{
+    try {
+      dispatch(userLogOut())
+      await logOut('').unwrap()
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <Disclosure as="nav" className="bg-white sticky top-0 z-10">
@@ -57,8 +70,8 @@ export default function Navbar() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    src="/src/assets/icons/adhil-02.png"
+                    alt="FixIt"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -134,7 +147,7 @@ export default function Navbar() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
+                          <a onClick={handleLogout}
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >

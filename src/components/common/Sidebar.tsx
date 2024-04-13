@@ -27,6 +27,7 @@ import Transaction from "../../pages/admin/transaction/Transaction";
 import JoinRequests from "../../pages/admin/joinRequests/JoinRequests";
 import { Open } from "../../@types/Props";
 import Admin_Dashboard from '../../pages/admin/dashboard/Dashboard'
+import AddNewServices from "../../pages/admin/services/AddNewServices";
 
 
 
@@ -106,6 +107,12 @@ function SideBar({ open, setOpen }: Open) {
         icon: <ElectricalServicesIcon />,
         link: "services",
         component: <Services_Mgmt {...{setSelectedLink,link:'services'}}/>,
+      },
+      {
+        title: "Add Services",
+        icon: <ElectricalServicesIcon />,
+        link: "addServices",
+        component: <AddNewServices {...{setSelectedLink,link:'addServices'}}/>,
       },
       {
         title: "Workers",

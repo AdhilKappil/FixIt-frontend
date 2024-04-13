@@ -34,18 +34,18 @@ export const serviceValidation = Yup.object().shape({
     .max(30, "Name must be at most 30 characters")
     .matches(/^[^\s]+(\s[^\s]+)*$/, "Name cannot have adjacent spaces")
     .required("Please enter name"),
-    firstHourCharge: Yup.number()
-    .required("Please enter First hour price")
-    .positive("Price must be positive")
-    .integer("Price must be an integer")
-    .min(100, "Minimum Price 100")
-    .max(1000, "Maximum Price 1000"),
-    laterHourCharge: Yup.number()
-    .required("Please enter Later hour price")
-    .positive("Price must be positive")
-    .integer("Price must be an integer")
-    .min(100, "Minimum Price 100")
-    .max(1000, "Maximum Price 1000"),
+    // firstHourCharge: Yup.number()
+    // .required("Please enter First hour price")
+    // .positive("Price must be positive")
+    // .integer("Price must be an integer")
+    // .min(100, "Minimum Price 100")
+    // .max(1000, "Maximum Price 1000"),
+    // laterHourCharge: Yup.number()
+    // .required("Please enter Later hour price")
+    // .positive("Price must be positive")
+    // .integer("Price must be an integer")
+    // .min(100, "Minimum Price 100")
+    // .max(1000, "Maximum Price 1000"),
   description: Yup.string()
     .min(10, "Description must be at least 10 characters")
     .max(500, "Description must be at most 500 characters")

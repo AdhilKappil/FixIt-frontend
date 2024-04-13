@@ -75,13 +75,13 @@ function Login() {
         <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0 ">
           <div className="relative z-0 flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
             <div className="p-6 mb-0 text-center bg-white border-b-0 rounded-t-2xl">
-              <h5>Login with</h5>
+              <h5>Login</h5>
             </div> 
             <div className="flex flex-wrap px-3 -mx-3 sm:px-6 xl:px-12 justify-center">
-              <button className="bg-secondary rounded-md border p-3">
-                Continue with Google <FcGoogle size={25} className="inline-block" />
+              <button className="bg-secondary rounded-md border p-1.5">
+                Continue with Google <FcGoogle size={25} className="inline-block"/>
               </button>
-
+              
               <div className="relative w-full max-w-full px-3 mt-2 text-center shrink-0">
                 <p className="z-20 inline px-4 mb-2 font-semibold leading-normal bg-white text-sm text-slate-400">
                   or

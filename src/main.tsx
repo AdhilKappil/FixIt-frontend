@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store.ts';
 import AdminPrivateRoute from './components/admin/AdminPrivateRoute.tsx';
 import AdminLogin from './components/admin/AdminLogin.tsx';
+// import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 
 const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="/adminLogin" element={<AdminLogin/>} />
       <Route path="" element={<AdminPrivateRoute />}>
          <Route path="admin/*" element={<Navbar/>} />
+         {/* <Route path="/addService" element={<AddNewServices />}/> */}
       </Route>
     </Route>
   )

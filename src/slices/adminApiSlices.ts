@@ -44,7 +44,20 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         }),
       }),
 
+      getService: builder.mutation({
+        query: () => ({
+          url: `${ADMIN_URL}/getServices`,
+          method: 'GET',
+        })
+      }), 
 
+           editService: builder.mutation({
+            query: (data) => ({
+              url: `${ADMIN_URL}/editService`,
+              method: 'PUT',
+              body: data,
+            }),
+          }),
   })
 });
 
@@ -53,5 +66,7 @@ export const {
 //   useAdminLogoutMutation,
   useGetUsersDataMutation,
   usePutBlockUserMutation,
-  useCreateServiceMutation
+  useCreateServiceMutation,
+  useGetServiceMutation,
+  useEditServiceMutation
 } = adminApiSlice;
