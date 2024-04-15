@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeLoginModal } from "../../slices/modalSlices/loginModal";
 import { openSignupModal } from "../../slices/modalSlices/signupModal";
 import { RootState } from "../../app/store";
-import { FormLogin, MyError } from "../../@types/validationTypes";
+import { FormLogin, MyError } from "../../validation/validationTypes";
 import { useFormik } from "formik";
-import { loginValidation } from "./Validation";
+import { loginValidation } from "../../validation/yupValidation";
 import SignUp from "./SignUp";
 import { useLoginMutation } from "../../slices/userApiSlice";
 import { toast } from "react-toastify";
@@ -115,10 +115,10 @@ function Login() {
                   )}
                 </div>
                 <div className="text-center">
-                  <button  className="bg-primary w-full text-white p-2 rounded-md">Sign in</button>
+                  <button  className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">Sign in</button>
                 </div>
                 <p className="mt-4 mb-0 leading-normal text-sm">
-                  Already have an account?
+                  Create new account
                   <button onClick={handleSignupButtonClick}
                     className="font-bold text-slate-700">
                       Sign up

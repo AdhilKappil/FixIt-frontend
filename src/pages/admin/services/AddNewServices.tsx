@@ -1,8 +1,8 @@
 import {  useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import { MyError, ServiceForm } from "../../../@types/validationTypes";
+import { MyError, ServiceForm } from "../../../validation/validationTypes";
 import { useFormik } from "formik";
-import { serviceValidation } from "../../../components/common/Validation";
+import { serviceValidation } from "../../../validation/yupValidation";
 import { storage } from "../../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useCreateServiceMutation } from "../../../slices/adminApiSlices";

@@ -4,7 +4,7 @@ import { green } from "@mui/material/colors";
 import { useState } from "react";
 import { GridCellParams } from "@mui/x-data-grid";
 import { useEditServiceMutation } from "../../../slices/adminApiSlices";
-import { MyError } from "../../../@types/validationTypes";
+import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
 
 const ServiceAction = ({

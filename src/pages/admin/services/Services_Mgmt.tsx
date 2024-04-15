@@ -6,7 +6,7 @@ import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
 import { useGetServiceMutation } from "../../../slices/adminApiSlices";
 import ServiceAction from "./ServiceAction";
-import { IService } from "../../../@types/validationTypes";
+import { IService } from "../../../validation/validationTypes";
 // import { useNavigate } from "react-router-dom";
 
 

@@ -8,7 +8,7 @@ import { clearRegister, setCredential } from "../../slices/authSlice";
 import { closeOtpModal } from "../../slices/modalSlices/OtpModal";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { MyError } from "../../@types/validationTypes";
+import { MyError } from "../../validation/validationTypes";
 
 
 function OTP() {

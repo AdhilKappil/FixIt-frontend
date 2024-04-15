@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store.ts';
 import AdminPrivateRoute from './components/admin/AdminPrivateRoute.tsx';
 import AdminLogin from './components/admin/AdminLogin.tsx';
+import JoinTeam from './components/worker/JoinTeam.tsx';
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 
@@ -32,6 +33,9 @@ const router = createBrowserRouter(
          <Route path="admin/*" element={<Navbar/>} />
          {/* <Route path="/addService" element={<AddNewServices />}/> */}
       </Route>
+
+      <Route path="worker/*" element={<JoinTeam/>} />
+
     </Route>
   )
 );

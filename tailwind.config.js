@@ -15,7 +15,7 @@ export default {
       },
     },
     fontFamily: {
-      'sans': ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+      Sans: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
     },
   },
   plugins: [],

@@ -37,7 +37,7 @@ const Process: React.FC = () => {
     <div className="flex flex-col w-full items-center">
        <div className='w-3/4'>
        <div className="flex justify-center mt-14">
-          <p className="text-primary font-sans font-semibold text-xl lg:text-3xl">We Follow The Process</p>
+          <p className="text-primary font-Sans font-medium text-xl lg:text-3xl">We Follow The Process</p>
         </div>
         <div className="grid mt-14 text-center max-md:justify-center justify-between sm:grid-cols-2 lg:grid-cols-3 xl:flex">
           {steps.map((step, index) => (

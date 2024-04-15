@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
-import { FormLogin, MyError } from "../../@types/validationTypes";
-import { loginValidation } from "../common/Validation";
+import { FormLogin, MyError } from "../../validation/validationTypes";
+import { loginValidation } from "../../validation/yupValidation";
 import { useAdminLoginMutation } from "../../slices/adminApiSlices";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";

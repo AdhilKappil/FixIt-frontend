@@ -7,7 +7,7 @@ import { usePutBlockUserMutation } from "../../../slices/adminApiSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { userLogOut } from "../../../slices/authSlice";
-import { MyError } from "../../../@types/validationTypes";
+import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
 import { GridCellParams } from "@mui/x-data-grid";
 

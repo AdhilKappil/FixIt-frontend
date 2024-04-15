@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeSignupModal } from "../../slices/modalSlices/signupModal";
 import { openLoginModal } from "../../slices/modalSlices/loginModal";
 import { useFormik } from "formik";
-import { validationSchema } from "./Validation";
+import { validationSchema } from "../../validation/yupValidation";
 import { RootState } from "../../app/store";
 import { toast } from "react-toastify";
 import { useSendOtpToEmailMutation } from "../../slices/userApiSlice";
 import { clearRegister, setRegister } from "../../slices/authSlice";
 import OTP from "./OTP";
 import { openOtpModal } from "../../slices/modalSlices/OtpModal";
-import { FormValues, MyError } from "../../@types/validationTypes";
+import { FormValues, MyError } from "../../validation/validationTypes";
 
 
 function SignUp() {
@@ -142,13 +142,13 @@ function SignUp() {
                   )}
                 </div>
               <div className="text-center">
-                <button type="submit" className="bg-primary w-full text-white p-2 rounded-md">Sign Up</button>
+                <button type="submit" className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">Sign Up</button>
               </div>
               <p className="mt-4 mb-0 leading-normal text-sm">
                 Already have an account?
                 <button onClick={handleSigninButtonClick}
                     className="font-bold text-slate-700">
-                      Sign up
+                      Sign in
                   </button>
               </p>
             </form>

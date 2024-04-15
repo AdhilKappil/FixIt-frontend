@@ -159,7 +159,7 @@ export default function Navbar() {
                   </Transition>
                 </Menu> 
 
-                ): <button onClick={handleLoginButtonClick}  className='bg-primary text-white rounded w-20 h-8 ml-3 text-sm'>Login
+                ): <button onClick={handleLoginButtonClick}  className='bg-primary hover:bg-black text-white rounded w-20 h-8 ml-3 text-sm'>Login
                 </button>
                 
                 }

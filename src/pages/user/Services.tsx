@@ -3,7 +3,7 @@ import Footer from "../../components/user/layouts/Footer";
 import Navbar from "../../components/user/layouts/Navbar";
 import { IoIosStar } from "react-icons/io";
 import { useGetServiceMutation } from "../../slices/adminApiSlices";
-import { IService } from "../../@types/validationTypes";
+import { IService } from "../../validation/validationTypes";
 
 function Services() {
 
@@ -17,7 +17,7 @@ function Services() {
         const res = await getService("").unwrap();
         setService(res.data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching services:", error);
       }
     }
     fetchUser();

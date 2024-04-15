@@ -6,6 +6,7 @@ export interface FormValues {
     email: string;
   }
 
+
   export interface FormLogin {
     email: string;
     password: string
@@ -29,8 +30,9 @@ export interface FormValues {
     imageFile: File | null;
   }
 
+
   // for validating fetching service data
-  export interface IService {
+  export interface IService{
     _id?: string;
     serviceName: string;
     firstHourCharge : number;
@@ -39,5 +41,17 @@ export interface FormValues {
     service_img: string;
     isBlocked: boolean;
     createdAt: string;
+  }
+  
+
+ // Interface for worker join
+  export interface IWorkerJoin extends FormValues{
+    district : string,
+    service: string;
+    firstHourCharge : number | string;
+    laterHourCharge : number | string;
+    profile_img: string;
+    idCard_img: string;
+    experience : number | string
   }
   
