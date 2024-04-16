@@ -1,16 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// UserRoutes.js
+import { Routes, Route, Outlet } from 'react-router-dom';
+import HomeScreen from '../pages/user/HomeScreen';
+import Services from '../pages/user/Services';
 
 
 function UserRoutes() {
   return (
-    <BrowserRouter>
     <Routes>
-      <Route path="/*" element={<UserRoutes />} />
-      <Route path="/worker/*" element={<WorkerRoutes/>} />
-      <Route path="/admin/*" element={<AdminRoutes />} />
-    </Routes>    
-  </BrowserRouter>
-  )
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/service" element={<Services/>} />
+      <Route path="*" element={<Outlet />} /> {/* Render nested routes */}
+    </Routes>
+  );
 }
 
-export default UserRoutes
+export default UserRoutes;

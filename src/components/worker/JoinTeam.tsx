@@ -2,11 +2,18 @@ import { useEffect, useState } from "react";
 import { useGetServiceMutation } from "../../slices/adminApiSlices";
 import { useFormik } from "formik";
 import { validationWrokerJoin } from "../../validation/yupValidation";
-import { IWorkerJoin } from "../../validation/validationTypes";
+import { IWorkerJoin, MyError } from "../../validation/validationTypes";
+import { toast } from "react-toastify";
+import { useWorkerRegisterMutation } from "../../slices/workerApiSlice";
+import { storage } from "../../app/firebase/confiq";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
+
 
 function JoinTeam() {
   const [service, setService] = useState<string[]>();
   const [getService] = useGetServiceMutation();
+  const [register] = useWorkerRegisterMutation();
 
   useEffect(() => {
     async function fetchUser() {
@@ -44,34 +51,44 @@ function JoinTeam() {
     initialValues: initialValues,
     validationSchema: validationWrokerJoin,
     onSubmit: async (values) => {
-      //   try {
-      //     const { name, email } = values; // Destructure values
-      //     const res = await sendOtpToEmail({ name, email }).unwrap();
-      //     dispatch(closeSignupModal())
-      //     dispatch(openOtpModal())
-      //     toast.success(res.message)
-      //   } catch (err) {
-      //     dispatch(clearRegister());
-      //     toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
-      //   }
+      const profile: any = values.profile_img;
+      const idCard: any = values.idCard_img;
+    
+      const profileFileName = `profile.${Date.now()}.jpg`;
+      const idCardFileName = `idCard.${Date.now()}.jpg`;
+
+      const profileStorageRef = ref(storage, `/images/worker/profile/${profileFileName}`);
+      const idCardStorageRef = ref(storage, `/images/worker/idCard/${idCardFileName}`);
+      // Upload the file
+      const profilesnapshot = await uploadBytes(profileStorageRef, profile);
+      const idCardSnapshot = await uploadBytes(idCardStorageRef, idCard);
+
+      // Get the download URL of the uploaded image
+      const profileDownloadURL = await getDownloadURL(profilesnapshot.ref);
+      const idCardDownloadURL = await getDownloadURL(idCardSnapshot.ref);
+
+      const profile_img = profileDownloadURL;
+      const idCard_img = idCardDownloadURL;
+
+      try {
+        const {
+          name, mobile,password, cpassword,email,district,service,
+          firstHourCharge, laterHourCharge,  experience,
+        } = values;
+        const res = await register({
+          name,mobile,password, cpassword, email,district,service, firstHourCharge,
+          laterHourCharge,  profile_img, idCard_img, experience,  }).unwrap();
+        toast.success(res.message);
+      } catch (err) {
+        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+      }
     },
   });
 
   const districts: string[] = [
-    "Alappuzha",
-    "Ernakulam",
-    "Idukki",
-    "Kannur",
-    "Kasaragod",
-    "Kollam",
-    "Kottayam",
-    "Kozhikode",
-    "Malappuram",
-    "Palakkad",
-    "Pathanamthitta",
-    "Thiruvananthapuram",
-    "Thrissur",
-    "Wayanad",
+    "Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod",
+    "Kollam", "Kottayam","Kozhikode", "Malappuram","Palakkad",
+    "Pathanamthitta", "Thiruvananthapuram","Thrissur","Wayanad",
   ];
 
   return (
@@ -233,36 +250,36 @@ function JoinTeam() {
                     <div className="text-red-500">{errors.cpassword}</div>
                   )}
                 </div>
-              <div className="mt-2">
-                <label htmlFor="profile" className="block text-gray-400 mb-1">
-                  Profile Image
-                </label>
-                <input
-                  type="file"
-                  id="profile"
-                  name="profile_img" // add name attribute for Formik
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-                {errors.profile_img && touched.profile_img && (
-                  <div className="text-red-500">{errors.profile_img}</div>
-                )}
-              </div>
-              <div className="mt-2">
-                <label htmlFor="profile" className="block text-gray-400 mb-1">
-                  Id Card
-                </label>
-                <input
-                  type="file"
-                  id="idCard"
-                  name="idCard_img" // add name attribute for Formik
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-                {errors.idCard_img && touched.idCard_img && (
-                  <div className="text-red-500">{errors.idCard_img}</div>
-                )}
-              </div>
+                <div className="">
+                  <label htmlFor="profile" className="block text-gray-400 mb-1">
+                    Profile Image
+                  </label>
+                  <input
+                    type="file"
+                    id="profile"
+                    name="profile_img" // add name attribute for Formik
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
+                  {errors.profile_img && touched.profile_img && (
+                    <div className="text-red-500">{errors.profile_img}</div>
+                  )}
+                </div>
+                <div className="">
+                  <label htmlFor="profile" className="block text-gray-400 mb-1">
+                    Id Card
+                  </label>
+                  <input
+                    type="file"
+                    id="idCard"
+                    name="idCard_img" // add name attribute for Formik
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
+                  {errors.idCard_img && touched.idCard_img && (
+                    <div className="text-red-500">{errors.idCard_img}</div>
+                  )}
+                </div>
               </div>
             </div>
             <div className="mt-8 flex justify-center">

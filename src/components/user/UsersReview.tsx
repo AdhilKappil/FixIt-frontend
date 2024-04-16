@@ -2,9 +2,9 @@ import { IoIosStar } from "react-icons/io";
 
 function UsersReview() {
   return (
-    <div className="flex justify-center ">
-      <div className="w-3/4 mt-10">
-        <div className="flex justify-center">
+    <div className="flex justify-center " >
+      <div className="w-3/4 mt-10" data-aos="fade-up">
+        <div className="flex justify-center" >
           <p className="text-primary font-sans font-semibold text-xl lg:text-3xl">
             What Clients Say
           </p>

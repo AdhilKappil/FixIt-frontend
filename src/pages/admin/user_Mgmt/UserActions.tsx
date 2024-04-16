@@ -34,7 +34,7 @@ const UsersActions = ({
     // Call your updateStatus function here
     try {
       const response = await putBlockUser(_id).unwrap();
-      if (userInfo && userInfo.id === _id) {
+      if (userInfo && userInfo._id === _id) {
         dispatch(userLogOut());
       }
       toast.success(response.message);

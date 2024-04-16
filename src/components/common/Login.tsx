@@ -47,14 +47,7 @@ function Login() {
 
         const { password, email } = values; // Destructure values
         const res = await login({ password, email }).unwrap();
-        const data = res.data
-        const user = {
-            name : data.name,
-            email : data.email,
-            mobile :data.mobile,
-            id : data._id
-        }
-        dispatch(setCredential({...user}))
+        dispatch(setCredential({...res.data}))
         dispatch(closeLoginModal())
         toast.success(res.message)
       } catch (err) { 

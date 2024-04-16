@@ -19,14 +19,14 @@ function HomeScreen() {
       <Process />
       <UsersReview/>
      <div>
-     <div className="flex justify-center mt-12">
+     <div className="flex justify-center mt-12" data-aos="fade-up">
         <div className="w-3/4 ">
           <img className="w-full rounded-xl" src="src/assets/img/fixIt_banner.jpg" alt="" />
         </div>
       </div>
      </div>
        
-     <div className="flex justify-center mt-10">
+     <div className="flex justify-center mt-10" data-aos="fade-up">
      <div className="w-3/4 border-2 rounded-md">
         <div className=" h-7 flex justify-center mt-5">
             <p className="text-xl font-serif text-primary">Happines Guaranty</p>

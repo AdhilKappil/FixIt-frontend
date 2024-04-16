@@ -16,6 +16,10 @@ import { store } from './app/store.ts';
 import AdminPrivateRoute from './components/admin/AdminPrivateRoute.tsx';
 import AdminLogin from './components/admin/AdminLogin.tsx';
 import JoinTeam from './components/worker/JoinTeam.tsx';
+// Aos animation
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+AOS.init();
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 

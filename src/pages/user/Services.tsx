@@ -15,7 +15,8 @@ function Services() {
     async function fetchUser() { 
       try {
         const res = await getService("").unwrap();
-        setService(res.data);
+        const unblockedServices = res.data.filter((service:Record<string,any>)=> !service.isBlocked);
+        setService(unblockedServices);
       } catch (error) {
         console.error("Error fetching services:", error);
       }

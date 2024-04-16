@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 interface Step {
   title: string;
   image: string;
@@ -31,11 +32,12 @@ const steps: Step[] = [
   }
 ];
 
+
 const Process: React.FC = () => {
   return (
 
     <div className="flex flex-col w-full items-center">
-       <div className='w-3/4'>
+       <div className='w-3/4' data-aos="fade-up">
        <div className="flex justify-center mt-14">
           <p className="text-primary font-Sans font-medium text-xl lg:text-3xl">We Follow The Process</p>
         </div>

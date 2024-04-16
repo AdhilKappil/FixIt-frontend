@@ -1,17 +1,14 @@
-
-import { apiSlice } from './apiSlice';
-const ADMIN_URL = '/api/admin';
-
+import { apiSlice } from "./apiSlice";
+const ADMIN_URL = "/api/admin";
 
 export const adminApiSlice = apiSlice.injectEndpoints({
-    
   endpoints: (builder) => ({
     adminLogin: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/login`,
-        method: 'POST',
-        body: data
-      })
+        method: "POST",
+        body: data,
+      }),
     }),
 
     // adminLogout: builder.mutation({
@@ -24,49 +21,48 @@ export const adminApiSlice = apiSlice.injectEndpoints({
     getUsersData: builder.mutation({
       query: () => ({
         url: `${ADMIN_URL}/getUsers`,
-        method: 'GET',
-      })
+        method: "GET",
+      }),
     }),
-
 
     putBlockUser: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/users/unblock-block?id=${data}`,
-        method: 'PATCH',
-      })
+        method: "PATCH",
+      }),
     }),
 
     createService: builder.mutation({
-        query: (data) => ({
-          url: `${ADMIN_URL}/createService`,
-          method: 'POST',
-          body: data,
-        }),
+      query: (data) => ({
+        url: `${ADMIN_URL}/createService`,
+        method: "POST",
+        body: data,
       }),
+    }),
 
-      getService: builder.mutation({
-        query: () => ({
-          url: `${ADMIN_URL}/getServices`,
-          method: 'GET',
-        })
-      }), 
+    getService: builder.mutation({
+      query: () => ({
+        url: `${ADMIN_URL}/getServices`,
+        method: "GET",
+      }),
+    }),
 
-           editService: builder.mutation({
-            query: (data) => ({
-              url: `${ADMIN_URL}/editService`,
-              method: 'PUT',
-              body: data,
-            }),
-          }),
-  })
+    editService: builder.mutation({
+      query: (data) => ({
+        url: `${ADMIN_URL}/editService`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+  }),
 });
 
 export const {
   useAdminLoginMutation,
-//   useAdminLogoutMutation,
+  //   useAdminLogoutMutation,
   useGetUsersDataMutation,
   usePutBlockUserMutation,
   useCreateServiceMutation,
   useGetServiceMutation,
-  useEditServiceMutation
+  useEditServiceMutation,
 } = adminApiSlice;

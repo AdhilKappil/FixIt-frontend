@@ -65,14 +65,7 @@ function OTP() {
             
             const { name, password, mobile} : any = registerInfo
             const result = await register({ name, email, mobile, password}).unwrap()
-            const data = result.user
-            const user = {
-                name : data.name,
-                email : data.email,
-                mobile :data.mobile,
-                id : data._id
-            }
-            dispatch(setCredential({...user}))
+            dispatch(setCredential({...result.user}))
             dispatch(closeOtpModal())    
             dispatch(clearRegister())
             toast.success('Successfully Registerd')
