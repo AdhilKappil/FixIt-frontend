@@ -1,8 +1,17 @@
+import { Routes, Route, Outlet } from "react-router-dom";
+import AdminLogin from "../components/admin/AdminLogin";
+import AdminPrivateRoute from "../components/admin/AdminPrivateRoute";
+import Navbar from "../pages/admin/Navbar";
 
 function AdminRoutes() {
   return (
-    <div>adminRoutes</div>
-  )
+    <Routes>
+    <Route path="/adminLogin" element={<AdminLogin />} />
+    <Route path="*" element={<AdminPrivateRoute />}>
+      <Route path="admin/*" element={<Navbar />} />
+    </Route>
+  </Routes>
+  );
 }
 
-export default AdminRoutes
+export default AdminRoutes;

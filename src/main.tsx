@@ -19,35 +19,48 @@ import JoinTeam from './components/worker/JoinTeam.tsx';
 // Aos animation
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
+import WorkerLogin from './components/worker/WorkerLogin.tsx';
 AOS.init();
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}>
+// const router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<App />}>
 
-      {/* user public routes */}
-      <Route index={true} path="/" element={<HomeScreen/>} />
-      <Route path="/services" element={<Services />} />
+//       {/* user public routes */}
+//       <Route index={true} path="/" element={<HomeScreen/>} />
+//       <Route path="/services" element={<Services />} />
+
       
-      {/* admin routes */}
-      <Route path="/adminLogin" element={<AdminLogin/>} />
-      <Route path="" element={<AdminPrivateRoute />}>
-         <Route path="admin/*" element={<Navbar/>} />
-         {/* <Route path="/addService" element={<AddNewServices />}/> */}
-      </Route>
+//       {/* admin routes */}
+//       <Route path="/adminLogin" element={<AdminLogin/>} />
+//       <Route path="" element={<AdminPrivateRoute />}>
+//          <Route path="admin/*" element={<Navbar/>} />
+//          {/* <Route path="/addService" element={<AddNewServices />}/> */}
+//       </Route>
 
-      <Route path="worker/*" element={<JoinTeam/>} />
+//       {/* worker routes */}
+//       <Route path="worker/*" element={<JoinTeam/>} />
+//       <Route path="/workerLogin" element={<WorkerLogin/>} />
 
-    </Route>
-  )
+//     </Route>
+//   )
+// );
+
+// ReactDOM.createRoot(document.getElementById('root')!).render(
+//   <Provider store={store}>
+//   <React.StrictMode>
+//       <RouterProvider router={router} />
+//   </React.StrictMode>
+// </Provider>
+// )
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <Provider store={store}>
+          <App />
+    </Provider>
+  </React.StrictMode>
 );
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={store}>
-  <React.StrictMode>
-      <RouterProvider router={router} />
-  </React.StrictMode>
-</Provider>
-)

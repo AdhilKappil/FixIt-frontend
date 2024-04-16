@@ -1,7 +1,14 @@
+import JoinTeam from "../components/worker/JoinTeam";
+import WorkerLogin from "../components/worker/WorkerLogin"
+import { Routes, Route,} from 'react-router-dom';
+
 
 function WorkerRoutes() {
   return (
-    <div>WorkerRoutes</div>
+    <Routes>
+    <Route path="/" element={<WorkerLogin />} />
+    <Route path="signup" element={<JoinTeam />} />
+  </Routes>
   )
 }
 
