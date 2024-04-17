@@ -9,9 +9,14 @@ import { FormLogin, MyError } from "../../validation/validationTypes";
 import { useFormik } from "formik";
 import { loginValidation } from "../../validation/yupValidation";
 import SignUp from "./SignUp";
-import { useLoginMutation } from "../../slices/userApiSlice";
+import {
+  useGoogleAuthMutation,
+  useLoginMutation,
+} from "../../slices/userApiSlice";
 import { toast } from "react-toastify";
 import { setCredential } from "../../slices/authSlice";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 Modal.setAppElement("#root");
 
@@ -21,6 +26,7 @@ function Login() {
   const dispatch = useDispatch();
 
   const [login] = useLoginMutation();
+  const [googleAuth] = useGoogleAuthMutation();
 
   function closeModal() {
     dispatch(closeLoginModal());
@@ -37,10 +43,13 @@ function Login() {
   };
 
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+    
+    
     initialValues: initialValues,
     validationSchema: loginValidation,
     onSubmit: async (values) => {
       try {
+        console.log('hii');
         const { password, email } = values; // Destructure values
         const res = await login({ password, email }).unwrap();
         dispatch(setCredential({ ...res.data }));
@@ -51,6 +60,11 @@ function Login() {
       }
     },
   });
+
+  interface DecodedCredential {
+    name: string;
+    email: string;
+  }
 
   return (
     <div>
@@ -67,10 +81,48 @@ function Login() {
               <h5>Login</h5>
             </div>
             <div className="flex flex-wrap px-3 -mx-3 sm:px-6 xl:px-12 justify-center">
-              <button className="bg-secondary rounded-md border p-1.5">
+              {/* <button className="bg-secondary rounded-md border p-1.5">
                 Continue with Google{" "}
                 <FcGoogle size={25} className="inline-block" />
-              </button>
+              </button> */}
+
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  if (credentialResponse && credentialResponse.credential) {
+                    const credentialResponseDecoded = jwtDecode(
+                      credentialResponse.credential
+                    ) as DecodedCredential;
+
+                    const { name, email } = credentialResponseDecoded;
+
+                    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                    let password = '';
+                  
+                    for (let i = 0; i < 6; i++) {
+                      const randomIndex = Math.floor(Math.random() * charset.length);
+                      password += charset.charAt(randomIndex);
+                    }
+
+                    try {
+                      const res = await googleAuth({ name, email, password}).unwrap();
+                      dispatch(setCredential({ ...res.data }));
+                      dispatch(closeLoginModal());
+                      toast.success(res.message);
+                    } catch (err) {
+                      toast.error(
+                        (err as MyError)?.data?.message ||
+                          (err as MyError)?.error
+                      );
+                    }
+                    console.log(credentialResponseDecoded);
+                  } else {
+                    console.log("Credential not found");
+                  }
+                }}
+                onError={() => {
+                  toast.error("Login failed");
+                }}
+              />
 
               <div className="relative w-full max-w-full px-3 mt-2 text-center shrink-0">
                 <p className="z-20 inline px-4 mb-2 font-semibold leading-normal bg-white text-sm text-slate-400">

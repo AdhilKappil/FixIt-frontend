@@ -21,6 +21,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; 
 import WorkerLogin from './components/worker/WorkerLogin.tsx';
 AOS.init();
+import { GoogleOAuthProvider } from '@react-oauth/google';
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 
@@ -59,7 +60,9 @@ AOS.init();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
+    <GoogleOAuthProvider clientId="486142616471-6vnr1c1qhvrororf6dugnlqmelldbt7k.apps.googleusercontent.com">
           <App />
+      </GoogleOAuthProvider>;
     </Provider>
   </React.StrictMode>
 );

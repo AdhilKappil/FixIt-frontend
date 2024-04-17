@@ -63,6 +63,7 @@ function WorkerLogin() {
             <div className="mb-4 flex flex-col pt-4">
               <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                 <input
+                  name="password"
                   type="password"
                   id="login-password"
                   value={values.password}
