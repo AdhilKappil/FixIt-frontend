@@ -23,7 +23,7 @@ export const validationSchema = Yup.object({
     .required("Please enter password"),
   cpassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password not matched")
-    .required("Please enter password"),
+    .required("Please enter confirm password"),
 });
 
 // validation for login
@@ -72,7 +72,7 @@ export const validationWrokerJoin = Yup.object({
     .required("Please enter password"),
   cpassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password not matched")
-    .required("Please enter password"),
+    .required("Please enter confirm password"),
   firstHourCharge: Yup.number()
     .required("Please enter First hour price")
     .positive("First hour charge must be positive")
@@ -95,4 +95,19 @@ export const validationWrokerJoin = Yup.object({
     .integer("Experience must be an integer"),
 });
 
+
+
+export const fogotPasswordShema = Yup.object({
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .matches(/^[^\s]+$/, "Password cannot contain spaces")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Password must contain at least one special character"
+    )
+    .required("Please enter password"),
+  cpassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Password not matched")
+    .required("Please enter confirm password"),
+});
 

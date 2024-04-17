@@ -24,8 +24,6 @@ export interface FormValues {
   // this for service form validarion 
   export interface ServiceForm {
     serviceName: string;
-    // firstHourCharge: number;
-    // laterHourCharge: number;
     description: string;
     imageFile: File | null;
   }
@@ -53,5 +51,11 @@ export interface FormValues {
     profile_img: string;
     idCard_img: string;
     experience : number | string
+  }
+
+// interface for forgot password
+ export interface forgetValues {
+    password: string;
+    cpassword: string;
   }
   

@@ -35,8 +35,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
           }),
 
-
-
           sendOtpToEmail: builder.mutation({
             query: (data) => ({
               url: `${USER_URL}/sendEmail`,
@@ -44,7 +42,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
               body: data,
             }),
           }),
-
+          
           otpVerification: builder.mutation({
             query: (data) => ({
               url: `${USER_URL}/verifyEmail`,
@@ -52,6 +50,24 @@ export const userApiSlice = apiSlice.injectEndpoints({
               body: data,
             }),
           }),
+          
+          sendOTPforgotPassword: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/sendOTPforgotPassword`,
+              method: 'POST',
+              body: data,
+            }),
+          }),
+
+          // user forgot password
+          forgotPassword: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/forgotPassword`,
+              method: 'POST',
+              body: data,
+            }),
+          }),
+
 
         //   update: builder.mutation({
         //     query: (data) => ({
@@ -73,5 +89,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useSendOtpToEmailMutation,
-    useOtpVerificationMutation,useGoogleAuthMutation
+    useOtpVerificationMutation,useGoogleAuthMutation,useSendOTPforgotPasswordMutation,
+    useForgotPasswordMutation
 } = userApiSlice
