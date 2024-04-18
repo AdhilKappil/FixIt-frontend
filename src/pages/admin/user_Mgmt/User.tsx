@@ -6,21 +6,12 @@ import { grey } from "@mui/material/colors";
 import UsersActions from "./UserActions";
 import { Selected } from "../../../@types/Props";
 import { useGetUsersDataMutation } from "../../../slices/adminApiSlices";
-
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  mobile : number;
-  profile_img: string;
-  isBlocked: boolean;
-  createdAt: string;
-}
+import { IUser } from "../../../@types/schema";
 
 
 const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [getUsersData] = useGetUsersDataMutation();
 
   useEffect(() => {
@@ -42,7 +33,7 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
     () => [
       {
         field: "profile_img",
-        headerName: "Avatar",
+        headerName: "Profile",
         width: 60,
         renderCell: (params: GridCellParams) => <Avatar src={params.row.profile_img} />,
         sortable: false,
@@ -90,7 +81,7 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
       <DataGrid
         columns={columns}
         rows={users}
-        getRowId={(row: User) => row._id}
+        getRowId={(row: any) => row._id}
         pageSizeOptions={[10, 25, 50, 75, 100]}
         getRowSpacing={(params) => ({
           top: params.isFirstVisible ? 0 : 5,
@@ -108,5 +99,5 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
     </Box>
   );
 };
-
+  
 export default UsersManagement;

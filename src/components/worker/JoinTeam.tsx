@@ -47,7 +47,7 @@ function JoinTeam() {
   };
 
   // Handling the validation and Submit
-  const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+  const { values,setFieldValue, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationWrokerJoin,
     onSubmit: async (values) => {
@@ -84,6 +84,18 @@ function JoinTeam() {
       }
     },
   });
+
+
+  // setup the image for upload
+  const handleProfileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    setFieldValue("profile_img", file || null);
+  };
+
+  const handleIdCardImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    setFieldValue("idCard_img", file || null);
+  };
 
   const districts: string[] = [
     "Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod",
@@ -258,7 +270,7 @@ function JoinTeam() {
                     type="file"
                     id="profile"
                     name="profile_img" // add name attribute for Formik
-                    onChange={handleChange}
+                    onChange={handleProfileImage}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                   {errors.profile_img && touched.profile_img && (
@@ -273,7 +285,7 @@ function JoinTeam() {
                     type="file"
                     id="idCard"
                     name="idCard_img" // add name attribute for Formik
-                    onChange={handleChange}
+                    onChange={handleIdCardImage}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                   {errors.idCard_img && touched.idCard_img && (

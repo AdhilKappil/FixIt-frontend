@@ -7,6 +7,8 @@ import { Selected } from "../../../@types/Props";
 import { useGetServiceMutation } from "../../../slices/adminApiSlices";
 import ServiceAction from "./ServiceAction";
 import { IService } from "../../../validation/validationTypes";
+import { useLocation, useNavigate } from "react-router-dom";
+import AddNewServices from "./AddNewServices";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -16,8 +18,10 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [service, setService] = useState<IService[]>([]);
   const [getService] = useGetServiceMutation();
+  // const location = useLocation()
+  const [addService, setAddService] = useState(false)
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setSelectedLink(link);
@@ -34,11 +38,15 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
     fetchUser();
   }, [link]); // Add dependencies if needed
 
+  const handleAddService = ()=>{
+    setAddService(true)
+  }
+
   const columns:GridColDef[] = useMemo(
     () => [
       {
         field: "profile_img",
-        headerName: "Imag",
+        headerName: "Image",
         width: 120,
         renderCell: (params: GridCellParams) => <Avatar src={params.row.service_img} />,
         sortable: false,
@@ -72,37 +80,45 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
     [rowId]
   );
 
+  console.log("Location any Pathname:", location.pathname);
+
+
   return (
-    <Box sx={{ height: 400, width: "95%" }}>
-      <Typography
-        variant="h4"
-        component="h4"
-        sx={{ textAlign: "center", mt: 2, mb: 3 }}
-      >
-        Manage Service
-      </Typography>
-       <div className="flex justify-end mb-3">
-        <button  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
-       </div>
-      <DataGrid
-        columns={columns}
-        rows={service}
-        getRowId={(row: IService) => row._id ?? ''}
-        pageSizeOptions={[10, 25, 50, 75, 100]}
-        getRowSpacing={(params) => ({
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
-        })}
-        sx={{
-          [`& .${gridClasses.row}`]: {
-            bgcolor: (theme) =>
-              theme.palette.mode === "light" ? grey[200] : grey[900],
-          },
-        }}
-        onCellEditStop={(params) => setRowId(params.id.toString())}
-        onCellEditStart={(params) => setRowId(params.id.toString())}
-      />
-    </Box>
+   <>
+   
+   {addService ? (<AddNewServices/> ):
+     <Box sx={{ height: 400, width: "95%" }}>
+     <Typography
+       variant="h4"
+       component="h4"
+       sx={{ textAlign: "center", mt: 2, mb: 3 }}
+     >
+       Manage Service
+     </Typography>
+      <div className="flex justify-end mb-3">
+       <button onClick={handleAddService}  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
+      </div>
+     <DataGrid
+       columns={columns}
+       rows={service}
+       getRowId={(row: IService) => row._id ?? ''}
+       pageSizeOptions={[10, 25, 50, 75, 100]}
+       getRowSpacing={(params) => ({
+         top: params.isFirstVisible ? 0 : 5,
+         bottom: params.isLastVisible ? 0 : 5,
+       })}
+       sx={{
+         [`& .${gridClasses.row}`]: {
+           bgcolor: (theme) =>
+             theme.palette.mode === "light" ? grey[200] : grey[900],
+         },
+       }}
+       onCellEditStop={(params) => setRowId(params.id.toString())}
+       onCellEditStart={(params) => setRowId(params.id.toString())}
+     />
+   </Box>
+   }
+   </>
   );
 };
 

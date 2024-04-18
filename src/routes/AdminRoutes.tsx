@@ -8,10 +8,11 @@ function AdminRoutes() {
     <Routes>
     <Route path="/adminLogin" element={<AdminLogin />} />
     <Route path="*" element={<AdminPrivateRoute />}>
-      <Route path="admin/*" element={<Navbar />} />
+      <Route path="*" element={<Navbar/>} />
     </Route>
   </Routes>
   );
 }
+
 
 export default AdminRoutes;

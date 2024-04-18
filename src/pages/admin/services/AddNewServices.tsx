@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useState } from "react";
 import { TextField } from "@mui/material";
 import { MyError, ServiceForm } from "../../../validation/validationTypes";
 import { useFormik } from "formik";
@@ -7,15 +7,15 @@ import { storage } from "../../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useCreateServiceMutation } from "../../../slices/adminApiSlices";
 import { toast } from "react-toastify";
-import { Selected } from "../../../@types/Props";
+// import { Selected } from "../../../@types/Props";
 
 
 
-function AddNewServices({setSelectedLink, link}:Selected) {
+function AddNewServices() {
 
-    useEffect(() => {
-        setSelectedLink(link);
-      }, []);
+    // useEffect(() => {
+    //     setSelectedLink(link);
+    //   }, []);
      
       const [createService] = useCreateServiceMutation();
       const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -23,8 +23,6 @@ function AddNewServices({setSelectedLink, link}:Selected) {
       const formik = useFormik<ServiceForm>({
         initialValues: {
           serviceName: "",
-          // firstHourCharge: 0,
-          // laterHourCharge: 0,
           description: "",
           imageFile: null,
         },
@@ -32,10 +30,12 @@ function AddNewServices({setSelectedLink, link}:Selected) {
         onSubmit: async (values) => {
           // Create a storage reference with the generated filename
           const img: any = values.imageFile;
+          console.log(values);
+          
     
           const fileName = `${Date.now()}.jpg`;
     
-          const storageRef = ref(storage, `/images/${fileName}`);
+          const storageRef = ref(storage, `/images/service/${fileName}`);
           // Upload the file
           const snapshot = await uploadBytes(storageRef, img);
     
@@ -44,13 +44,13 @@ function AddNewServices({setSelectedLink, link}:Selected) {
     
           const service_img = downloadURL;
     
-          try {
-            const { serviceName,description} = values; // Destructure values
-            const res = await createService({ serviceName, service_img, description }).unwrap();
-            toast.success(res.newService);
-          } catch (err) {
-            toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
-          }
+          // try {
+          //   const { serviceName,description} = values; // Destructure values
+          //   const res = await createService({ serviceName, service_img, description }).unwrap();
+          //   toast.success(res.newService);
+          // } catch (err) {
+          //   toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+          // }
         },
       });
     

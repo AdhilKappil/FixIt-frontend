@@ -54,6 +54,15 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    // get all new worker join requests
+    getJoinRequests: builder.mutation({
+      query: () => ({
+        url: `${ADMIN_URL}/getJoinRequests`,
+        method: "GET",
+      }),
+    }),
+
   }),
 });
 
@@ -65,4 +74,5 @@ export const {
   useCreateServiceMutation,
   useGetServiceMutation,
   useEditServiceMutation,
+  useGetJoinRequestsMutation
 } = adminApiSlice;

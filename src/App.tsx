@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/*" element={<UserRoutes />} />
           <Route path="/worker/*" element={<WorkerRoutes />} />
-          <Route path="/admin/*" element={<AdminRoutes />} />
+          <Route path="/admin/*" element={<AdminRoutes/>} />
         </Routes>
       </div>
     </BrowserRouter>
