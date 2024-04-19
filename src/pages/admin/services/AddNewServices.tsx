@@ -7,15 +7,12 @@ import { storage } from "../../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useCreateServiceMutation } from "../../../slices/adminApiSlices";
 import { toast } from "react-toastify";
-// import { Selected } from "../../../@types/Props";
+import { AddNewServicesProps } from "../../../@types/Props";
 
 
 
-function AddNewServices() {
 
-    // useEffect(() => {
-    //     setSelectedLink(link);
-    //   }, []);
+function AddNewServices({ setAddService }: AddNewServicesProps) {
      
       const [createService] = useCreateServiceMutation();
       const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -28,6 +25,7 @@ function AddNewServices() {
         },
         validationSchema: serviceValidation,
         onSubmit: async (values) => {
+    
           // Create a storage reference with the generated filename
           const img: any = values.imageFile;
           console.log(values);
@@ -44,13 +42,14 @@ function AddNewServices() {
     
           const service_img = downloadURL;
     
-          // try {
-          //   const { serviceName,description} = values; // Destructure values
-          //   const res = await createService({ serviceName, service_img, description }).unwrap();
-          //   toast.success(res.newService);
-          // } catch (err) {
-          //   toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
-          // }
+          try {
+            const { serviceName,description} = values; // Destructure values
+            const res = await createService({ serviceName, service_img, description }).unwrap();
+            setAddService(false);
+            toast.success(res.newService);
+          } catch (err) {
+            toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+          }
         },
       });
     

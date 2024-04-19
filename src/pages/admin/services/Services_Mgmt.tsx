@@ -7,10 +7,7 @@ import { Selected } from "../../../@types/Props";
 import { useGetServiceMutation } from "../../../slices/adminApiSlices";
 import ServiceAction from "./ServiceAction";
 import { IService } from "../../../validation/validationTypes";
-import { useLocation, useNavigate } from "react-router-dom";
 import AddNewServices from "./AddNewServices";
-// import { useNavigate } from "react-router-dom";
-
 
 
 
@@ -18,10 +15,7 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [service, setService] = useState<IService[]>([]);
   const [getService] = useGetServiceMutation();
-  // const location = useLocation()
   const [addService, setAddService] = useState(false)
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     setSelectedLink(link);
@@ -36,11 +30,12 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
     }
 
     fetchUser();
-  }, [link]); // Add dependencies if needed
+  }, [link,addService]); // Add dependencies if needed
 
-  const handleAddService = ()=>{
-    setAddService(true)
-  }
+   // Function to change addServiceState from chiled
+   const updateParentState = (newValue : boolean) => {
+    setAddService(newValue);
+  };
 
   const columns:GridColDef[] = useMemo(
     () => [
@@ -80,13 +75,11 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
     [rowId]
   );
 
-  console.log("Location any Pathname:", location.pathname);
-
 
   return (
    <>
    
-   {addService ? (<AddNewServices/> ):
+   {addService ? (<AddNewServices setAddService={updateParentState}/> ):
      <Box sx={{ height: 400, width: "95%" }}>
      <Typography
        variant="h4"
@@ -96,7 +89,7 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
        Manage Service
      </Typography>
       <div className="flex justify-end mb-3">
-       <button onClick={handleAddService}  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
+       <button onClick={()=>setAddService(true)}  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
       </div>
      <DataGrid
        columns={columns}

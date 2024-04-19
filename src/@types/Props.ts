@@ -10,5 +10,9 @@ export  interface Open {
     setOpen: Dispatch<SetStateAction<boolean>>;
   }  
 
+export interface AddNewServicesProps {
+  setAddService: (newValue: boolean) => void;
+}  
+
 
  

@@ -62,7 +62,6 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-
   }),
 });
 
