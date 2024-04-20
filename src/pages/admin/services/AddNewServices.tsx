@@ -8,6 +8,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useCreateServiceMutation } from "../../../slices/adminApiSlices";
 import { toast } from "react-toastify";
 import { AddNewServicesProps } from "../../../@types/Props";
+import Spinner from "../../../components/common/Spinner";
 
 
 
@@ -16,6 +17,8 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
      
       const [createService] = useCreateServiceMutation();
       const [imagePreview, setImagePreview] = useState<string | null>(null);
+      const [isSumbit, setSubmit] = useState(false)
+
     
       const formik = useFormik<ServiceForm>({
         initialValues: {
@@ -25,7 +28,7 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
         },
         validationSchema: serviceValidation,
         onSubmit: async (values) => {
-    
+          setSubmit(true)
           // Create a storage reference with the generated filename
           const img: any = values.imageFile;
           console.log(values);
@@ -45,6 +48,7 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
           try {
             const { serviceName,description} = values; // Destructure values
             const res = await createService({ serviceName, service_img, description }).unwrap();
+            setSubmit(false)
             setAddService(false);
             toast.success(res.newService);
           } catch (err) {
@@ -114,7 +118,7 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
     
           <div className="w-full flex justify-center my-3">
             <button type="submit" className="bg-blue-700 w-44 h-10 rounded-md">
-              Add Service
+              {isSumbit ? <Spinner/> : "Add Service" }
             </button>
           </div>
         </form>

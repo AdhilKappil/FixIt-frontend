@@ -1,42 +1,39 @@
-import React from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from "@mui/material";
+import React, { useState } from "react";
+import {Avatar,Box, Button, Card,CardActions,CardContent,Dialog, Typography,} from "@mui/material";
 import { IWorker } from "../../../@types/schema";
+import { useAcceptOrRejectRequestMutation } from "../../../slices/adminApiSlices";
+import { MyError } from "../../../validation/validationTypes";
+import { toast } from "react-toastify";
+import Spinner from "../../../components/common/Spinner";
 
 interface ViewRequestDetailsProps {
   open: boolean;
   onClose: () => void;
   worker: IWorker;
-  workers: IWorker[];
 }
 
 const ViewRequestDetails: React.FC<ViewRequestDetailsProps> = ({
   open,
   onClose,
   worker,
-  workers,
 }) => {
-  const handleAccept = () => {
-    // Implement accept logic here
-    onClose();
+
+  const [acceptOrRejectRequest] = useAcceptOrRejectRequestMutation();
+  const [isSumbit, setSubmit] = useState(false)
+
+  const handleAcceptOrReject = async (status:string) => {
+    try {
+       setSubmit(true)
+        const id = worker._id
+        const res = await acceptOrRejectRequest({id,status}).unwrap();
+        onClose();
+        setSubmit(false)
+        toast.success(res.message);
+      } catch (err) {
+        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
   };
 
-  const handleReject = () => {
-    // Implement reject logic here
-    onClose();
-  };
-
+}
   return (
     <Dialog open={open} onClose={onClose}>
       <Card>
@@ -81,24 +78,25 @@ const ViewRequestDetails: React.FC<ViewRequestDetailsProps> = ({
             display: "flex",
             alignItems: "end",
             justifyContent: "flex-end",
-            padding:2 
+            padding: 2,
           }}
         >
-          <Button variant="contained" color="primary" onClick={handleAccept}>
-            Accept
+          <Button variant="contained" color="primary" onClick={()=>handleAcceptOrReject("accept")}>
+           {isSumbit? <Spinner/> : "Accept" }
           </Button>
           <Button
             variant="contained"
             color="error"
-            onClick={handleReject}
+            onClick={()=>handleAcceptOrReject("reject")}
             sx={{ marginLeft: 1 }}
           >
-            Reject
+             {isSumbit? <Spinner/> : "Reject" }
           </Button>
         </CardActions>
       </Card>
     </Dialog>
   );
 };
+
 
 export default ViewRequestDetails;

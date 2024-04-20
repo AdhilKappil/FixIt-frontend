@@ -23,12 +23,11 @@ import WorkerRoutes from './routes/WorkerRoutes';
 import AdminRoutes from './routes/AdminRoutes';
 
 
-
 function App() {
   return (
     <BrowserRouter>
       <div>
-        <ToastContainer autoClose={2500} />
+        <ToastContainer autoClose={3000} />
         <Routes>
           <Route path="/*" element={<UserRoutes />} />
           <Route path="/worker/*" element={<WorkerRoutes />} />

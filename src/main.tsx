@@ -2,24 +2,24 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import HomeScreen from './pages/user/HomeScreen.tsx';
-import Services from './pages/user/Services.tsx';
-import Navbar from './pages/admin/Navbar.tsx';
 import { Provider } from 'react-redux';
 import { store } from './app/store.ts';
-import AdminPrivateRoute from './components/admin/AdminPrivateRoute.tsx';
-import AdminLogin from './components/admin/AdminLogin.tsx';
-import JoinTeam from './components/worker/JoinTeam.tsx';
+// import {
+//   createBrowserRouter,
+//   createRoutesFromElements,
+//   Route,
+//   RouterProvider,
+// } from "react-router-dom";
+// import HomeScreen from './pages/user/HomeScreen.tsx';
+// import Services from './pages/user/Services.tsx';
+// import Navbar from './pages/admin/Navbar.tsx';
+// import AdminPrivateRoute from './components/admin/AdminPrivateRoute.tsx';
+// import AdminLogin from './components/admin/AdminLogin.tsx';
+// import JoinTeam from './components/worker/JoinTeam.tsx';
+// import WorkerLogin from './components/worker/WorkerLogin.tsx';
 // Aos animation
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
-import WorkerLogin from './components/worker/WorkerLogin.tsx';
 AOS.init();
 import { GoogleOAuthProvider } from '@react-oauth/google';
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';

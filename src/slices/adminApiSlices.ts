@@ -62,6 +62,17 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    // Accept or Reject worker request
+    acceptOrRejectRequest: builder.mutation({
+      query: (data) => ({
+        url: `${ADMIN_URL}/worker/accept-rejectRequest`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+
+
   }),
 });
 
@@ -73,5 +84,6 @@ export const {
   useCreateServiceMutation,
   useGetServiceMutation,
   useEditServiceMutation,
-  useGetJoinRequestsMutation
+  useGetJoinRequestsMutation,
+  useAcceptOrRejectRequestMutation
 } = adminApiSlice;

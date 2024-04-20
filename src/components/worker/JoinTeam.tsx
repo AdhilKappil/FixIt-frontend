@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useWorkerRegisterMutation } from "../../slices/workerApiSlice";
 import { storage } from "../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../common/Spinner";
 
 
 
@@ -14,6 +16,8 @@ function JoinTeam() {
   const [service, setService] = useState<string[]>();
   const [getService] = useGetServiceMutation();
   const [register] = useWorkerRegisterMutation();
+  const [isSumbit, setSubmit] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchUser() {
@@ -51,6 +55,7 @@ function JoinTeam() {
     initialValues: initialValues,
     validationSchema: validationWrokerJoin,
     onSubmit: async (values) => {
+      setSubmit(true)
       const profile: any = values.profile_img;
       const idCard: any = values.idCard_img;
     
@@ -78,7 +83,9 @@ function JoinTeam() {
         const res = await register({
           name,mobile,password, cpassword, email,district,service, firstHourCharge,
           laterHourCharge,  profile_img, idCard_img, experience,  }).unwrap();
-        toast.success(res.message);
+          navigate('/worker')
+          setSubmit(false)
+          toast.success(res.message);
       } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
@@ -299,13 +306,13 @@ function JoinTeam() {
                 type="submit"
                 className="bg-primary hover:bg-black text-white h-10 w-2/3 rounded font-Sans text-sm"
               >
-                Join Our Team
+                {isSumbit? <Spinner/> :"Join Our Team" }
               </button>
             </div>
             <div className="justify-center flex">
               <p className="mt-4 mb-0 leading-normal text-sm">
                 Already have an account?
-                <button className="font-bold text-slate-700">Sign in</button>
+                <button onClick={()=>navigate('/worker')} className="font-bold text-slate-700">Sign in</button>
               </p>
             </div>
           </form>

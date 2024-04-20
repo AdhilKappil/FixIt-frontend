@@ -13,14 +13,15 @@ import { clearRegister, setRegister } from "../../slices/authSlice";
 import OTP from "./OTP";
 import { openOtpModal } from "../../slices/modalSlices/OtpModal";
 import { FormValues, MyError } from "../../validation/validationTypes";
+import Spinner from "./Spinner";
+import { useState } from "react";
 
 
 function SignUp() {
     
   const modalIsOpen = useSelector((state: RootState) => state.signupModal.value)
   const [sendOtpToEmail] = useSendOtpToEmailMutation();
-  
-  
+  const [isSumbit, setSubmit] = useState(false)
   const dispatch = useDispatch()
 
 
@@ -37,12 +38,13 @@ function SignUp() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       dispatch(setRegister({ ...values }));
-      // Dispatch action to pass the data to the DB
+      setSubmit(true)
       try {
         const { name, email } = values; // Destructure values
         const res = await sendOtpToEmail({ name, email }).unwrap();
         dispatch(closeSignupModal())
         dispatch(openOtpModal())
+        setSubmit(false)
         toast.success(res.message)
       } catch (err) { 
         dispatch(clearRegister());
@@ -142,7 +144,8 @@ function SignUp() {
                   )}
                 </div>
               <div className="text-center">
-                <button type="submit" className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">Sign Up</button>
+                <button type="submit" className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">
+                  {isSumbit ? <Spinner/> : "Sign Up"} </button>
               </div>
               <p className="mt-4 mb-0 leading-normal text-sm">
                 Already have an account?

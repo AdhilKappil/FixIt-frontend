@@ -19,14 +19,15 @@ const JoinRequests: React.FC<Selected> = ({ setSelectedLink, link }) => {
     async function fetchWorkers() {
       try {
         const res = await getJoinRequests("").unwrap();
-        setWorkers(res.data);
+        const pendingWorkers = res.data.filter((worker:Record<string,any>)=> worker.status === "pending");
+        setWorkers(pendingWorkers);
       } catch (error) {
         console.error("Error fetching workers:", error);
       }
     }
 
     fetchWorkers();
-  }, [link]);
+  }, [link,selectedWorker]);
 
   const handleViewDetails = (worker: IWorker) => {
     setSelectedWorker(worker);
@@ -105,7 +106,6 @@ const JoinRequests: React.FC<Selected> = ({ setSelectedLink, link }) => {
           open={true}
           onClose={handleCloseModal}
           worker={selectedWorker}
-          workers={workers}
         />
       )}
     </>

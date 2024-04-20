@@ -3,10 +3,15 @@ import { FormLogin, MyError } from "../../validation/validationTypes";
 import { loginValidation } from "../../validation/yupValidation";
 import { useWorkerLoginMutation } from "../../slices/workerApiSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { setWorkerCredential } from "../../slices/authSlice";
+import { useDispatch } from "react-redux";
 
 function WorkerLogin() {
 
     const [login] = useWorkerLoginMutation();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const initialValues : FormLogin= {
         password: "",
@@ -21,7 +26,7 @@ function WorkerLogin() {
     
             const { password, email } = values; // Destructure values
             const res = await login({ password, email }).unwrap();
-            // dispatch(setCredential({...res.data}))
+            dispatch(setWorkerCredential({...res.data}))
             toast.success(res.message)
           } catch (err) { 
             toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
@@ -92,12 +97,12 @@ function WorkerLogin() {
           <div className="py-6 text-center">
             <p className="text-gray-600">
               Don't have an account?
-              <a
-                href="#"
-                className="whitespace-nowrap font-semibold text-gray-900 underline underline-offset-4"
+              <button
+                onClick={()=>navigate('/worker/signup')}
+                className="whitespace-nowrap font-semibold text-gray-900 underline underline-offset-4 hover:text-blue-500"
               >
                 Join our team for free.
-              </a>
+              </button>
             </p>
           </div>
         </div>

@@ -21,6 +21,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { openOtpModal } from "../../slices/modalSlices/OtpModal";
+import Spinner from "./Spinner";
 
 Modal.setAppElement("#root");
 
@@ -28,6 +29,7 @@ function Login() {
   const modalIsOpen = useSelector((state: RootState) => state.loginModal.value);
   const [forgot, setForgot] = useState(false)
   const dispatch = useDispatch();
+  const [isSumbit, setSubmit] = useState(false)
 
   const [login] = useLoginMutation();
   const [googleAuth] = useGoogleAuthMutation();
@@ -74,7 +76,7 @@ function Login() {
         .required("Please enter your email"),
     }),
     onSubmit: async (values) => {
-      console.log('hello');
+      setSubmit(true)
       try {
         const { email } = values;
         const name = email.split("@")[0]; // Extract the part before the @ symbol as the name
@@ -82,6 +84,7 @@ function Login() {
         const res = await sendOTPforgotPassword({ name, email }).unwrap();
         dispatch(closeLoginModal())
         dispatch(openOtpModal())
+        setSubmit(false)
         toast.success(res.message)
       } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
@@ -130,7 +133,7 @@ function Login() {
                     )}
                   </div>
                   <button className="bg-primary hover:bg-black w-full text-white p-2 rounded-md mt-2">
-                    Continue
+                   {isSumbit?<Spinner/> : "Continue"} 
                   </button>
                 </div>
               </form>

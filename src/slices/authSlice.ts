@@ -11,14 +11,16 @@ export interface UserInfo {
 interface InitialState {
   userInfo: UserInfo | null;
   registerInfo: UserInfo | null;
+  workerInfo: UserInfo | null;
   adminInfo: UserInfo | null;
   forgotEmailInfo: string | null;
 }
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo");
 const registerInfoFromLocalStorage = localStorage.getItem("registerInfo");
+const workerInfoFromLocalStorage = localStorage.getItem("workerInfo");
 const adminInfoFromLocalStorage = localStorage.getItem("adminInfo");
-const forgotEmailInfoFromLocalStorage = localStorage.getItem("adminInfo");
+const forgotEmailInfoFromLocalStorage = localStorage.getItem("forgotEmailInfo");
 
 const initialState: InitialState = {
   userInfo: userInfoFromLocalStorage
@@ -27,6 +29,10 @@ const initialState: InitialState = {
 
   registerInfo: registerInfoFromLocalStorage
     ? JSON.parse(registerInfoFromLocalStorage)
+    : null,
+
+  workerInfo: workerInfoFromLocalStorage
+    ? JSON.parse(workerInfoFromLocalStorage)
     : null,
 
   adminInfo: adminInfoFromLocalStorage
@@ -50,6 +56,16 @@ const authSlice = createSlice({
     userLogOut: (state) => {
       state.userInfo = null;
       localStorage.removeItem("userInfo");
+    },
+
+    setWorkerCredential: (state, action) => {
+      state.workerInfo = action.payload;
+      localStorage.setItem("workerInfo", JSON.stringify(action.payload));
+    },
+
+    workerLogOut: (state) => {
+      state.userInfo = null;
+      localStorage.removeItem("workerInfo");
     },
 
     setRegister: (state, action) => {
@@ -92,7 +108,9 @@ export const {
   setRegister,
   clearRegister,
   setForgotEmail,
-  clearForgotEmail
+  clearForgotEmail,
+  setWorkerCredential,
+  workerLogOut
 } = authSlice.actions;
 
 export default authSlice.reducer;
