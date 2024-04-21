@@ -1,17 +1,18 @@
+
 import { Box, CircularProgress, Fab } from "@mui/material";
 import { Check, Save } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
 // import { updateStatus } from '../../../actions/user'; // Import your updateStatus function
 import { useState } from "react";
-import { usePutBlockUserMutation } from "../../../slices/adminApiSlices";
+import { useBlockWorkerMutation } from "../../../slices/adminApiSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
-import { userLogOut } from "../../../slices/authSlice";
+import { workerLogOut } from "../../../slices/authSlice";
 import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
 import { GridCellParams } from "@mui/x-data-grid";
 
-const UsersActions = ({
+const WorkerActions = ({
   params,
   rowId,
   setRowId,
@@ -22,20 +23,22 @@ const UsersActions = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [putBlockUser] = usePutBlockUserMutation();
+  const [blockWorker] = useBlockWorkerMutation();
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { workerInfo } = useSelector((state: RootState) => state.auth);
 
   const handleSubmit = async () => {
     setLoading(true);
   
     const { _id } = params.row;
+    console.log(_id);
+    
     // Call your updateStatus function here
     try {
-      const response = await putBlockUser(_id).unwrap();
-      if (userInfo && userInfo._id === _id) {
-        dispatch(userLogOut());
+      const response = await blockWorker(_id).unwrap();
+      if (workerInfo && workerInfo._id === _id) {
+        dispatch(workerLogOut());
       }
       toast.success(response.message);
       setSuccess(true);
@@ -101,4 +104,4 @@ const UsersActions = ({
   );
 };
 
-export default UsersActions;
+export default WorkerActions;

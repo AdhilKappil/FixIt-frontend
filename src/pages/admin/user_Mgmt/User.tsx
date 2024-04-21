@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { Avatar, Box, Typography } from "@mui/material";
-import { DataGrid, GridCellParams,gridClasses,GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridCellParams,
+  gridClasses,
+  GridColDef,
+} from "@mui/x-data-grid";
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import UsersActions from "./UserActions";
 import { Selected } from "../../../@types/Props";
 import { useGetUsersDataMutation } from "../../../slices/adminApiSlices";
 import { IUser } from "../../../@types/schema";
-
 
 const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
@@ -29,13 +33,15 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
     fetchUser();
   }, [link]); // Add dependencies if needed
 
-  const columns:GridColDef[] = useMemo(
+  const columns: GridColDef[] = useMemo(
     () => [
       {
         field: "profile_img",
         headerName: "Profile",
         width: 60,
-        renderCell: (params: GridCellParams) => <Avatar src={params.row.profile_img} />,
+        renderCell: (params: GridCellParams) => (
+          <Avatar src={params.row.profile_img} />
+        ),
         sortable: false,
         filterable: false,
       },
@@ -99,5 +105,5 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
     </Box>
   );
 };
-  
+
 export default UsersManagement;

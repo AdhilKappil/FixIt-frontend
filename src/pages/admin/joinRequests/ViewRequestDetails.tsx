@@ -60,6 +60,9 @@ const ViewRequestDetails: React.FC<ViewRequestDetailsProps> = ({
             <Typography variant="body1" color="textSecondary" gutterBottom>
               Later Hour Charge: ₹ {worker.laterHourCharge}
             </Typography>
+            <Typography variant="body1" color="textSecondary" gutterBottom>
+              Location : {worker.district}
+            </Typography>
           </Box>
           <Avatar sx={{ width: 150, height: 150 }} src={worker.profile_img} />
         </CardContent>

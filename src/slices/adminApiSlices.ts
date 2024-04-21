@@ -2,7 +2,10 @@ import { apiSlice } from "./apiSlice";
 const ADMIN_URL = "/api/admin";
 
 export const adminApiSlice = apiSlice.injectEndpoints({
+
   endpoints: (builder) => ({
+
+    // For admin login
     adminLogin: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/login`,
@@ -18,6 +21,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
     //   })
     // }),
 
+    // For get user data
     getUsersData: builder.mutation({
       query: () => ({
         url: `${ADMIN_URL}/getUsers`,
@@ -25,6 +29,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // For block or unblock user
     putBlockUser: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/users/unblock-block?id=${data}`,
@@ -32,6 +37,15 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // For block or un block worker
+    blockWorker: builder.mutation({
+      query: (data) => ({
+        url: `${ADMIN_URL}/worker/unblock-block?id=${data}`,
+        method: "PATCH",
+      }),
+    }),
+
+    // For create new service
     createService: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/createService`,
@@ -40,6 +54,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // For get all service data
     getService: builder.mutation({
       query: () => ({
         url: `${ADMIN_URL}/getServices`,
@@ -47,6 +62,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // For edit all service details
     editService: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/editService`,
@@ -85,5 +101,6 @@ export const {
   useGetServiceMutation,
   useEditServiceMutation,
   useGetJoinRequestsMutation,
-  useAcceptOrRejectRequestMutation
+  useAcceptOrRejectRequestMutation,
+  useBlockWorkerMutation
 } = adminApiSlice;
