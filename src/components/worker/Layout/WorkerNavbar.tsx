@@ -62,7 +62,7 @@ export default function WorkerNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center  sm:items-stretch justify-start max-sm:ml-10">
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"

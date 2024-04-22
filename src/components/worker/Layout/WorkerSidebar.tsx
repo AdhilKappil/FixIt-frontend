@@ -11,7 +11,7 @@ const WorkerSidebar = () => {
   const { workerInfo } = useSelector((state: RootState) => state.auth);
 
   const menus = [
-    { name: "Personal info", link: "", icon: AiOutlineUser },
+    { name: "Personal info", link: "profile", icon: AiOutlineUser },
     { name: "New Works", link: "", icon: AiOutlineSchedule },
     { name: "Commited", link: "", icon: FiClock },
     { name: "Completed", link: "", icon: FiCheckCircle },
@@ -19,12 +19,11 @@ const WorkerSidebar = () => {
   ];
   const [open, setOpen] = useState(true);
   return (
-    <>
+    <div className=" w-full">
       <WorkerNavbar />
-      <div className="fixed">
-        <section className="flex gap-6">
+        <section className="flex gap-6 p-5">
           <div
-            className={`bg-[#0e0e0e] min-h-screen ${
+            className={`bg-[#0e0e0e] h-[600px] rounded-lg ${
               open ? "w-72" : "w-16"
             } duration-500 text-gray-100 px-4`}
           >
@@ -92,13 +91,18 @@ const WorkerSidebar = () => {
                 </Link>
               ))}
             </div>
-          </div>
-          <div className=" text-xl text-gray-900 font-semibold">
-            <Outlet/>
-          </div>
+          </div> 
+         {open?
+          <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0">
+          <Outlet/>
+         </div>:
+          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-0">
+          <Outlet/>
+         </div>
+         }
         </section>
       </div>
-    </>
+    
   );
 };
 
