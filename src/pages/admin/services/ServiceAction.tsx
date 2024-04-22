@@ -23,13 +23,16 @@ const ServiceAction = ({
   const handleSubmit = async () => {
     setLoading(true);
   
-    const { _id, serviceName, description, isBlocked } = params.row;
+    const { _id, serviceName, description,firstHourCharge, laterHourCharge ,isBlocked } = params.row;
     // Call your updateStatus function here
     try {
-      const response = await editService({_id,serviceName, description, isBlocked}).unwrap();
+      const response = await editService({_id,serviceName, description,firstHourCharge,laterHourCharge, isBlocked}).unwrap();
       toast.success(response.service);
       setSuccess(true);
       setRowId(null);
+      setTimeout(() => {
+        setSuccess(false)
+      }, 5000);
     } catch (err) {
       toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       // Handle error appropriately, e.g., show error message

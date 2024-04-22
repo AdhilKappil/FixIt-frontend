@@ -48,14 +48,16 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
         filterable: false,
       },
       { field: "serviceName", headerName: "Name", width: 150 ,editable: true,},
+      { field: "firstHourCharge", headerName: "First Hour Charge", width: 150 ,editable: true,},
+      { field: "laterHourCharge", headerName: "Later Hour Charge", width: 150 ,editable: true,},
+      { field: "description", headerName: "Description", width: 300 ,editable: true,},
       {
         field: "createdAt",
         headerName: "Created At",
-        width: 150,
+        width: 120,
         renderCell: (params: GridCellParams) =>
           moment(params.row.createdAt).format(" DD-MM-YYYY"),
       },
-      { field: "description", headerName: "Description", width: 300 ,editable: true,},
       {
         field: "isBlocked",
         headerName: "Blocked",

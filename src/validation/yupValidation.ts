@@ -46,6 +46,18 @@ export const serviceValidation = Yup.object().shape({
     .max(500, "Description must be at most 500 characters")
     .matches(/^[^\s]+(\s[^\s]+)*$/, "Description cannot have adjacent spaces")
     .required("Please enter description"),
+    firstHourCharge: Yup.number()
+    .required("Please enter First hour price")
+    .positive("First hour charge must be positive")
+    .integer("First hour charge must be an integer")
+    .min(100, "Minimum charge 100")
+    .max(1000, "Maximum charge 1000"),
+  laterHourCharge: Yup.number()
+    .required("Please enter Later hour price")
+    .positive("Later hour charge must be positive")
+    .integer("Later hour charge must be an integer")
+    .min(100, "Minimum charge 100")
+    .max(1000, "Maximum charge 1000"),
   imageFile: Yup.mixed().required("Please upload an image file"),
 });
 
@@ -73,18 +85,6 @@ export const validationWrokerJoin = Yup.object({
   cpassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password not matched")
     .required("Please enter confirm password"),
-  firstHourCharge: Yup.number()
-    .required("Please enter First hour price")
-    .positive("First hour charge must be positive")
-    .integer("First hour charge must be an integer")
-    .min(100, "Minimum charge 100")
-    .max(1000, "Maximum charge 1000"),
-  laterHourCharge: Yup.number()
-    .required("Please enter Later hour price")
-    .positive("Later hour charge must be positive")
-    .integer("Later hour charge must be an integer")
-    .min(100, "Minimum charge 100")
-    .max(1000, "Maximum charge 1000"),
   service: Yup.string().required("Please select service"),
   profile_img: Yup.mixed().required("Please upload your profile pic"),
   idCard_img: Yup.mixed().required("Please upload your any id card"),

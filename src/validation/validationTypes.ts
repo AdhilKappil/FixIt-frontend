@@ -25,6 +25,8 @@ export interface FormValues {
   export interface ServiceForm {
     serviceName: string;
     description: string;
+    firstHourCharge : number | string;
+    laterHourCharge : number | string;
     imageFile: File | null;
   }
 
@@ -46,8 +48,6 @@ export interface FormValues {
   export interface IWorkerJoin extends FormValues{
     district : string,
     service: string;
-    firstHourCharge : number | string;
-    laterHourCharge : number | string;
     profile_img: string;
     idCard_img: string;
     experience : number | string

@@ -41,39 +41,30 @@ const Workers: React.FC<Selected> = ({ setSelectedLink, link }) => {
       {
         field: "profile_img",
         headerName: "Profile",
-        width: 70,
+        width: 130,
         renderCell: (params: GridCellParams) => (
           <Avatar src={params.row.profile_img} />
         ),
         sortable: false,
         filterable: false,
       },
-      { field: "name", headerName: "Name", width: 100 },
+      { field: "name", headerName: "Name", width: 130 },
       { field: "email", headerName: "Email", width: 170 },
-      { field: "district", headerName: "Location", width: 120 },
-      { field: "service", headerName: "Service", width: 120 },
-      { field: "experience", headerName: "Experience ", width: 100 },
-      {
-        field: "firstHourCharge",
-        headerName: "First hour charge ",
-        width: 140,
-      },
-      {
-        field: "laterHourCharge",
-        headerName: "Later Hour charge ",
-        width: 140,
-      },
+      { field: "district", headerName: "Location", width: 150 },
+      { field: "service", headerName: "Service", width: 150 },
+      { field: "experience", headerName: "Experience ", width: 120 },
+
       {
         field: "createdAt",
         headerName: "Created At",
-        width: 100,
+        width: 120,
         renderCell: (params: GridCellParams) =>
           moment(params.row.createdAt).format(" DD-MM-YYYY"),
       },
       {
         field: "isBlocked",
         headerName: "Blocked",
-        width: 100,
+        width: 120,
         type: "boolean",
         editable: true,
       },
@@ -96,7 +87,7 @@ const Workers: React.FC<Selected> = ({ setSelectedLink, link }) => {
         component="h4"
         sx={{ textAlign: "center", mt: 2, mb: 3 }}
       >
-        Manage Users
+        Manage Worker
       </Typography>
       <DataGrid
         columns={columns}

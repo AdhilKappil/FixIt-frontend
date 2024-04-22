@@ -24,6 +24,8 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
         initialValues: {
           serviceName: "",
           description: "",
+          firstHourCharge: "",
+          laterHourCharge: "",
           imageFile: null,
         },
         validationSchema: serviceValidation,
@@ -46,13 +48,14 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
           const service_img = downloadURL;
     
           try {
-            const { serviceName,description} = values; // Destructure values
-            const res = await createService({ serviceName, service_img, description }).unwrap();
+            const { serviceName,description, firstHourCharge, laterHourCharge} = values; // Destructure values
+           const res = await createService({ serviceName, service_img, description, firstHourCharge, laterHourCharge }).unwrap();
             setSubmit(false)
             setAddService(false);
             toast.success(res.newService);
           } catch (err) {
             toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+            setSubmit(false)
           }
         },
       });
@@ -94,6 +97,32 @@ function AddNewServices({ setAddService }: AddNewServicesProps) {
               error={formik.touched.imageFile && !!formik.errors.imageFile}
               helperText={formik.touched.imageFile && formik.errors.imageFile}
             />
+          </div>
+          <div className="sm:flex gap-5 mt-10">
+          <TextField
+          className=" w-full my-3"
+          label="First hour charge"
+          variant="outlined"
+          {...formik.getFieldProps("firstHourCharge")}
+          error={
+            formik.touched.firstHourCharge && !!formik.errors.firstHourCharge
+          }
+          helperText={
+            formik.touched.firstHourCharge && formik.errors.firstHourCharge
+          }
+        />
+              <TextField
+          className=" w-full my-3"
+          label="Later hour charge"
+          variant="outlined"
+          {...formik.getFieldProps("laterHourCharge")}
+          error={
+            formik.touched.laterHourCharge && !!formik.errors.laterHourCharge
+          }
+          helperText={
+            formik.touched.laterHourCharge && formik.errors.laterHourCharge
+          }
+        />
           </div>
           <div className="my-3">
             <TextField

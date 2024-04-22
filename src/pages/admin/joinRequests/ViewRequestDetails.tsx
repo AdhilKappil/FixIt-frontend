@@ -55,12 +55,6 @@ const ViewRequestDetails: React.FC<ViewRequestDetailsProps> = ({
               Experience: {worker.experience}
             </Typography>
             <Typography variant="body1" color="textSecondary" gutterBottom>
-              First Hour Charge: ₹ {worker.firstHourCharge}
-            </Typography>
-            <Typography variant="body1" color="textSecondary" gutterBottom>
-              Later Hour Charge: ₹ {worker.laterHourCharge}
-            </Typography>
-            <Typography variant="body1" color="textSecondary" gutterBottom>
               Location : {worker.district}
             </Typography>
           </Box>

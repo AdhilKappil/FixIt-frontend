@@ -47,11 +47,12 @@ const JoinRequests: React.FC<Selected> = ({ setSelectedLink, link }) => {
         sortable: false,
         filterable: false,
       },
-      { field: "name", headerName: "Name", width: 150 },
+      { field: "name", headerName: "Name", width: 130 },
+      { field: "email", headerName: "Email", width: 170 },
+      { field: "mobile", headerName: "Mobile", width: 170 },
       { field: "service", headerName: "Service", width: 150 },
       { field: "experience", headerName: "Experience ", width: 150 },
-      { field: "firstHourCharge", headerName: "First hour charge ", width: 170 },
-      { field: "laterHourCharge", headerName: "Later Hour charge ", width: 180 },
+    
       {
         field: "createdAt",
         headerName: "Created At",

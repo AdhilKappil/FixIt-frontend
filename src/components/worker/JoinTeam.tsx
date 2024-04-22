@@ -49,8 +49,6 @@ function JoinTeam() {
     email: "",
     district: "",
     service: "",
-    firstHourCharge: "",
-    laterHourCharge: "",
     profile_img: "",
     idCard_img: "",
     experience: "",
@@ -84,16 +82,17 @@ function JoinTeam() {
       try {
         const {
           name, mobile,password, cpassword,email,district,service,
-          firstHourCharge, laterHourCharge,  experience,
+            experience,
         } = values;
         const res = await register({
-          name,mobile,password, cpassword, email,district,service, firstHourCharge,
-          laterHourCharge,  profile_img, idCard_img, experience,  }).unwrap();
+          name,mobile,password, cpassword, email,district,service, 
+           profile_img, idCard_img, experience,  }).unwrap();
           navigate('/worker')
           setSubmit(false)
           toast.success(res.message);
       } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+        setSubmit(false)
       }
     },
   });
@@ -117,7 +116,7 @@ function JoinTeam() {
   ];
 
   return (
-    <div>
+    <div className="">
       <div className="w-full max-w-3xl mx-auto p-8">
         <div className="bg-white p-8 rounded-lg shadow">
           <div className="grid place-items-center">
@@ -221,32 +220,6 @@ function JoinTeam() {
                   />
                   {errors.experience && touched.experience && (
                     <div className="text-red-500">{errors.experience}</div>
-                  )}
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    id="firstHourCharge"
-                    className="w-full rounded-lg border py-2 px-3"
-                    placeholder="First Hour Charge"
-                    value={values.firstHourCharge}
-                    onChange={handleChange}
-                  />
-                  {errors.firstHourCharge && touched.firstHourCharge && (
-                    <div className="text-red-500">{errors.firstHourCharge}</div>
-                  )}
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    id="laterHourCharge"
-                    className="w-full rounded-lg border py-2 px-3"
-                    placeholder="Later Hours Charge"
-                    value={values.laterHourCharge}
-                    onChange={handleChange}
-                  />
-                  {errors.laterHourCharge && touched.laterHourCharge && (
-                    <div className="text-red-500">{errors.laterHourCharge}</div>
                   )}
                 </div>
                 <div>
