@@ -6,12 +6,18 @@ export interface UserInfo {
   name: string;
   mobile?: number;
   password?: string;
+ 
+}
+
+export interface WorkerInfo extends UserInfo{
+  img:string,
+  joinDate:string
 }
 
 interface InitialState {
   userInfo: UserInfo | null;
   registerInfo: UserInfo | null;
-  workerInfo: UserInfo | null;
+  workerInfo: WorkerInfo | null;
   adminInfo: UserInfo | null;
   forgotEmailInfo: string | null;
 }

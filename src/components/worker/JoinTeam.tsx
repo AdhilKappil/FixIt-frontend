@@ -9,6 +9,8 @@ import { storage } from "../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../common/Spinner";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 
 
@@ -18,8 +20,12 @@ function JoinTeam() {
   const [register] = useWorkerRegisterMutation();
   const [isSumbit, setSubmit] = useState(false)
   const navigate = useNavigate()
+  const { workerInfo } = useSelector((state:RootState) => state.auth);
 
   useEffect(() => {
+    if(workerInfo){
+      navigate('/worker')
+    }
     async function fetchUser() {
       try {
         const res = await getService("").unwrap();

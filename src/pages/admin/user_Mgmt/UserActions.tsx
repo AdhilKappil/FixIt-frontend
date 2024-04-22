@@ -52,7 +52,6 @@ const UsersActions = ({
     }
   };
   
-
   return (
     <Box
       sx={{

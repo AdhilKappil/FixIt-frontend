@@ -5,13 +5,22 @@ import { useWorkerLoginMutation } from "../../slices/workerApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { setWorkerCredential } from "../../slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { RootState } from "../../app/store";
 
 function WorkerLogin() {
 
     const [login] = useWorkerLoginMutation();
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { workerInfo } = useSelector((state:RootState) => state.auth);
+
+    useEffect(()=>{
+      if(workerInfo){
+        navigate('/worker')
+      }
+    })
 
     const initialValues : FormLogin= {
         password: "",
