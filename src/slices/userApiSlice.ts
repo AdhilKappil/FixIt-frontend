@@ -69,26 +69,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
           }),
 
 
-        //   update: builder.mutation({
-        //     query: (data) => ({
-        //       url: `${USER_URL}/profile`,
-        //       method: 'PUT',
-        //       body: data,
-        //     }),
-        //   }),
+          // update: builder.mutation({
+          //   query: (data) => ({
+          //     url: `${USER_URL}/profile`,
+          //     method: 'PUT',
+          //     body: data,
+          //   }),
+          // }),
 
-        //   setImg: builder.mutation({
-        //     query: (data) => ({
-        //       url: `${USER_URL}/addProfile`,
-        //       method: 'POST', // Corrected method to POST
-        //       body: data,
-        //     }), 
-        //   }),
+          setUserImg: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/addProfile`,
+              method: 'PATCH', 
+              body: data,
+            }), 
+          }),
           
     })
 })
 
 export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useSendOtpToEmailMutation,
     useOtpVerificationMutation,useGoogleAuthMutation,useSendOTPforgotPasswordMutation,
-    useForgotPasswordMutation
+    useForgotPasswordMutation,useSetUserImgMutation
 } = userApiSlice
