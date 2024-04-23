@@ -1,13 +1,12 @@
 import { MdOutlineMail,MdOutlineDriveFileRenameOutline  } from "react-icons/md";
 import { BsTelephoneInbound } from "react-icons/bs";
-import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 
 
 function AccountInfo() {
 
-  const { workerInfo } = useSelector((state:RootState) => state.auth);
+  const { userInfo } = useSelector((state:RootState) => state.auth);
 
   return (
     <div>
@@ -27,7 +26,7 @@ function AccountInfo() {
                     <p className="font-medium">Name</p>
                     <input
                       name="email"
-                      value={workerInfo?.name}
+                      value={userInfo?.name}
                       type="email"
                       className="mt-1 w-full hover:border-b bg-tertiary  focus:border-black outline-none"
                       />
@@ -41,7 +40,7 @@ function AccountInfo() {
                     <p className="font-medium">Email Address</p>
                     <input
                       name="email"
-                      value={workerInfo?.email}
+                      value={userInfo?.email}
                       type="email"
                       className="mt-1 w-full hover:border-b bg-tertiary  focus:border-black outline-none"
                       />
@@ -55,21 +54,7 @@ function AccountInfo() {
                     <p className="font-medium">Mobile</p>
                     <input
                       name="email"
-                      value={workerInfo?.mobile}
-                      type="email"
-                      className="mt-1 w-full hover:border-b bg-tertiary  focus:border-black outline-none"
-                      />
-                </div>
-            </div>
-            <div className="bg-tertiary shadow-sm p-3 flex rounded-lg">
-                <div className="bg-white flex justify-center items-center w-12 h-12 rounded-lg">
-                <MdOutlineMiscellaneousServices  size={25}/>
-                </div>
-                <div className="ml-5">
-                    <p className="font-medium">Service</p>
-                    <input
-                      name="email"
-                      value={workerInfo?.service}
+                      value={userInfo?.mobile}
                       type="email"
                       className="mt-1 w-full hover:border-b bg-tertiary  focus:border-black outline-none"
                       />

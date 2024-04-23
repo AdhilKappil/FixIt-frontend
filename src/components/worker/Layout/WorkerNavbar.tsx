@@ -9,7 +9,6 @@ import { workerLogOut } from '../../../slices/authSlice';
 import { RootState } from '../../../app/store';
 // import { useWorkerLogoutMutation } from '../../../slices/workerApiSlice';
 
-
 type NavigationItem = {
   name: string;
   href: string;
@@ -37,7 +36,7 @@ export default function WorkerNavbar() {
   const handleLogout = async()=>{
     try {
       dispatch(workerLogOut())
-      navigate('/workerLogin')
+      navigate('/worker/workerLogin')
     //   await logOut('').unwrap()
     } catch (error) {
       console.error(error);
@@ -105,7 +104,7 @@ export default function WorkerNavbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={workerInfo?.img}
+                        src={workerInfo?.profile_img}
                         alt="Profile"
                       />
                     </Menu.Button>

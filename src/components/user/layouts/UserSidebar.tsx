@@ -1,26 +1,30 @@
+
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { AiOutlineUser, AiOutlineSchedule } from "react-icons/ai";
-import { FiCheckCircle, FiClock } from "react-icons/fi";
+import { AiOutlineUser } from "react-icons/ai";
+import { FaCartPlus } from "react-icons/fa";
+import { GrLocation } from "react-icons/gr";
+import { FiCheckCircle } from "react-icons/fi";
 import { Link, Outlet } from "react-router-dom";
-import WorkerNavbar from "./WorkerNavbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
+import Navbar from "./Navbar";
 
-const WorkerSidebar = () => {
-  const { workerInfo } = useSelector((state: RootState) => state.auth);
+const UserSidebar = () => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+ 
 
   const menus = [
-    { name: "Personal info", link: "profile", icon: AiOutlineUser },
-    { name: "New Works", link: "", icon: AiOutlineSchedule },
-    { name: "Commited", link: "", icon: FiClock },
-    { name: "Completed", link: "", icon: FiCheckCircle },
+    { name: "Personal info", link: "personalInfo", icon: AiOutlineUser },
+    { name: "Address", link: "", icon: GrLocation },
+    { name: "My bookings", link: "", icon: FaCartPlus },
+    { name: "Completed", link: "", icon: FiCheckCircle},
  
   ];
   const [open, setOpen] = useState(true);
   return (
     <div className=" w-full">
-      <WorkerNavbar />
+      <Navbar/>
         <section className="flex gap-6 p-5">
           <div
             className={`bg-[#0e0e0e] h-[600px] rounded-lg ${
@@ -37,26 +41,33 @@ const WorkerSidebar = () => {
             {open && (
               <div className="bg-[url(/src/assets/img/workerProfileBackground.png)] rounded-xl grid">
                 <div className="mt-3 flex justify-center">
-                  <img
-                    className="rounded-full w-28"
-                    src={workerInfo?.profile_img}
-                    alt=""
-                  />
+                 {userInfo?.profile_img ? 
+                   <img
+                   className="rounded-full w-28"
+                   src={userInfo?.profile_img}
+                   alt=""
+                 /> :
+                 <img
+                 className="rounded-full w-28"
+                 src="/src/assets/img/images.jpg"
+                 alt=""
+               />
+                } 
                 </div>
                 <div className="flex justify-center mt-1">
-                  <p>{workerInfo?.name}</p>
+                  <p>{userInfo?.name}</p>
                 </div>
                 <div className="flex justify-center mb-3">
                   <p>
                     Joined:{" "}
-                    {workerInfo?.createdAt && (
+                    {userInfo?.createdAt && (
                       <>
-                        {new Date(workerInfo.createdAt).getDate()}th{" "}
-                        {new Date(workerInfo.createdAt).toLocaleDateString(
+                        {new Date(userInfo.createdAt).getDate()}th{" "}
+                        {new Date(userInfo.createdAt).toLocaleDateString(
                           "en-US",
                           { month: "long" }
                         )}{" "}
-                        {new Date(workerInfo.createdAt).getFullYear()}
+                        {new Date(userInfo.createdAt).getFullYear()}
                       </>
                     )}
                   </p>
@@ -106,4 +117,4 @@ const WorkerSidebar = () => {
   );
 };
 
-export default WorkerSidebar;
+export default UserSidebar;

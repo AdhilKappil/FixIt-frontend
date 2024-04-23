@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { Provider } from 'react-redux';
-import { store } from './app/store.ts';
+import { Provider } from 'react-redux'
+import { store } from './app/store.ts'
 // import {
 //   createBrowserRouter,
 //   createRoutesFromElements,
@@ -21,7 +21,7 @@ import { store } from './app/store.ts';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
 AOS.init();
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google'
 // import AddNewServices from './pages/admin/services/AddNewServices.tsx';
 
 
@@ -60,9 +60,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-    <GoogleOAuthProvider clientId="486142616471-6vnr1c1qhvrororf6dugnlqmelldbt7k.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEAUTH_CLIENTID}>
           <App />
-      </GoogleOAuthProvider>;
+      </GoogleOAuthProvider>
     </Provider>
   </React.StrictMode>
 );

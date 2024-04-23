@@ -18,9 +18,9 @@ function WorkerLogin() {
 
     useEffect(()=>{
       if(workerInfo){
-        navigate('/worker')
+          navigate('/worker')
       }
-    })
+  },[navigate, workerInfo])
 
     const initialValues : FormLogin= {
         password: "",
@@ -36,6 +36,7 @@ function WorkerLogin() {
             const { password, email } = values; // Destructure values
             const res = await login({ password, email }).unwrap();
             dispatch(setWorkerCredential({...res.data}))
+            navigate('/worker')
             toast.success(res.message)
           } catch (err) { 
             toast.error((err as MyError)?.data?.message || (err as MyError)?.error);

@@ -5,13 +5,16 @@ export interface UserInfo {
   email: string;
   name: string;
   mobile?: number;
+  profile_img?: string;
   password?: string;
- 
+  createdAt?:string
 }
 
 export interface WorkerInfo extends UserInfo{
-  img:string,
-  joinDate:string
+  district : string;
+  service : string;
+  experience : number;
+  
 }
 
 interface InitialState {
@@ -70,7 +73,7 @@ const authSlice = createSlice({
     },
 
     workerLogOut: (state) => {
-      state.userInfo = null;
+      state.workerInfo = null;
       localStorage.removeItem("workerInfo");
     },
 

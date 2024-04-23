@@ -9,7 +9,7 @@ function WorkerRoutes() {
   return (
     <Routes>
       <Route path="/workerLogin" element={<WorkerLogin />} />
-      <Route path="signup" element={<JoinTeam />} />
+      <Route path="/signup" element={<JoinTeam />} />
       <Route path="*" element={<WorkerPrivateRoute />}>
         <Route path="*" element={<WorkerSidebar />}>
           <Route path="profile" element={<Profile/>}/>

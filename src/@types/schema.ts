@@ -4,8 +4,6 @@ export interface IWorker {
     mobile : string
     email: string;
     password: string;
-    firstHourCharge : number;
-    laterHourCharge : number;
     district : string;
     service : string;
     experience : number;
@@ -13,6 +11,7 @@ export interface IWorker {
     profile_img?: string;
     status? : string;
     isBlocked?: boolean;
+    createdAt?:Date
   }
 
 
