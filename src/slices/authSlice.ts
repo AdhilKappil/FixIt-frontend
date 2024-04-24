@@ -4,7 +4,7 @@ export interface UserInfo {
   _id?: string;
   email: string;
   name: string;
-  mobile?: number;
+  mobile?: string;
   profile_img?: string;
   password?: string;
   createdAt?:string

@@ -59,3 +59,8 @@ export interface FormValues {
     cpassword: string;
   }
   
+
+  export interface UpdateUser {
+    name:string;
+    mobile : string;
+  }
