@@ -4,11 +4,13 @@ import Navbar from "../../components/user/layouts/Navbar";
 import { IoIosStar } from "react-icons/io";
 import { useGetServiceMutation } from "../../slices/adminApiSlices";
 import { IService } from "../../validation/validationTypes";
+import { useNavigate } from "react-router-dom";
 
 function Services() {
 
   const [service, setService] = useState<IService[]>([]);
   const [getService] = useGetServiceMutation();
+  const navigate = useNavigate()
 
   useEffect(() => {
 
@@ -38,7 +40,7 @@ function Services() {
         <div className="w-3/4 mb-10 grid md:grid-cols-2 lg:grid-cols-3 gap-14">
          
          {service.map((item)=>(
-           <div key={item._id} className="max-w-sm rounded overflow-hidden shadow-lg mt-10 hover:translate-x-4 transition duration-300 hover:cursor-pointer">
+           <div onClick={()=>navigate("/serviceDetails",{ state: { data: item } })} key={item._id} className="max-w-sm rounded overflow-hidden shadow-lg mt-10 hover:translate-x-4 transition duration-300 hover:cursor-pointer">
            <img
              className="w-full h-60 object-cover"
              src={item.service_img}
