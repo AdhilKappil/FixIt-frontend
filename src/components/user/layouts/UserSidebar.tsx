@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useRef, useState } from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
+import { IoMdMenu } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
@@ -24,7 +24,7 @@ const UserSidebar = () => {
   const [open, setOpen] = useState(true);
   const [isSumbit, setSubmit] = useState(false);
   const [addProfile] = useSetUserImgMutation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const menus = [
     { name: "Personal info", link: "personalInfo", icon: AiOutlineUser },
@@ -61,20 +61,19 @@ const UserSidebar = () => {
     const storageRef = ref(storage, `/images/userProfile/${fileName}`);
     // Upload the file
     if (userImg) {
-  
       const snapshot = await uploadBytes(storageRef, userImg);
       // Get the download URL of the uploaded image
       const downloadURL = await getDownloadURL(snapshot.ref);
       const profile_img = downloadURL;
       console.log(profile_img);
-      
+
       const _id = userInfo?._id;
       console.log(_id);
-      
+
       try {
         const res = await addProfile({ profile_img, _id }).unwrap();
         console.log(res);
-        
+
         setSubmit(false);
         toast.success(res.message);
         dispatch(setCredential({ ...res.user }));
@@ -85,18 +84,19 @@ const UserSidebar = () => {
     }
   };
 
-  
   return (
     <div className=" w-full">
       <Navbar />
-      <section className="flex gap-6 p-5">
+      <section className="flex gap-6 p-5 max-sm:p-3">
         <div
-          className={`bg-[#0e0e0e] h-[600px] rounded-lg ${
-            open ? "w-72" : "w-16"
+          className={`bg-[#0e0e0e] h-[600px] max-sm:h-[570px] ${
+            open ? "" : "max-sm:hidden"
+          } rounded-lg  ${
+            open ? "max-sm:w-full w-72" : "w-16"
           } duration-500 text-gray-100 px-4`}
         >
           <div className="py-3 flex justify-end">
-            <HiMenuAlt3
+            <IoMdMenu
               size={26}
               className="cursor-pointer"
               onClick={() => setOpen(!open)}
@@ -161,7 +161,37 @@ const UserSidebar = () => {
               )}
             </div>
           )}
-          <div className="mt-4 flex flex-col gap-4 relative">
+          <div className="mt-4 flex flex-col gap-4 relative sm:hidden">
+            {menus?.map((menu, i) => (
+              <Link
+                to={menu?.link}
+                key={i}
+                onClick={() => setOpen(false)}
+                className={`group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+              >
+                <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                <h2
+                  style={{
+                    transitionDelay: `${i + 3}00ms`,
+                  }}
+                  className={`whitespace-pre duration-500 ${
+                    !open && "opacity-0 translate-x-28 overflow-hidden"
+                  }`}
+                >
+                  {menu?.name}
+                </h2>
+                <h2
+                  className={`${
+                    open && "hidden"
+                  } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
+                >
+                  {menu?.name}
+                </h2>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-4 flex flex-col gap-4 relative max-sm:hidden">
             {menus?.map((menu, i) => (
               <Link
                 to={menu?.link}
@@ -195,11 +225,21 @@ const UserSidebar = () => {
             <Outlet />
           </div>
         ) : (
-          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-0">
+          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5">
             <Outlet />
           </div>
         )}
       </section>
+      <div className="flex justify-center w-full">
+        {!open && (
+          <button
+            onClick={() => setOpen(true)}
+            className="sm:hidden p-3 bg-white rounded-full shadow-lg"
+          >
+            <IoMdMenu size={26} className="cursor-pointer" />
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -28,13 +28,13 @@ export const workerApiSlice = apiSlice.injectEndpoints({
           }),
 
 
-        //   update: builder.mutation({
-        //     query: (data) => ({
-        //       url: `${USER_URL}/profile`,
-        //       method: 'PUT',
-        //       body: data,
-        //     }),
-        //   }),
+          updateWorkerProfile: builder.mutation({
+            query: (data) => ({
+              url: `${WORKER_URL}/updateProfile`,
+              method: 'PATCH',
+              body: data,
+            }),
+          }),
 
         //   setImg: builder.mutation({
         //     query: (data) => ({
@@ -47,4 +47,6 @@ export const workerApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useWorkerLoginMutation, useWorkerLogoutMutation, useWorkerRegisterMutation} = workerApiSlice
+export const {useWorkerLoginMutation, useWorkerLogoutMutation, useWorkerRegisterMutation, 
+    useUpdateWorkerProfileMutation
+} = workerApiSlice
