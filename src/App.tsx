@@ -1,5 +1,4 @@
 
-import { Outlet } from 'react-router-dom'
 import './App.css'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <ToastContainer autoClose={2500} />
+        <ToastContainer autoClose={2000} />
         <Routes>
           <Route path="/*" element={<UserRoutes />} />
           <Route path="/worker/*" element={<WorkerRoutes />} />

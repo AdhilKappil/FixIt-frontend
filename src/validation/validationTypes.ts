@@ -60,7 +60,16 @@ export interface FormValues {
   }
   
 
+  // For updating user
   export interface UpdateUser {
     name:string;
     mobile : string;
+  }
+
+
+  // For add booking details
+  export interface AddBookService {
+    date: string;
+    startTime: string;
+    endTime: string
   }

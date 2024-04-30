@@ -68,7 +68,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
           }),
 
-
+          // For update user profile
           updateProfile: builder.mutation({
             query: (data) => ({
               url: `${USER_URL}/updateProfile`,
@@ -77,6 +77,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
           }),
 
+          // For set and update user image
           setUserImg: builder.mutation({
             query: (data) => ({
               url: `${USER_URL}/addProfile`,
@@ -84,11 +85,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
               body: data,
             }), 
           }),
+
+          // For booking a service
+          bookService: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/bookService`,
+              method: 'POST',
+              body: data,
+            }),
+          }),
           
     })
 })
 
 export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useSendOtpToEmailMutation,
     useOtpVerificationMutation,useGoogleAuthMutation,useSendOTPforgotPasswordMutation,
-    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation
+    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation,useBookServiceMutation
 } = userApiSlice
