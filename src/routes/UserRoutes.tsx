@@ -5,7 +5,7 @@ import Services from '../pages/user/Services';
 import UserSidebar from '../components/user/layouts/UserSidebar';
 import AccountInfo from '../components/user/AccountInfo';
 import ServiceDetails from '../pages/user/ServiceDetails';
-import AddLocation from '../components/user/addLocation/AddLocation';
+import AddLocation from '../components/user/Booking/AddLocation';
 
 
 function UserRoutes() {

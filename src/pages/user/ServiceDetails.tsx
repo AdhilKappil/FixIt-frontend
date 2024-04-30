@@ -144,7 +144,7 @@ function ServiceDetails() {
             </div>
 
             <div className="bg-primary h-16 rounded-lg flex justify-end p-3 mt-10" data-aos="fade-up">
-                <button className="rounded-lg  bg-white text-primary p-2 px-5 font-semibold">
+                <button onClick={()=>navigate('/addLocation')} className="rounded-lg  bg-white text-primary p-2 px-5 font-semibold">
                     Book This Service
                 </button>
             </div>
