@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <ToastContainer autoClose={2500} />
+        <ToastContainer autoClose={2000} />
         <Routes>
           <Route path="/*" element={<UserRoutes />} />
           <Route path="/worker/*" element={<WorkerRoutes />} />

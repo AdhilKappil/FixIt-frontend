@@ -9,11 +9,22 @@ import { setLocation } from "../../../slices/booking";
 import { RootState } from "../../../app/store";
 import Geocoder from "./Geocoder";
 import BookingProgess from "./BookingProgess";
+import { useNavigate } from "react-router-dom";
+import { openLoginModal } from "../../../slices/modalSlices/loginModal";
 
 const AddLocation = () => {
   const dispatch = useDispatch();
   const { latitude, longitude } = useSelector((state: RootState) => state.location);
   const mapRef = useRef<any>(null);
+  const navigate = useNavigate()
+
+  const { userInfo } = useSelector((state:RootState) => state.auth);
+
+  useEffect(()=>{
+    if(!userInfo){
+      dispatch(openLoginModal());
+    }
+},[userInfo,])
 
   useEffect(() => {
     if (latitude === 0 && longitude === 0) {
@@ -33,8 +44,6 @@ const AddLocation = () => {
   const handleGeolocate = (e: any) => {
     dispatch(setLocation({ latitude: e.coords.latitude, longitude: e.coords.longitude }));
   };
-
-  console.log(latitude, longitude);
   
 
   return (
@@ -75,7 +84,7 @@ const AddLocation = () => {
         </Box>
         <div className="flex justify-around p-5">
         <button className="text-gray-400 font-bold text-xl">Back</button>
-        <button className="text-blue-600 font-bold text-xl">Next</button>
+        <button onClick={()=>navigate('/addBookingDetails')} className="text-blue-600 font-bold text-xl">Next</button>
         </div>
       </div>
       <Footer />

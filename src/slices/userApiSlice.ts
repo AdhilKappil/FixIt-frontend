@@ -85,11 +85,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
               body: data,
             }), 
           }),
+
+          // For booking a service
+          bookService: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/bookService`,
+              method: 'POST',
+              body: data,
+            }),
+          }),
           
     })
 })
 
 export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useSendOtpToEmailMutation,
     useOtpVerificationMutation,useGoogleAuthMutation,useSendOTPforgotPasswordMutation,
-    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation
+    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation,useBookServiceMutation
 } = userApiSlice

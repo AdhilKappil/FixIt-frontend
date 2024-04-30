@@ -41,6 +41,7 @@ export default function Navbar() {
 
   const handleLogout = async()=>{
     try {
+      navigate('/')
       dispatch(userLogOut())
       await logOut('').unwrap()
     } catch (error) {

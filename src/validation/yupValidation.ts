@@ -122,3 +122,13 @@ mobile: Yup.string()
   .matches(/^(?!(\d)\1{9})[5-9]\d{9}$/, "Invalid mobile number")
   .required("Please enter mobile"),
 })
+
+// For add booking detaisl from client
+export const addBookingDetails = Yup.object({
+  date: Yup.string()
+  .required("Please choose your prefered date"),
+startTime: Yup.string()
+  .required("Please select start time"),
+endTime: Yup.string()
+  .required("Please select end time"),
+})
