@@ -48,8 +48,6 @@ function AddBookingDetails() {
     },
   });
 
-
-
   return (
     <>
       <Navbar />
