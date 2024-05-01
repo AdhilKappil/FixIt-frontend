@@ -71,5 +71,6 @@ export interface FormValues {
   export interface AddBookService {
     date: string;
     startTime: string;
-    endTime: string
+    endTime: string,
+    description:string
   }

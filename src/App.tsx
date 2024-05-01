@@ -28,7 +28,7 @@ function App() {
       <div>
         <ToastContainer autoClose={2000} />
         <Routes>
-          <Route path="/*" element={<UserRoutes />} />
+          <Route path="/*" element={<UserRoutes/>} />
           <Route path="/worker/*" element={<WorkerRoutes />} />
           <Route path="/admin/*" element={<AdminRoutes/>} />
         </Routes>

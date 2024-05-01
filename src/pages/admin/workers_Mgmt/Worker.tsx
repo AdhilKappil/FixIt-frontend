@@ -9,7 +9,7 @@ import {
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
-import { useGetJoinRequestsMutation } from "../../../slices/adminApiSlices";
+import { useGetJoinRequestsMutation } from "../../../slices/api/adminApiSlices";
 import { IWorker } from "../../../@types/schema";
 import WorkerActions from "./WorkerActions";
 

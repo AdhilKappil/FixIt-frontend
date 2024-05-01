@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "../../components/user/layouts/Footer";
 import Navbar from "../../components/user/layouts/Navbar";
 import { IoIosStar } from "react-icons/io";
-import { useGetServiceMutation } from "../../slices/adminApiSlices";
+import { useGetServiceMutation } from "../../slices/api/adminApiSlices";
 import { IService } from "../../validation/validationTypes";
 import { useNavigate } from "react-router-dom";
 

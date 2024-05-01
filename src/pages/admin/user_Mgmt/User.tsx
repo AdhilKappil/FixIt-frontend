@@ -10,7 +10,7 @@ import moment from "moment";
 import { grey } from "@mui/material/colors";
 import UsersActions from "./UserActions";
 import { Selected } from "../../../@types/Props";
-import { useGetUsersDataMutation } from "../../../slices/adminApiSlices";
+import { useGetUsersDataMutation } from "../../../slices/api/adminApiSlices";
 import { IUser } from "../../../@types/schema";
 
 const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {

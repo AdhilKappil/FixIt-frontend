@@ -7,7 +7,7 @@ import { openLoginModal } from '../../../slices/modalSlices/loginModal';
 import Login from '../../common/Login';
 import { RootState } from '../../../app/store';
 import { userLogOut } from '../../../slices/authSlice';
-import { useLogoutMutation } from '../../../slices/userApiSlice';
+import { useLogoutMutation } from '../../../slices/api/userApiSlice';
 
 
 type NavigationItem = {

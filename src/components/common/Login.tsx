@@ -14,7 +14,7 @@ import {
   useGoogleAuthMutation,
   useLoginMutation,
   useSendOTPforgotPasswordMutation,
-} from "../../slices/userApiSlice";
+} from "../../slices/api/userApiSlice";
 import { toast } from "react-toastify";
 import { setCredential, setForgotEmail } from "../../slices/authSlice";
 import { GoogleLogin } from "@react-oauth/google";

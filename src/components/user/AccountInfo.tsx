@@ -5,7 +5,7 @@ import { RootState } from "../../app/store";
 import { MyError, UpdateUser } from "../../validation/validationTypes";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { useUpdateProfileMutation } from "../../slices/userApiSlice";
+import { useUpdateProfileMutation } from "../../slices/api/userApiSlice";
 import { validationForUserUpdate } from "../../validation/yupValidation";
 import { setCredential } from "../../slices/authSlice";
 

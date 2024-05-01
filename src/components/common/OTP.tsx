@@ -8,7 +8,7 @@ import {
   useOtpVerificationMutation,
   useRegisterMutation,
   useSendOtpToEmailMutation,
-} from "../../slices/userApiSlice";
+} from "../../slices/api/userApiSlice";
 import { clearForgotEmail, clearRegister, setCredential } from "../../slices/authSlice";
 import { closeOtpModal } from "../../slices/modalSlices/OtpModal";
 import { toast } from "react-toastify";

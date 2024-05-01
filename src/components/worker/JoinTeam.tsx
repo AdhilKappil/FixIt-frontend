@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { useGetServiceMutation } from "../../slices/adminApiSlices";
+import { useGetServiceMutation } from "../../slices/api/adminApiSlices";
 import { useFormik } from "formik";
 import { validationWrokerJoin } from "../../validation/yupValidation";
 import { IWorkerJoin, MyError } from "../../validation/validationTypes";
 import { toast } from "react-toastify";
-import { useWorkerRegisterMutation } from "../../slices/workerApiSlice";
+import { useWorkerRegisterMutation } from "../../slices/api/workerApiSlice";
 import { storage } from "../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import Swal from "sweetalert2";
 
 
 
@@ -89,7 +90,10 @@ function JoinTeam() {
            profile_img, idCard_img, experience,  }).unwrap();
           navigate('/worker')
           setSubmit(false)
-          toast.success(res.message);
+          Swal.fire({
+            title: res.message,
+            icon: "success"
+          });
       } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
         setSubmit(false)

@@ -6,14 +6,26 @@ import { useFormik } from "formik";
 import { AddBookService, MyError } from "../../../validation/validationTypes";
 import { addBookingDetails } from "../../../validation/yupValidation";
 import { useSelector } from "react-redux";
-import { useBookServiceMutation } from "../../../slices/userApiSlice";
+import { useBookServiceMutation } from "../../../slices/api/userApiSlice";
 import { toast } from "react-toastify";
 import { RootState } from "../../../app/store";
+import { useEffect } from "react";
+import Swal from 'sweetalert2'
+
 
 function AddBookingDetails() {
   const navigate = useNavigate();
   const [bookService] = useBookServiceMutation();
-  const { latitude, longitude } = useSelector((state: RootState) => state.location);
+  const { latitude, longitude, service } = useSelector((state: RootState) => state.location);
+  const { userInfo } = useSelector((state:RootState) => state.auth);
+  
+  
+  useEffect(() => {
+    if(!service.serviceName){
+      navigate("/services")
+      toast.error("Please restart your booking process")
+    }
+}, []);
 
   const startTimes = [
     "8:00 AM", "9:00 AM",  "10:00 AM",
@@ -30,7 +42,9 @@ function AddBookingDetails() {
   const initialValues : AddBookService= {
     date: "",
     startTime:"",
-    endTime : ""
+    endTime : "",
+    description:"",
+    
   };
 
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({
@@ -38,10 +52,15 @@ function AddBookingDetails() {
     validationSchema: addBookingDetails,
     onSubmit: async (values) => {
       try {
-        const {date, startTime, endTime} = values
-        const res = await bookService({latitude,longitude, date, startTime, endTime }).unwrap();
+        const {date, startTime, endTime,description} = values
+        const userId = userInfo?._id 
+        const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName}).unwrap();
         navigate('/profile')
-        toast.success(res.message)
+        Swal.fire({
+          title: "Your booking has been successfully completed and is now in progress",
+          text: res.message,
+          icon: "success"
+        });
       } catch (err) { 
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
@@ -111,6 +130,8 @@ function AddBookingDetails() {
               name="description"
               placeholder="Is there anything else you would like to share with the service provider"
               type="text"
+              value={values.description}
+              onChange={handleChange}
               className="w-full flex-shrink appearance-none h-20 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
             />
           </div>

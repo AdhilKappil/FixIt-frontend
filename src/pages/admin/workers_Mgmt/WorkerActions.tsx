@@ -4,7 +4,7 @@ import { Check, Save } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
 // import { updateStatus } from '../../../actions/user'; // Import your updateStatus function
 import { useState } from "react";
-import { useBlockWorkerMutation } from "../../../slices/adminApiSlices";
+import { useBlockWorkerMutation } from "../../../slices/api/adminApiSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { workerLogOut } from "../../../slices/authSlice";

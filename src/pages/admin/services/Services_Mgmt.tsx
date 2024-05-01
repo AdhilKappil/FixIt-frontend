@@ -4,7 +4,7 @@ import { DataGrid, GridCellParams,gridClasses,GridColDef } from "@mui/x-data-gri
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
-import { useGetServiceMutation } from "../../../slices/adminApiSlices";
+import { useGetServiceMutation } from "../../../slices/api/adminApiSlices";
 import ServiceAction from "./ServiceAction";
 import { IService } from "../../../validation/validationTypes";
 import AddNewServices from "./AddNewServices";

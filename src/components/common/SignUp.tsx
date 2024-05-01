@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { validationSchema } from "../../validation/yupValidation";
 import { RootState } from "../../app/store";
 import { toast } from "react-toastify";
-import { useSendOtpToEmailMutation } from "../../slices/userApiSlice";
+import { useSendOtpToEmailMutation } from "../../slices/api/userApiSlice";
 import { clearRegister, setRegister } from "../../slices/authSlice";
 import OTP from "./OTP";
 import { openOtpModal } from "../../slices/modalSlices/OtpModal";

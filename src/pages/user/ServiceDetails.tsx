@@ -2,11 +2,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../components/user/layouts/Footer";
 import Navbar from "../../components/user/layouts/Navbar";
 import { IoIosStar } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { setServiceName } from "../../slices/booking";
 
 function ServiceDetails() {
   const location = useLocation();
   const { data } = location.state;
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleBooking = ()=>{
+    dispatch(setServiceName(data.serviceName))
+    navigate('/addLocation')
+  }
 
   return (
     <div>
@@ -18,7 +26,7 @@ function ServiceDetails() {
           <div className="mt-5 w-1/2 max-md:w-full grid p-5 justify-center">
              <h1 className="relative text-5xl max-lg:text-4xl leading-tight text-primary font-Sans font-bold ">Top-Notch Services Await: Quality Solutions for Everyday Needs!</h1>
              <div className="flex justify-center">
-             <button onClick={()=>navigate('/addLocation')} className="relative w-56 mt-5 bg-white rounded-lg text-primary p-2 px-5 font-semibold">Book This Service</button>
+             <button onClick={handleBooking} className="relative w-56 mt-5 bg-white rounded-lg text-primary p-2 px-5 font-semibold">Book This Service</button>
              </div>
           </div>
           <div className="w-1/2 max-md:w-full">
@@ -144,7 +152,7 @@ function ServiceDetails() {
             </div>
 
             <div className="bg-primary h-16 rounded-lg flex justify-end p-3 mt-10" data-aos="fade-up">
-                <button onClick={()=>navigate('/addLocation')} className="rounded-lg  bg-white text-primary p-2 px-5 font-semibold">
+                <button onClick={handleBooking} className="rounded-lg  bg-white text-primary p-2 px-5 font-semibold">
                     Book This Service
                 </button>
             </div>

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { serviceValidation } from "../../../validation/yupValidation";
 import { storage } from "../../../app/firebase/confiq";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useCreateServiceMutation } from "../../../slices/adminApiSlices";
+import { useCreateServiceMutation } from "../../../slices/api/adminApiSlices";
 import { toast } from "react-toastify";
 import { AddNewServicesProps } from "../../../@types/Props";
 import Spinner from "../../../components/common/Spinner";

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import loginModalReducer from '../slices/modalSlices/loginModal'
 import  signupModalReducer  from '../slices/modalSlices/signupModal'
 import OtpModalReducer from '../slices/modalSlices/OtpModal'
-import { apiSlice } from '../slices/apiSlice'
+import { apiSlice } from '../slices/api/apiSlice'
 import authReducer from '../slices/authSlice'
 import  locationReducer  from '../slices/booking'
 

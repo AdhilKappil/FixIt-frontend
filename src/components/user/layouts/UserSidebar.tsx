@@ -13,7 +13,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../app/firebase/confiq";
 import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
-import { useSetUserImgMutation } from "../../../slices/userApiSlice";
+import { useSetUserImgMutation } from "../../../slices/api/userApiSlice";
 import { setCredential } from "../../../slices/authSlice";
 
 const UserSidebar = () => {

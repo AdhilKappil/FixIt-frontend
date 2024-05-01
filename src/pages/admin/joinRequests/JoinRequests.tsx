@@ -4,7 +4,7 @@ import { DataGrid, GridCellParams, gridClasses, GridColDef } from "@mui/x-data-g
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
-import { useGetJoinRequestsMutation } from "../../../slices/adminApiSlices";
+import { useGetJoinRequestsMutation } from "../../../slices/api/adminApiSlices";
 import { IWorker } from "../../../@types/schema";
 import ViewRequestDetails from "./ViewRequestDetails";
 

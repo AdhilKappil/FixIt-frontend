@@ -5,22 +5,36 @@ export interface LocationState {
   longitude: number;
 }
 
-const initialState: LocationState = {
+export interface ServiceState {
+  serviceName: string;
+}
+
+const initialLocationState: LocationState = {
   latitude: 0,
   longitude: 0,
 };
 
+const initialServiceState: ServiceState = {
+  serviceName: '',
+};
+
 export const locationSlice = createSlice({
   name: 'location',
-  initialState,
+  initialState: {
+    ...initialLocationState,
+    service: initialServiceState,
+  },
   reducers: {
     setLocation: (state, action: PayloadAction<LocationState>) => {
       state.latitude = action.payload.latitude;
       state.longitude = action.payload.longitude;
     },
+    setServiceName: (state, action: PayloadAction<string>) => {
+      state.service.serviceName = action.payload;
+    },
   },
 });
 
-export const { setLocation } = locationSlice.actions;
+export const { setLocation, setServiceName } = locationSlice.actions;
 
 export default locationSlice.reducer;

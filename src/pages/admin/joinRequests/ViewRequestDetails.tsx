@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Avatar,Box, Button, Card,CardActions,CardContent,Dialog, Typography,} from "@mui/material";
 import { IWorker } from "../../../@types/schema";
-import { useAcceptOrRejectRequestMutation } from "../../../slices/adminApiSlices";
+import { useAcceptOrRejectRequestMutation } from "../../../slices/api/adminApiSlices";
 import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
 import Spinner from "../../../components/common/Spinner";
