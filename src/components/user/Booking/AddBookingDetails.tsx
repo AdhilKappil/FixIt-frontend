@@ -55,6 +55,7 @@ function AddBookingDetails() {
         const {date, startTime, endTime,description} = values
         const userId = userInfo?._id 
         const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName}).unwrap();
+
         navigate('/profile')
         Swal.fire({
           title: "Your booking has been successfully completed and is now in progress",
