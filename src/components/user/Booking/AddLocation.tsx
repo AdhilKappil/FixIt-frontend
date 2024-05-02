@@ -10,21 +10,12 @@ import { RootState } from "../../../app/store";
 import Geocoder from "./Geocoder";
 import BookingProgess from "./BookingProgess";
 import { useNavigate } from "react-router-dom";
-import { openLoginModal } from "../../../slices/modalSlices/loginModal";
-
 const AddLocation = () => {
   const dispatch = useDispatch();
   const { latitude, longitude } = useSelector((state: RootState) => state.location);
   const mapRef = useRef<any>(null);
   const navigate = useNavigate()
 
-  const { userInfo } = useSelector((state:RootState) => state.auth);
-
-  useEffect(()=>{
-    if(!userInfo){
-      dispatch(openLoginModal());
-    }
-},[userInfo,])
 
   useEffect(() => {
     if (latitude === 0 && longitude === 0) {
@@ -50,7 +41,7 @@ const AddLocation = () => {
     <>
       <Navbar />
       <BookingProgess/>
-      <div className="pt-10 px-20">
+      <div className="pt-10 md:px-20 px-5">
         <Box
           sx={{
             height: 400,

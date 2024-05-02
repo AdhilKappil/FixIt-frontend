@@ -19,7 +19,6 @@ function AddBookingDetails() {
   const { latitude, longitude, service } = useSelector((state: RootState) => state.location);
   const { userInfo } = useSelector((state:RootState) => state.auth);
   
-  
   useEffect(() => {
     if(!service.serviceName){
       navigate("/services")
@@ -74,7 +73,7 @@ function AddBookingDetails() {
       <BookingProgess />
      <form action="" onSubmit={handleSubmit}>
       <div className="flex justify-center">
-        <div className="w-2/5 mt-5">
+        <div className="w-4/5 sm:w-3/5 md:w-2/5 mt-5">
           <div className="relative flex overflow-hidden rounded-md border-gray-300 border-2 transition focus-within:border-blue-600">
             <input
               name="date"
@@ -88,8 +87,8 @@ function AddBookingDetails() {
           {errors.date && touched.date && (
                     <div className="text-red-500">{errors.date}</div>
            )}
-          <div className="flex gap-5">
-            <div className="w-1/2 mt-5 relative flex overflow-hidden rounded-md border-gray-300 border-2 transition focus-within:border-blue-600">
+          <div className="md:flex gap-5">
+            <div className="md:w-1/2 mt-5 relative flex overflow-hidden rounded-md border-gray-300 border-2 transition focus-within:border-blue-600">
               <select
                 name="startTime"
                 className="w-full p-3 text-gray-400 h-14"
@@ -107,7 +106,7 @@ function AddBookingDetails() {
             {errors.startTime && touched.startTime && (
               <div className="text-red-500">{errors.startTime}</div>
             )}
-            <div className="w-1/2 mt-5 relative flex overflow-hidden rounded-md border-gray-300 border-2 transition focus-within:border-blue-600">
+            <div className="md:w-1/2 mt-5 relative flex overflow-hidden rounded-md border-gray-300 border-2 transition focus-within:border-blue-600">
               <select
                 id="endTime"
                 className="w-full p-3 text-gray-400 h-14"
@@ -145,7 +144,7 @@ function AddBookingDetails() {
         >
           Back
         </button>
-        <button className="bg-primary hover:bg-black text-white p-2 w-52 rounded">
+        <button className="bg-primary max-md:text-sm w-36 hover:bg-black text-white p-2 md:w-52 rounded">
           Confirm Booking
         </button>
       </div>

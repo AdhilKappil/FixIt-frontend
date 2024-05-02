@@ -4,7 +4,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 import { FiCheckCircle } from "react-icons/fi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import Navbar from "./Navbar";
@@ -15,6 +15,7 @@ import { MyError } from "../../../validation/validationTypes";
 import { toast } from "react-toastify";
 import { useSetUserImgMutation } from "../../../slices/api/userApiSlice";
 import { setCredential } from "../../../slices/authSlice";
+import AccountInfo from "../AccountInfo";
 
 const UserSidebar = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -25,7 +26,7 @@ const UserSidebar = () => {
   const [isSumbit, setSubmit] = useState(false);
   const [addProfile] = useSetUserImgMutation();
   const dispatch = useDispatch();
-
+  const location = useLocation();
   const menus = [
     { name: "Personal info", link: "personalInfo", icon: AiOutlineUser },
     { name: "Address", link: "", icon: GrLocation },
@@ -222,11 +223,11 @@ const UserSidebar = () => {
         </div>
         {open ? (
           <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0">
-            <Outlet />
+               {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         ) : (
           <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5">
-            <Outlet />
+               {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         )}
       </section>

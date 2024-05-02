@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { AiOutlineUser, AiOutlineSchedule } from "react-icons/ai";
 import { FiCheckCircle, FiClock } from "react-icons/fi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import WorkerNavbar from "./WorkerNavbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { IoMdMenu } from "react-icons/io";
+import AccountInfo from "../AccountInfo";
 
 const WorkerSidebar = () => {
   const { workerInfo } = useSelector((state: RootState) => state.auth);
   const [open, setOpen] = useState(true);
+  const location = useLocation();
 
   const menus = [
-    { name: "Personal info", link: "profile", icon: AiOutlineUser },
+    { name: "Personal info", link: "accountInfo", icon: AiOutlineUser },
     { name: "New Works", link: "", icon: AiOutlineSchedule },
     { name: "Commited", link: "", icon: FiClock },
     { name: "Completed", link: "", icon: FiCheckCircle },
@@ -126,11 +128,11 @@ const WorkerSidebar = () => {
         </div>
         {open ? (
           <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0">
-            <Outlet />
+           {location.pathname === "/worker" ?<AccountInfo/> : <Outlet />}
           </div>
         ) : (
           <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5">
-            <Outlet />
+               {location.pathname === "/worker" ?<AccountInfo/> : <Outlet />}
           </div>
         )}
       </section>

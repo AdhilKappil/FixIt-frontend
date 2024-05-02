@@ -1,9 +1,9 @@
-import AccountInfo from "../../components/worker/AccountInfo"
+import WorkerSidebar from "../../components/worker/Layout/WorkerSidebar"
 
 function Profile() {
   return (
     <div>
-        <AccountInfo/>
+        <WorkerSidebar/>
     </div>
   )
 }
