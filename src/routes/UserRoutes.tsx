@@ -7,7 +7,8 @@ import AccountInfo from '../components/user/AccountInfo';
 import ServiceDetails from '../pages/user/ServiceDetails';
 import AddLocation from '../components/user/Booking/AddLocation';
 import AddBookingDetails from '../components/user/Booking/AddBookingDetails';
-import UserPrivateRoute from '../components/user/UserPrivateRoute';
+import UserPrivateRoute from './privateRoutes/UserPrivateRoute';
+import MyBooking from '../components/user/MyBooking';
 
 
 function UserRoutes() {
@@ -22,6 +23,7 @@ function UserRoutes() {
       </Route>
       <Route path="profile" element={<UserSidebar />}>
           <Route path="personalInfo" element={<AccountInfo/>}/>
+          <Route path="myBookings" element={<MyBooking/>}/>
      </Route>
     </Routes>
   );

@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import AdminLogin from "../components/admin/AdminLogin";
-import AdminPrivateRoute from "../components/admin/AdminPrivateRoute";
+import AdminPrivateRoute from "./privateRoutes/AdminPrivateRoute";
 import Navbar from "../pages/admin/Navbar";
 
 function AdminRoutes() {

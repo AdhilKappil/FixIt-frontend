@@ -1,7 +1,7 @@
 import JoinTeam from "../components/worker/JoinTeam";
 import WorkerLogin from "../components/worker/WorkerLogin";
 import { Routes, Route } from "react-router-dom";
-import WorkerPrivateRoute from "../components/worker/WorkerPrivateRoute";
+import WorkerPrivateRoute from "./privateRoutes/WorkerPrivateRoute";
 import Profile from "../pages/worker/Profile";
 import AccountInfo from "../components/worker/AccountInfo";
 

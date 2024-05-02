@@ -29,9 +29,9 @@ const UserSidebar = () => {
   const location = useLocation();
   const menus = [
     { name: "Personal info", link: "personalInfo", icon: AiOutlineUser },
-    { name: "Address", link: "", icon: GrLocation },
-    { name: "My bookings", link: "", icon: FaCartPlus },
-    { name: "Completed", link: "", icon: FiCheckCircle },
+    // { name: "Address", link: "", icon: GrLocation },
+    { name: "My bookings", link: "myBookings", icon: FaCartPlus },
+    // { name: "Completed", link: "", icon: FiCheckCircle },
   ];
 
   const handleFileClick = () => {
@@ -222,11 +222,11 @@ const UserSidebar = () => {
           </div>
         </div>
         {open ? (
-          <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0">
+          <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0 overflow-auto" style={{ maxHeight: "620px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}>
                {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         ) : (
-          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5">
+          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5 overflow-auto" style={{ maxHeight: "620px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}>
                {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         )}
