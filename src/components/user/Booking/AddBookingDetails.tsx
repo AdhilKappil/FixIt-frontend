@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 function AddBookingDetails() {
   const navigate = useNavigate();
   const [bookService] = useBookServiceMutation();
-  const { latitude, longitude, service } = useSelector((state: RootState) => state.location);
+  const { latitude, longitude,service} = useSelector((state: RootState) => state.location);
   const { userInfo } = useSelector((state:RootState) => state.auth);
   
   useEffect(() => {
@@ -53,7 +53,7 @@ function AddBookingDetails() {
       try {
         const {date, startTime, endTime,description} = values
         const userId = userInfo?._id 
-        const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName}).unwrap();
+        const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName,serviceImg:service.serviceImg}).unwrap();
 
         navigate('/profile')
         Swal.fire({

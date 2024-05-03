@@ -88,12 +88,22 @@ const UserSidebar = () => {
   return (
     <div className=" w-full">
       <Navbar />
-      <section className="flex gap-6 p-5 max-sm:p-3">
+       <div className="flex justify-center w-full max-sm:mt-4">
+        {!open && (
+          <button
+            onClick={() => setOpen(true)}
+            className="sm:hidden p-3 bg-white rounded-full shadow-lg"
+          >
+            <IoMdMenu size={26} className="cursor-pointer" />
+          </button>
+        )}
+      </div>
+      <section className="flex gap-6 p-5 max-sm:justify-center">
         <div
-          className={`bg-[#0e0e0e] h-[600px] max-sm:h-[570px] ${
+          className={`bg-[#0e0e0e] h-[600px] max-sm:h-[570px] fixed ${
             open ? "" : "max-sm:hidden"
           } rounded-lg  ${
-            open ? "max-sm:w-full w-72" : "w-16"
+            open ? "max-sm:w-80 w-72" : "w-16"
           } duration-500 text-gray-100 px-4`}
         >
           <div className="py-3 flex justify-end">
@@ -222,25 +232,15 @@ const UserSidebar = () => {
           </div>
         </div>
         {open ? (
-          <div className="w-full shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0 overflow-auto" style={{ maxHeight: "620px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <div className="w-full ml-80 shadow-lg rounded-lg bg-white max-sm:hidden p-10 max-sm:p-0">
                {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         ) : (
-          <div className="w-full shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-5 overflow-auto" style={{ maxHeight: "620px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <div className="w-full sm:ml-24 shadow-lg rounded-lg bg-white p-10 max-sm:p-5 max-sm:mt-1">
                {location.pathname === "/profile" ?<AccountInfo/> : <Outlet />}
           </div>
         )}
       </section>
-      <div className="flex justify-center w-full">
-        {!open && (
-          <button
-            onClick={() => setOpen(true)}
-            className="sm:hidden p-3 bg-white rounded-full shadow-lg"
-          >
-            <IoMdMenu size={26} className="cursor-pointer" />
-          </button>
-        )}
-      </div>
     </div>
   );
 };

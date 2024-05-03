@@ -3,7 +3,7 @@ import Footer from "../../components/user/layouts/Footer";
 import Navbar from "../../components/user/layouts/Navbar";
 import { IoIosStar } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { setServiceName } from "../../slices/booking";
+import { setServiceDetails } from "../../slices/booking";
 
 function ServiceDetails() {
   const location = useLocation();
@@ -12,7 +12,7 @@ function ServiceDetails() {
   const dispatch = useDispatch();
 
   const handleBooking = () => {
-    dispatch(setServiceName(data.serviceName));
+    dispatch(setServiceDetails({ serviceName: data.serviceName, serviceImg: data.service_img}));
     navigate("/addLocation");
   };
 

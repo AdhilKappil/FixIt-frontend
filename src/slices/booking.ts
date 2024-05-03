@@ -7,6 +7,7 @@ export interface LocationState {
 
 export interface ServiceState {
   serviceName: string;
+  serviceImg: string; // Adding serviceImg field
 }
 
 const initialLocationState: LocationState = {
@@ -16,6 +17,7 @@ const initialLocationState: LocationState = {
 
 const initialServiceState: ServiceState = {
   serviceName: '',
+  serviceImg: '', // Adding serviceImg field
 };
 
 export const locationSlice = createSlice({
@@ -29,12 +31,12 @@ export const locationSlice = createSlice({
       state.latitude = action.payload.latitude;
       state.longitude = action.payload.longitude;
     },
-    setServiceName: (state, action: PayloadAction<string>) => {
-      state.service.serviceName = action.payload;
+    setServiceDetails: (state, action: PayloadAction<ServiceState>) => {
+      state.service = action.payload;
     },
   },
 });
 
-export const { setLocation, setServiceName } = locationSlice.actions;
+export const { setLocation, setServiceDetails } = locationSlice.actions;
 
 export default locationSlice.reducer;

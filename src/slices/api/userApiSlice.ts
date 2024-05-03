@@ -94,11 +94,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
               body: data,
             }),
           }),
+
+          // Get bookings
+          getBooking: builder.mutation({
+            query: ({ userId, status }) => ({
+                url: `${USER_URL}/getBooking`,
+                method: 'GET',
+                params: { userId, status }, 
+            }),
+          }),
+
           
     })
 })
 
 export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useSendOtpToEmailMutation,
     useOtpVerificationMutation,useGoogleAuthMutation,useSendOTPforgotPasswordMutation,
-    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation,useBookServiceMutation
+    useForgotPasswordMutation,useSetUserImgMutation,useUpdateProfileMutation,useBookServiceMutation,
+    useGetBookingMutation
 } = userApiSlice
