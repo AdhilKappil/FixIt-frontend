@@ -75,13 +75,11 @@ function NewWorks() {
     }
   };
 
-  console.log(refresh);
   
-
   return (
     <div className="">
       <div className="flex justify-center text-primary font-Sans text-3xl font-medium">
-        All Bookings
+        New Works
       </div>
       <div className="grid xl:grid-cols-2 mt-10 gap-10">
         {bookings.map((items) => (
@@ -149,7 +147,7 @@ function NewWorks() {
             <div className="flex justify-end p-3">
               <button
                 onClick={() => handleCommitWork(items._id)}
-                className="bg-primary text-white p-2 font-Sans rounded w-24"
+                className="bg-primary text-white p-2 font-Sans rounded-lg w-24"
               >
                 Commit
               </button>
