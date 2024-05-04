@@ -56,7 +56,7 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
         headerName: "Created At",
         width: 120,
         renderCell: (params: GridCellParams) =>
-          moment(params.row.createdAt).format(" DD-MM-YYYY"),
+          moment(params.row.createdAt).format("DD-MM-YYYY"),
       },
       {
         field: "isBlocked",

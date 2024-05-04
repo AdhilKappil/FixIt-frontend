@@ -1,20 +1,30 @@
+
 import { useEffect, useState } from "react";
-import { useGetBookingMutation } from "../../slices/api/userApiSlice";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
+import { useGetBookingsMutation } from "../../slices/api/workerApiSlice";
 
-function MyBooking() {
 
-    const [getBookings] = useGetBookingMutation();
+function NewWorks() {
+
+    const [getBookings] = useGetBookingsMutation();
     const [bookings, setBookings] = useState<IBooking[]>([]);
-    const { userInfo } = useSelector((state: RootState) => state.auth);
+    const { workerInfo } = useSelector((state: RootState) => state.auth);
+
+    function formatDate(dateString:string) {
+        const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+      }
 
 
     useEffect(() => {
         async function fetchBooking() {
             try {
-                const res = await getBookings({ userId: userInfo?._id, status: 'all',workerId:"",service:""}).unwrap();
+                const res = await getBookings({status: 'pending', service:workerInfo?.service,userId:"",workerId:""}).unwrap();
                 const bookingsWithLocation = await Promise.all(res.data.map(async (booking:any) => {
                     const { latitude, longitude } = booking;
                     if (latitude !== 0 && longitude !== 0) {
@@ -37,7 +47,18 @@ function MyBooking() {
         }
         fetchBooking();
     }, []);
-console.log(bookings);
+
+    const handleCommitWork = async () => {
+        try {
+        //   const res = await login({ password, email }).unwrap();
+        //   dispatch(setWorkerCredential({...res.data}));
+        //   navigate('/worker');
+        //   toast.success(res.message);
+        } catch (err) { 
+          console.log(err); 
+        }
+      };
+      
 
 
   return (
@@ -81,11 +102,11 @@ console.log(bookings);
                 </div>
             </div>
             <div className="sm:flex justify-between px-5 max-sm:mt-2 ">
-                <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">Booking At {items.date} <span className="text-primary font-medium font-Sans">{items.startTime}-{items.endTime}</span> </div>
+                <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">Booking At {formatDate(items.date)} <span className="text-primary font-medium font-Sans">{items.startTime}-{items.endTime}</span> </div>
                 <div className="text-primary font-Sans font-medium max-sm:mt-2">Total : ₹{items.price}.00</div>
             </div>
             <div className="flex justify-end p-3">
-                <button className="bg-red-600 text-white p-2 font-Sans rounded w-24">Cancel</button>
+                <button onClick={handleCommitWork} className="bg-primary text-white p-2 font-Sans rounded w-24">Commit</button>
             </div>
         </div>
         ))
@@ -95,4 +116,8 @@ console.log(bookings);
   )
 }
 
-export default MyBooking
+export default NewWorks
+
+
+
+

@@ -40,4 +40,5 @@ export interface IWorker {
     payment?:boolean;
     latitude:number;
     longitude:number;
+    location? : string
   }

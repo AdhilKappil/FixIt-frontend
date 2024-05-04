@@ -88,7 +88,7 @@ const UserSidebar = () => {
   return (
     <div className=" w-full">
       <Navbar />
-       <div className="flex justify-center w-full max-sm:mt-4">
+       <div className="flex justify-center w-full max-sm:my-4">
         {!open && (
           <button
             onClick={() => setOpen(true)}
@@ -98,7 +98,7 @@ const UserSidebar = () => {
           </button>
         )}
       </div>
-      <section className="flex gap-6 p-5 max-sm:justify-center">
+      <section className="flex gap-6 sm:p-5 max-sm:justify-center">
         <div
           className={`bg-[#0e0e0e] h-[600px] max-sm:h-[570px] fixed ${
             open ? "" : "max-sm:hidden"
