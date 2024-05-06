@@ -44,7 +44,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // Get bookings
+    // Commit work
     commitWork: builder.mutation({
       query: (data) => ({
         url: `${WORKER_URL}/commitWork`,

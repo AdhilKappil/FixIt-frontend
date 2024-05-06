@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { useGetBookingMutation } from "../../slices/api/userApiSlice";
+import { useCancelBookingMutation, useGetBookingMutation } from "../../slices/api/userApiSlice";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
+import { toast } from "react-toastify";
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [title, setTitle] = useState("All Bookings")
+    const [cancelBooking] = useCancelBookingMutation();
+      const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     async function fetchBooking() {
@@ -43,12 +46,13 @@ function MyBooking() {
           })
         );
         setBookings(bookingsWithLocation);
+        setTitle("All Bokkings")
       } catch (error) {
         console.error("Error fetching services:", error);
       }
     }
     fetchBooking();
-  }, []);
+  }, [refresh]);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -100,6 +104,29 @@ function MyBooking() {
       } catch (error) {
         console.error("Error fetching services:", error);
       }
+  };
+  
+  // Formating date here
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+    const handleCancel = async (_id: string) => {
+    try {
+      const res = await cancelBooking({
+        workerId:"",
+        status: "cancelled",
+        _id,
+      }).unwrap();
+      setRefresh(!refresh)
+      toast.success(res.message);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -194,8 +221,8 @@ function MyBooking() {
               </div>
             </div>
             <div className="sm:flex justify-between px-5 max-sm:mt-2 ">
-              <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
-                Booking At {items.date}{" "}
+            <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
+                Booking At {formatDate(items.date)}{" "}
                 <span className="text-primary font-medium font-Sans">
                   {items.startTime}-{items.endTime}
                 </span>{" "}
@@ -205,15 +232,16 @@ function MyBooking() {
               </div>
             </div>
             <div className="flex justify-end p-3 gap-3">
-              {items.status === "commited" && (
-                <button className="bg-gray-300 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
+              {items.status === "commited" ? (
+                <button className="bg-gray-300 p-2 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
                   <FaRocketchat size={20} />
                   Chat
                 </button>
-              )}
-              <button className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24">
+              ):
+              <button onClick={()=>handleCancel(items._id)} className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24">
                 Cancel
               </button>
+              }
             </div>
           </div>
         ))}
