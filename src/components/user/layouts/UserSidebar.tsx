@@ -2,8 +2,6 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
-import { GrLocation } from "react-icons/gr";
-import { FiCheckCircle } from "react-icons/fi";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";

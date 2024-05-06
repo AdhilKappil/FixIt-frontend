@@ -68,5 +68,6 @@ export const {
   useWorkerLogoutMutation,
   useWorkerRegisterMutation,
   useUpdateWorkerProfileMutation,
-  useGetBookingsMutation
+  useGetBookingsMutation,
+  useCommitWorkMutation
 } = workerApiSlice;
