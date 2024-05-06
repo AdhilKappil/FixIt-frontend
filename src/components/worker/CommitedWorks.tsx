@@ -18,6 +18,8 @@ function CommitedWorks() {
   const { workerInfo } = useSelector((state: RootState) => state.auth);
 //   const [refresh, setRefresh] = useState(false)
 
+
+// Formating date here
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -64,7 +66,7 @@ function CommitedWorks() {
     fetchBooking();
   }, []);
 
-//   const handleCommitWork = async (_id: string) => {
+//   const handleCommit = async (_id: string) => {
 //     try {
 //       const res = await commitWork({
 //         workerId: workerInfo?._id,

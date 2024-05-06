@@ -103,6 +103,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         params: { userId, status,workerId,service },
       }),
     }),
+
+     // Cancel booking
+     cancelBooking: builder.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/cancelBooking`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+
   }),
 });
 
@@ -119,4 +129,5 @@ export const {
   useUpdateProfileMutation,
   useBookServiceMutation,
   useGetBookingMutation,
+  useCancelBookingMutation
 } = userApiSlice;
