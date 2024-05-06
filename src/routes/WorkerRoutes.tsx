@@ -5,6 +5,7 @@ import WorkerPrivateRoute from "./privateRoutes/WorkerPrivateRoute";
 import Profile from "../pages/worker/Profile";
 import AccountInfo from "../components/worker/AccountInfo";
 import NewWorks from "../components/worker/NewWorks";
+import CommitedWorks from "../components/worker/CommitedWorks";
 
 function WorkerRoutes() {
   return (
@@ -15,6 +16,7 @@ function WorkerRoutes() {
         <Route path="*" element={<Profile />}>
           <Route path="accountInfo" element={<AccountInfo/>}/>
           <Route path="newWorks" element={<NewWorks/>}/>
+          <Route path="commitedWorks" element={<CommitedWorks/>}/>
         </Route>
       </Route>
     </Routes>
