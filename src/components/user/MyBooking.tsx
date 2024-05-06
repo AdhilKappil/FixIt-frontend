@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
-import { useCancelBookingMutation, useGetBookingMutation } from "../../slices/api/userApiSlice";
+import {
+  useCancelBookingMutation,
+  useGetBookingMutation,
+} from "../../slices/api/userApiSlice";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
+import { openChatModal } from "../../slices/modalSlices/chatSlice";
+import ChatModal from "../common/ChatModal";
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [title, setTitle] = useState("All Bookings")
-    const [cancelBooking] = useCancelBookingMutation();
-      const [refresh, setRefresh] = useState(false)
+  const [title, setTitle] = useState("All Bookings");
+  const [cancelBooking] = useCancelBookingMutation();
+  const [refresh, setRefresh] = useState(false);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function fetchBooking() {
@@ -46,7 +52,7 @@ function MyBooking() {
           })
         );
         setBookings(bookingsWithLocation);
-        setTitle("All Bokkings")
+        setTitle("All Bokkings");
       } catch (error) {
         console.error("Error fetching services:", error);
       }
@@ -60,52 +66,51 @@ function MyBooking() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleOptionClick = async(status:string) => {
-    if(status === "pending"){
-        setTitle("Pending")
-    }else if(status === "commited"){
-        setTitle("Commited")
-    }else if(status === "completed"){
-        setTitle("Completed")
-    }else{
-        setTitle("All Bokkings")
+  const handleOptionClick = async (status: string) => {
+    if (status === "pending") {
+      setTitle("Pending");
+    } else if (status === "commited") {
+      setTitle("Commited");
+    } else if (status === "completed") {
+      setTitle("Completed");
+    } else {
+      setTitle("All Bokkings");
     }
     try {
-        const res = await getBookings({
-          userId: userInfo?._id,
-          status,
-          workerId: "",
-          service: "",
-        }).unwrap();
-        const bookingsWithLocation = await Promise.all(
-          res.data.map(async (booking: any) => {
-            const { latitude, longitude } = booking;
-            if (latitude !== 0 && longitude !== 0) {
-              const response = await fetch(
-                `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${
-                  import.meta.env.VITE_MAPBOX_TOKEN
-                }`
-              );
-              if (!response.ok) {
-                throw new Error("Failed to fetch location data");
-              }
-              const data = await response.json();
-              if (data.features && data.features.length > 0) {
-                const location = data.features[0].place_name;
-                return { ...booking, location };
-              }
+      const res = await getBookings({
+        userId: userInfo?._id,
+        status,
+        workerId: "",
+        service: "",
+      }).unwrap();
+      const bookingsWithLocation = await Promise.all(
+        res.data.map(async (booking: any) => {
+          const { latitude, longitude } = booking;
+          if (latitude !== 0 && longitude !== 0) {
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${
+                import.meta.env.VITE_MAPBOX_TOKEN
+              }`
+            );
+            if (!response.ok) {
+              throw new Error("Failed to fetch location data");
             }
-            return booking;
-          })
-        );
-        setBookings(bookingsWithLocation);
-        console.log(bookingsWithLocation);
-        
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
+            const data = await response.json();
+            if (data.features && data.features.length > 0) {
+              const location = data.features[0].place_name;
+              return { ...booking, location };
+            }
+          }
+          return booking;
+        })
+      );
+      setBookings(bookingsWithLocation);
+      console.log(bookingsWithLocation);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
   };
-  
+
   // Formating date here
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -115,18 +120,22 @@ function MyBooking() {
     return `${day}/${month}/${year}`;
   }
 
-    const handleCancel = async (_id: string) => {
+  const handleCancel = async (_id: string) => {
     try {
       const res = await cancelBooking({
-        workerId:"",
+        workerId: "",
         status: "cancelled",
         _id,
       }).unwrap();
-      setRefresh(!refresh)
+      setRefresh(!refresh);
       toast.success(res.message);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleChat = () => {
+    dispatch(openChatModal())
   };
 
   return (
@@ -221,7 +230,7 @@ function MyBooking() {
               </div>
             </div>
             <div className="sm:flex justify-between px-5 max-sm:mt-2 ">
-            <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
+              <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
                 Booking At {formatDate(items.date)}{" "}
                 <span className="text-primary font-medium font-Sans">
                   {items.startTime}-{items.endTime}
@@ -233,19 +242,26 @@ function MyBooking() {
             </div>
             <div className="flex justify-end p-3 gap-3">
               {items.status === "commited" ? (
-                <button className="bg-gray-300 p-2 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
+                <button
+                  onClick={handleChat}
+                  className="bg-gray-300 p-2 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans"
+                >
                   <FaRocketchat size={20} />
                   Chat
                 </button>
-              ):
-              <button onClick={()=>handleCancel(items._id)} className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24">
-                Cancel
-              </button>
-              }
+              ) : (
+                <button
+                  onClick={() => handleCancel(items._id)}
+                  className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </div>
         ))}
       </div>
+      <ChatModal/>
     </div>
   );
 }

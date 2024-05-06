@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { MyError, forgetValues } from "../../validation/validationTypes";
 import { useFormik } from "formik";
-import { fogotPasswordShema, validationSchema } from "../../validation/yupValidation";
+import { fogotPasswordShema } from "../../validation/yupValidation";
 
 function OTP() {
   const modalIsOpen = useSelector((state: RootState) => state.OtpModal.value);
