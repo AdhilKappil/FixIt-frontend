@@ -14,6 +14,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    getConversation: builder.mutation({
+      query: ({ senderId, receiverId}) => ({
+        url: `${CHAT_URL}/conversation`,
+        method: "GET",
+        params: { senderId, receiverId},
+      }),
+    }),
  
 
   }),
@@ -21,6 +28,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
    
-    useCreateConversationMutation
+    useCreateConversationMutation,
+    useGetConversationMutation
     
 } = userApiSlice;

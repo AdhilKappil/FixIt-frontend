@@ -4,10 +4,31 @@ import { CustomStyles } from "./ModalStyle";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
 import { closeChatModal } from "../../slices/modalSlices/chatSlice";
+import { useEffect } from "react";
+import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 
-function ChatModal() {
+function ChatModal({ userId }: { userId: string }) {
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.value);
   const dispatch = useDispatch();
+ const { workerInfo } = useSelector((state: RootState) => state.auth);
+ const [conversation] = useCreateConversationMutation();
+
+   useEffect (()=>{
+
+    const ferchChat = async() => {
+      try {
+        const res = await conversation({ senderId:workerInfo?._id,receiverId:userId}).unwrap();
+        console.log('hello');
+        
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    ferchChat()
+
+   },[])   
 
   function closeModal() {
     dispatch(closeChatModal());

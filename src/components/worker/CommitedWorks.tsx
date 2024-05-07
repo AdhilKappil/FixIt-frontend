@@ -71,8 +71,7 @@ function CommitedWorks() {
 
   const handleChat = async(receiverId:string) => {
     try {
-      const res = await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
-      console.log(res);
+       await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
       dispatch(openChatModal())
     } catch (error) {
       console.error(error);
@@ -161,10 +160,10 @@ function CommitedWorks() {
               </button> */}
 
             </div>
+            <ChatModal userId = {items.userId}/>
           </div>
         ))}
       </div>
-      <ChatModal/>
     </div>
   );
 }
