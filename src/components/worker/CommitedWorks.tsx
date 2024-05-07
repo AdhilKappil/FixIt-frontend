@@ -2,21 +2,24 @@
 import { useEffect, useState } from "react";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 //   useCommitWorkMutation,
   useGetBookingsMutation,
 } from "../../slices/api/workerApiSlice";
 // import { toast } from "react-toastify";
 import { FaRocketchat } from "react-icons/fa";
+import { openChatModal } from "../../slices/modalSlices/chatSlice";
+import ChatModal from "../common/ChatModal";
+import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 
 
 function CommitedWorks() {
   const [getBookings] = useGetBookingsMutation();
-//   const [commitWork] = useCommitWorkMutation();
+  const [conversation] = useCreateConversationMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { workerInfo } = useSelector((state: RootState) => state.auth);
-//   const [refresh, setRefresh] = useState(false)
+  const dispatch = useDispatch()
 
 
 // Formating date here
@@ -66,19 +69,15 @@ function CommitedWorks() {
     fetchBooking();
   }, []);
 
-//   const handleCommit = async (_id: string) => {
-//     try {
-//       const res = await commitWork({
-//         workerId: workerInfo?._id,
-//         status: "commited",
-//         _id,
-//       }).unwrap();
-//       setRefresh(!refresh)
-//       toast.success(res.message);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
+  const handleChat = async(receiverId:string) => {
+    try {
+      const res = await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
+      console.log(res);
+      dispatch(openChatModal())
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   
   return (
@@ -150,7 +149,7 @@ function CommitedWorks() {
               </div>
             </div>
             <div className="flex justify-end p-3">
-            <button className="bg-gray-300 rounded-lg p-2 shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
+            <button onClick={()=>handleChat(items.userId)} className="bg-gray-300 rounded-lg p-2 shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
                   <FaRocketchat size={20} />
                   Chat
                 </button>
@@ -165,6 +164,7 @@ function CommitedWorks() {
           </div>
         ))}
       </div>
+      <ChatModal/>
     </div>
   );
 }
