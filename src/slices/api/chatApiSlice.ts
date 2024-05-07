@@ -14,13 +14,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    getConversation: builder.mutation({
-      query: ({ senderId, receiverId}) => ({
-        url: `${CHAT_URL}/conversation`,
-        method: "GET",
-        params: { senderId, receiverId},
+     // Create message
+     sendMessage: builder.mutation({
+      query: (data) => ({
+        url: `${CHAT_URL}/message`,
+        method: "POST",
+        body: data,
       }),
     }),
+
+    // getConversation: builder.mutation({
+    //   query: ({ senderId, receiverId}) => ({
+    //     url: `${CHAT_URL}/conversation`,
+    //     method: "GET",
+    //     params: { senderId, receiverId},
+    //   }),
+    // }),
  
 
   }),
@@ -29,6 +38,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 export const {
    
     useCreateConversationMutation,
-    useGetConversationMutation
+    useSendMessageMutation
+    // useGetConversationMutation
     
 } = userApiSlice;

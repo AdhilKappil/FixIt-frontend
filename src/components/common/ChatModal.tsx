@@ -4,23 +4,25 @@ import { CustomStyles } from "./ModalStyle";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
 import { closeChatModal } from "../../slices/modalSlices/chatSlice";
-import { useEffect } from "react";
-import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
+import { useEffect, useState } from "react";
+import { useCreateConversationMutation, useSendMessageMutation } from "../../slices/api/chatApiSlice";
 
 function ChatModal({ userId }: { userId: string }) {
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.value);
   const dispatch = useDispatch();
  const { workerInfo } = useSelector((state: RootState) => state.auth);
  const [conversation] = useCreateConversationMutation();
+ const [sendMessage] = useSendMessageMutation()
+ const [chatText,setChatText] = useState("")
+ const [conversationId, setCoversation] = useState("")
 
    useEffect (()=>{
 
     const ferchChat = async() => {
       try {
         const res = await conversation({ senderId:workerInfo?._id,receiverId:userId}).unwrap();
-        console.log('hello');
-        
         console.log(res);
+        setCoversation(res.newConversation.data._id)
       } catch (error) {
         console.error(error);
       }
@@ -29,6 +31,20 @@ function ChatModal({ userId }: { userId: string }) {
     ferchChat()
 
    },[])   
+
+   console.log(conversationId);
+   
+
+   const sendChat= async()=>{
+    try {
+      const res = await sendMessage({ conversationId,senderId:workerInfo?._id,text:chatText}).unwrap();
+      console.log('hello');
+      
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+   }
 
   function closeModal() {
     dispatch(closeChatModal());
@@ -47,6 +63,7 @@ function ChatModal({ userId }: { userId: string }) {
           <div className="flex flex-col h-full overflow-x-auto mb-4">
             <div className="flex flex-col h-full">
               <div className="grid grid-cols-12 gap-y-2">
+
                 <div className="col-start-1 col-end-8 p-3 rounded-lg">
                   <div className="flex flex-row items-center">
                     <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
@@ -57,21 +74,7 @@ function ChatModal({ userId }: { userId: string }) {
                     </div>
                   </div>
                 </div>
-                <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div className="flex flex-row items-center">
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                      A
-                    </div>
-                    <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                      <div>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Vel ipsa commodi illum saepe numquam maxime
-                        asperiores voluptate sit, minima perspiciatis.
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
+
                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                   <div className="flex items-center justify-start flex-row-reverse">
                     <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
@@ -96,6 +99,8 @@ function ChatModal({ userId }: { userId: string }) {
               <div className="relative w-full">
                 <input
                   type="text"
+                  onChange={(e)=>setChatText(e.target.value)}
+                  value={chatText}
                   className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                 />
                 <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
@@ -104,7 +109,7 @@ function ChatModal({ userId }: { userId: string }) {
               </div>
             </div>
             <div className="ml-4">
-              <button className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+              <button onClick={sendChat} className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
                 <span>Send</span>
                 <span className="ml-2">{/* SVG */}</span>
               </button>

@@ -42,3 +42,4 @@ export interface IWorker {
     longitude:number;
     location? : string
   }
+
