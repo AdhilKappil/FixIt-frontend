@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { openChatModal } from "../../slices/modalSlices/chatSlice";
-import ChatModal from "../common/ChatModal";
+import { openChatModal, openUserChatModal } from "../../slices/modalSlices/chatSlice";
+import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
+import UserChatModal from "./UserChatModal";
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
@@ -20,6 +21,9 @@ function MyBooking() {
   const [cancelBooking] = useCancelBookingMutation();
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch()
+  const [conversation] = useCreateConversationMutation ();
+  const [conversationId, setCoversationId] = useState("")
+  const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
 
   useEffect(() => {
     async function fetchBooking() {
@@ -134,9 +138,15 @@ function MyBooking() {
     }
   };
 
-  const handleChat = () => {
-    dispatch(openChatModal())
-  };
+  const handleChat = async(receiverId:string) => {
+    try {
+      const res = await conversation({ senderId:userInfo?._id,receiverId}).unwrap();
+      setCoversationId(res.newConversation.data._id)
+      dispatch(openUserChatModal())
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   return (
     <div className="">
@@ -243,7 +253,7 @@ function MyBooking() {
             <div className="flex justify-end p-3 gap-3">
               {items.status === "commited" ? (
                 <button
-                  onClick={handleChat}
+                  onClick={()=>handleChat(items.workerId)}
                   className="bg-gray-300 p-2 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans"
                 >
                   <FaRocketchat size={20} />
@@ -258,10 +268,12 @@ function MyBooking() {
                 </button>
               )}
             </div>
+            {modalIsOpen && 
+            <UserChatModal conversationId={conversationId}/>
+            }
           </div>
         ))}
       </div>
-      <ChatModal/>
     </div>
   );
 }

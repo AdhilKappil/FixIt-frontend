@@ -28,7 +28,7 @@ export interface IWorker {
   export interface IBooking {
     _id: string;
     userId: string;
-    workerId?: string;
+    workerId: string;
     service : string;
     serviceImg:string;
     // description: string;
@@ -43,3 +43,10 @@ export interface IWorker {
     location? : string
   }
 
+
+  export interface IMessage {
+    _id:string;
+    conversationId : string;
+    senderId : string;
+    text: string
+}

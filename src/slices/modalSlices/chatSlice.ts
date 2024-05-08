@@ -1,25 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ModalState } from './loginModal'
 
-const initialState: ModalState = {
-  value: false,
+// Define the initial state for both modals
+const initialState = {
+  userChatModal: {
+    value: false,
+  },
+  workerChatModal: {
+    value: false,
+  }
 }
 
 export const ChatModalSlice = createSlice({
   name: 'ChatModal',
   initialState,
   reducers: {
-    openChatModal: (state) => {
-      state.value = true
+    openUserChatModal: (state) => {
+      state.userChatModal.value = true
     },
-    closeChatModal: (state) => {
-      state.value = false
+    closeUserChatModal: (state) => {
+      state.userChatModal.value = false
     },
-  
+    openWorkerChatModal: (state) => {
+      state.workerChatModal.value = true
+    },
+    closeWorkerChatModal: (state) => {
+      state.workerChatModal.value = false
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { openChatModal, closeChatModal } = ChatModalSlice.actions
+export const { openUserChatModal, closeUserChatModal, openWorkerChatModal, closeWorkerChatModal } = ChatModalSlice.actions
 
 export default ChatModalSlice.reducer

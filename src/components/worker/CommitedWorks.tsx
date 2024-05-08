@@ -9,9 +9,9 @@ import {
 } from "../../slices/api/workerApiSlice";
 // import { toast } from "react-toastify";
 import { FaRocketchat } from "react-icons/fa";
-import { openChatModal } from "../../slices/modalSlices/chatSlice";
-import ChatModal from "../common/ChatModal";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
+import WorkerChatModal from "./WorkerChatModal";
+import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
 
 
 function CommitedWorks() {
@@ -20,6 +20,8 @@ function CommitedWorks() {
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { workerInfo } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch()
+  const [conversationId, setCoversationId] = useState("")
+  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
 
 
 // Formating date here
@@ -71,8 +73,9 @@ function CommitedWorks() {
 
   const handleChat = async(receiverId:string) => {
     try {
-       await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
-      dispatch(openChatModal())
+      const res = await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
+      setCoversationId(res.newConversation.data._id)
+      dispatch(openWorkerChatModal())
     } catch (error) {
       console.error(error);
     }
@@ -160,7 +163,9 @@ function CommitedWorks() {
               </button> */}
 
             </div>
-            <ChatModal userId = {items.userId}/>
+            {modalIsOpen && 
+            <WorkerChatModal conversationId={conversationId}/>
+            }
           </div>
         ))}
       </div>
