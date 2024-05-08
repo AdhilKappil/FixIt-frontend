@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import { CustomStyles } from "../common/ModalStyle";
@@ -10,6 +10,8 @@ import {
   useSendMessageMutation,
 } from "../../slices/api/chatApiSlice";
 import { IMessage } from "../../@types/schema";
+import { io, Socket } from "socket.io-client";
+
 
 const UserChatModal = (props: {conversationId: string;}) => {
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
@@ -19,6 +21,19 @@ const UserChatModal = (props: {conversationId: string;}) => {
   const [getMessage] = useGetMessageMutation();
   const [chatText, setChatText] = useState("");
   const [message, setMessage] = useState<IMessage[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [socket, setSocket] = useState<Socket|null>(null);
+
+  useEffect (()=>{
+    setSocket(io("http://localhost:3000"));
+  },[]);
+
+  useEffect(()=>{
+    socket?.on("welcome",message=>{
+      console.log(message);
+      
+    })
+  },[socket])
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -36,13 +51,19 @@ const UserChatModal = (props: {conversationId: string;}) => {
     fetchChat();
   }, [props.conversationId]);
 
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   const sendChat = async () => {
     try {
-        await sendMessage({
+        const res = await sendMessage({
         conversationId: props.conversationId,
         senderId:userInfo?._id,
         text: chatText,
       }).unwrap();
+     setMessage([...message,res.newConversation])
       setChatText("")
     } catch (error) {
       console.error(error);
@@ -52,8 +73,6 @@ const UserChatModal = (props: {conversationId: string;}) => {
   const closeModal = () => {
     dispatch(closeUserChatModal());
   };
-
-  console.log(message);
 
   return (
     <div className="">
@@ -67,7 +86,7 @@ const UserChatModal = (props: {conversationId: string;}) => {
           <div className="flex flex-col h-full overflow-x-auto mb-4">
             <div className="flex flex-col h-full">
               {message.map((mes) => (
-                <div key={mes._id} className="grid grid-cols-12 gap-y-2">
+                <div ref={scrollRef} key={mes._id} className="grid grid-cols-12 gap-y-2">
                   {mes.senderId != userInfo?._id ?
                   <div className="col-start-1 col-end-8 p-3 rounded-lg">
                     <div className="flex flex-row items-center">
@@ -89,10 +108,9 @@ const UserChatModal = (props: {conversationId: string;}) => {
                         <div>{mes.text}</div>
                       </div>
                     </div>
+
                   </div>
                   }
-
-
                 </div>
               ))}
             </div>
@@ -117,13 +135,15 @@ const UserChatModal = (props: {conversationId: string;}) => {
               </div>
             </div>
             <div className="ml-4">
+             {chatText && 
               <button
-                onClick={sendChat}
-                className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-              >
-                <span>Send</span>
-                <span className="ml-2">{/* SVG */}</span>
-              </button>
+              onClick={sendChat}
+              className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+            >
+              <span>Send</span>
+              <span className="ml-2">{/* SVG */}</span>
+            </button>
+             }
             </div>
           </div>
         </div>

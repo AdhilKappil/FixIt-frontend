@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import { CustomStyles } from "../common/ModalStyle";
@@ -19,6 +19,7 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
   const [getMessage] = useGetMessageMutation();
   const [chatText, setChatText] = useState("");
   const [message, setMessage] = useState<IMessage[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -36,13 +37,19 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
     fetchChat();
   }, [props.conversationId]);
 
+  
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   const sendChat = async () => {
     try {
-       await sendMessage({
+       const res = await sendMessage({
         conversationId: props.conversationId,
         senderId:workerInfo?._id,
         text: chatText,
       }).unwrap();
+      setMessage([...message,res.newConversation])
       setChatText("")
     } catch (error) {
       console.error(error);
@@ -53,7 +60,6 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
     dispatch(closeWorkerChatModal());
   };
 
-  console.log(message);
 
   return (
     <div className="">
@@ -67,7 +73,7 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
           <div className="flex flex-col h-full overflow-x-auto mb-4">
             <div className="flex flex-col h-full">
               {message.map((mes) => (
-                <div key={mes._id} className="grid grid-cols-12 gap-y-2">
+                <div ref={scrollRef} key={mes._id} className="grid grid-cols-12 gap-y-2">
                   {mes.senderId != workerInfo?._id ?
                   <div className="col-start-1 col-end-8 p-3 rounded-lg">
                     <div className="flex flex-row items-center">
@@ -116,13 +122,15 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
               </div>
             </div>
             <div className="ml-4">
+             {chatText && 
               <button
-                onClick={sendChat}
-                className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-              >
-                <span>Send</span>
-                <span className="ml-2">{/* SVG */}</span>
-              </button>
+              onClick={sendChat}
+              className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+            >
+              <span>Send</span>
+              <span className="ml-2">{/* SVG */}</span>
+            </button>
+             }
             </div>
           </div>
         </div>

@@ -48,5 +48,6 @@ export interface IWorker {
     _id:string;
     conversationId : string;
     senderId : string;
-    text: string
+    text: string;
+    createdAt: string;
 }
