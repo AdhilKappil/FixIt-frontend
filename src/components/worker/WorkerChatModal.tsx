@@ -8,10 +8,12 @@ import {
   useGetMessageMutation,
   useSendMessageMutation,
 } from "../../slices/api/chatApiSlice";
-import { IMessage } from "../../@types/schema";
+import { IConversation, IMessage } from "../../@types/schema";
 import { closeWorkerChatModal } from "../../slices/modalSlices/chatSlice";
+import { useSocket } from "../../App";
 
-const WorkerChatModal = (props: {conversationId: string;}) => {
+
+const WorkerChatModal = (props: {conversationData: IConversation}) => {
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
   const dispatch = useDispatch();
   const { workerInfo } = useSelector((state: RootState) => state.auth);
@@ -20,12 +22,41 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
   const [chatText, setChatText] = useState("");
   const [message, setMessage] = useState<IMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const socket = useSocket(); // Use the useSocket hook to access the socket instance
+
+
+  useEffect(() => {
+
+    // socket.current = io("http://localhost:3000")
+    socket?.on("getMessage", (data) => {
+        // Append the new message to the existing array
+        setMessage(prev => [
+            ...prev,
+            {
+                _id: "", // You may need to assign an ID here
+                conversationId: "",
+                senderId: data.senderId,
+                text: data.text,
+                createdAt: Date.now().toString(), // Convert to string
+            }
+        ]);
+
+    });
+  }, []);
+
+  useEffect(()=>{
+    socket?.emit("addUser",workerInfo?._id)
+    socket?.on("getUsers",users=>{
+      console.log(users);
+      
+    })
+  },[workerInfo])
 
   useEffect(() => {
     const fetchChat = async () => {
       try {
         const res = await getMessage({
-          conversationId: props.conversationId,
+          conversationId: props.conversationData._id,
         }).unwrap();
         if (res) {
           setMessage(res.message.data);
@@ -35,7 +66,7 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
       }
     };
     fetchChat();
-  }, [props.conversationId]);
+  }, [props.conversationData]);
 
   
   useEffect(() => {
@@ -43,9 +74,20 @@ const WorkerChatModal = (props: {conversationId: string;}) => {
   }, [message]);
 
   const sendChat = async () => {
+
+    const receiverId = props.conversationData.members.find(
+      (member) => member !== workerInfo?._id
+    );
+
+    socket?.emit("sendMessage", {
+      senderId: workerInfo?._id,
+      receiverId,
+      text: chatText,
+    });
+
     try {
        const res = await sendMessage({
-        conversationId: props.conversationId,
+        conversationId: props.conversationData._id,
         senderId:workerInfo?._id,
         text: chatText,
       }).unwrap();

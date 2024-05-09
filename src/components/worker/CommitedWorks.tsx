@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { IBooking } from "../../@types/schema";
+import { IBooking, IConversation } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,8 +20,10 @@ function CommitedWorks() {
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { workerInfo } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch()
-  const [conversationId, setCoversationId] = useState("")
-  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
+  const [conversationData, setConversationData] = useState<IConversation>({
+    _id: "",
+    members: [],
+});  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
 
 
 // Formating date here
@@ -74,7 +76,7 @@ function CommitedWorks() {
   const handleChat = async(receiverId:string) => {
     try {
       const res = await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
-      setCoversationId(res.newConversation.data._id)
+      setConversationData(res.newConversation.data)
       dispatch(openWorkerChatModal())
     } catch (error) {
       console.error(error);
@@ -164,7 +166,7 @@ function CommitedWorks() {
 
             </div>
             {modalIsOpen && 
-            <WorkerChatModal conversationId={conversationId}/>
+            <WorkerChatModal conversationData={conversationData}/>
             }
           </div>
         ))}

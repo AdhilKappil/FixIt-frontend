@@ -3,13 +3,13 @@ import {
   useCancelBookingMutation,
   useGetBookingMutation,
 } from "../../slices/api/userApiSlice";
-import { IBooking } from "../../@types/schema";
+import { IBooking, IConversation } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { openChatModal, openUserChatModal } from "../../slices/modalSlices/chatSlice";
+import { openUserChatModal } from "../../slices/modalSlices/chatSlice";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 import UserChatModal from "./UserChatModal";
 
@@ -22,7 +22,10 @@ function MyBooking() {
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch()
   const [conversation] = useCreateConversationMutation ();
-  const [conversationId, setCoversationId] = useState("")
+  const [conversationData, setConversationData] = useState<IConversation>({
+    _id: "",
+    members: [],
+});
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
 
   useEffect(() => {
@@ -141,12 +144,16 @@ function MyBooking() {
   const handleChat = async(receiverId:string) => {
     try {
       const res = await conversation({ senderId:userInfo?._id,receiverId}).unwrap();
-      setCoversationId(res.newConversation.data._id)
+      setConversationData(res.newConversation.data)
       dispatch(openUserChatModal())
     } catch (error) {
       console.error(error);
     }
   };  
+
+
+  console.log(conversationData,"jfjfjfjjffjfjf");
+  
 
   return (
     <div className="">
@@ -269,7 +276,7 @@ function MyBooking() {
               )}
             </div>
             {modalIsOpen && 
-            <UserChatModal conversationId={conversationId}/>
+            <UserChatModal conversationData={conversationData}/>
             }
           </div>
         ))}

@@ -9,11 +9,11 @@ import {
   useGetMessageMutation,
   useSendMessageMutation,
 } from "../../slices/api/chatApiSlice";
-import { IMessage } from "../../@types/schema";
-import { io, Socket } from "socket.io-client";
+import { IConversation, IMessage } from "../../@types/schema";
+import { useSocket } from "../../App";
 
 
-const UserChatModal = (props: {conversationId: string;}) => {
+const UserChatModal = (props: {conversationData: IConversation}) => {
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -22,24 +22,42 @@ const UserChatModal = (props: {conversationId: string;}) => {
   const [chatText, setChatText] = useState("");
   const [message, setMessage] = useState<IMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [socket, setSocket] = useState<Socket|null>(null);
+  
+//   const [arrivalMessage, setArrivalMessage] = useState<IMessage[]>([]);
+const socket = useSocket();  
+  useEffect(() => {
+    // socket.current = io("http://localhost:3000")
+    socket?.on("getMessage", (data:any) => {
+        console.log(data,"getting");
+        
+        // Append the new message to the existing array
+        setMessage(prev => [
+            ...prev,
+            {
+                _id: "", // You may need to assign an ID here
+                conversationId: "",
+                senderId: data.senderId,
+                text: data.text,
+                createdAt: Date.now().toString(), // Convert to string
+            }
+        ]);
 
-  useEffect (()=>{
-    setSocket(io("http://localhost:3000"));
-  },[]);
+    });
+  }, []);
 
   useEffect(()=>{
-    socket?.on("welcome",message=>{
-      console.log(message);
+    socket?.emit("addUser",userInfo?._id)
+    socket?.on("getUsers",users=>{
+      console.log(users);
       
     })
-  },[socket])
+  },[userInfo])
 
   useEffect(() => {
     const fetchChat = async () => {
       try {
         const res = await getMessage({
-          conversationId: props.conversationId,
+          conversationId: props.conversationData._id,
         }).unwrap();
         if (res) {
           setMessage(res.message.data);
@@ -49,7 +67,7 @@ const UserChatModal = (props: {conversationId: string;}) => {
       }
     };
     fetchChat();
-  }, [props.conversationId]);
+  }, [props.conversationData]);
 
 
   useEffect(() => {
@@ -57,9 +75,20 @@ const UserChatModal = (props: {conversationId: string;}) => {
   }, [message]);
 
   const sendChat = async () => {
+
+    const receiverId = props.conversationData.members.find(
+      (member) => member !== userInfo?._id
+    );
+
+    socket?.emit("sendMessage", {
+      senderId: userInfo?._id,
+      receiverId,
+      text: chatText,
+    });
+
     try {
         const res = await sendMessage({
-        conversationId: props.conversationId,
+        conversationId: props.conversationData._id,
         senderId:userInfo?._id,
         text: chatText,
       }).unwrap();

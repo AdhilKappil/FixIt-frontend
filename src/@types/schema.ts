@@ -51,3 +51,9 @@ export interface IWorker {
     text: string;
     createdAt: string;
 }
+
+
+export interface IConversation {
+  _id: string;
+  members: string[];
+}
