@@ -23,12 +23,13 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
   const [message, setMessage] = useState<IMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const socket = useSocket(); // Use the useSocket hook to access the socket instance
+  const [conversation, setConversation] = useState<IConversation>();
 
 
   useEffect(() => {
 
-    // socket.current = io("http://localhost:3000")
-    socket?.on("getMessage", (data) => {
+    socket?.emit("addUser",workerInfo?._id)
+    socket?.on("getMessage", (data:any) => {
         // Append the new message to the existing array
         setMessage(prev => [
             ...prev,
@@ -40,23 +41,26 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
                 createdAt: Date.now().toString(), // Convert to string
             }
         ]);
-
     });
-  }, []);
+    return () => {
+      socket?.off("getMessage");
+  };
+  }, [socket]);
 
-  useEffect(()=>{
-    socket?.emit("addUser",workerInfo?._id)
-    socket?.on("getUsers",users=>{
-      console.log(users);
+  // useEffect(()=>{
+  //   socket?.emit("addUser",workerInfo?._id)
+  //   socket?.on("getUsers",users=>{
+  //     console.log(users);
       
-    })
-  },[workerInfo])
+  //   })
+  // },[workerInfo])
 
   useEffect(() => {
     const fetchChat = async () => {
+      setConversation(props?.conversationData)
       try {
         const res = await getMessage({
-          conversationId: props.conversationData._id,
+          conversationId:conversation?._id,
         }).unwrap();
         if (res) {
           setMessage(res.message.data);
@@ -66,7 +70,7 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
       }
     };
     fetchChat();
-  }, [props.conversationData]);
+  }, [conversation?._id]);
 
   
   useEffect(() => {
@@ -74,8 +78,8 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
   }, [message]);
 
   const sendChat = async () => {
-
-    const receiverId = props.conversationData.members.find(
+    setConversation(props?.conversationData)
+    const receiverId = conversation?.members.find(
       (member) => member !== workerInfo?._id
     );
 
@@ -87,7 +91,7 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
 
     try {
        const res = await sendMessage({
-        conversationId: props.conversationData._id,
+        conversationId: conversation?._id,
         senderId:workerInfo?._id,
         text: chatText,
       }).unwrap();
@@ -123,7 +127,7 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
                         U
                       </div>
                       <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                        <div>{mes.text}</div>
+                      <p className="max-w-48 md:max-w-96 break-words">{mes.text}</p>
                       </div>
                     </div>
                   </div>
@@ -134,12 +138,11 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
                         Me
                       </div>
                       <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                        <div>{mes.text}</div>
+                      <p className="max-w-48 md:max-w-96 break-words">{mes.text}</p>
                       </div>
                     </div>
                   </div>
                   }
-
                 </div>
               ))}
             </div>

@@ -166,7 +166,7 @@ function CommitedWorks() {
 
             </div>
             {modalIsOpen && 
-            <WorkerChatModal conversationData={conversationData}/>
+            <WorkerChatModal key="workerChatModal" conversationData={conversationData}/>
             }
           </div>
         ))}

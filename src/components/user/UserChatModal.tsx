@@ -4,17 +4,18 @@ import Modal from "react-modal";
 import { CustomStyles } from "../common/ModalStyle";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
-import { closeUserChatModal } from "../../slices/modalSlices/chatSlice";
 import {
   useGetMessageMutation,
   useSendMessageMutation,
 } from "../../slices/api/chatApiSlice";
 import { IConversation, IMessage } from "../../@types/schema";
 import { useSocket } from "../../App";
+import { closeUserChatModal } from "../../slices/modalSlices/chatSlice";
 
-
-const UserChatModal = (props: {conversationData: IConversation}) => {
-  const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
+const UserChatModal = (props: { conversationData: IConversation }) => {
+  const modalIsOpen = useSelector(
+    (state: RootState) => state.chatModal.userChatModal.value
+  );
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [sendMessage] = useSendMessageMutation();
@@ -22,44 +23,49 @@ const UserChatModal = (props: {conversationData: IConversation}) => {
   const [chatText, setChatText] = useState("");
   const [message, setMessage] = useState<IMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
-  
-//   const [arrivalMessage, setArrivalMessage] = useState<IMessage[]>([]);
-const socket = useSocket();  
+  const socket = useSocket(); // Use the useSocket hook to access the socket instance
+  const [conversation, setConversation] = useState<IConversation>();
+
   useEffect(() => {
-    // socket.current = io("http://localhost:3000")
-    socket?.on("getMessage", (data:any) => {
-        console.log(data,"getting");
-        
-        // Append the new message to the existing array
-        setMessage(prev => [
-            ...prev,
-            {
-                _id: "", // You may need to assign an ID here
-                conversationId: "",
-                senderId: data.senderId,
-                text: data.text,
-                createdAt: Date.now().toString(), // Convert to string
-            }
-        ]);
+    socket?.emit("addUser", userInfo?._id);
+    socket?.on("getMessage", (data: any) => {
+      console.log(data);
 
+      // Append the new message to the existing array
+      setMessage((prev) => [
+        ...prev,
+        {
+          _id: "", // You may need to assign an ID here
+          conversationId: "",
+          senderId: data.senderId,
+          text: data.text,
+          createdAt: Date.now().toString(), // Convert to string
+        },
+      ]);
     });
-  }, []);
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket]);
 
-  useEffect(()=>{
-    socket?.emit("addUser",userInfo?._id)
-    socket?.on("getUsers",users=>{
-      console.log(users);
-      
-    })
-  },[userInfo])
+  // useEffect(()=>{
+  //   socket?.emit("addUser",workerInfo?._id)
+  //   socket?.on("getUsers",users=>{
+  //     console.log(users);
+
+  //   })
+  // },[workerInfo])
 
   useEffect(() => {
     const fetchChat = async () => {
+      setConversation(props?.conversationData);
       try {
         const res = await getMessage({
-          conversationId: props.conversationData._id,
+          conversationId: conversation?._id,
         }).unwrap();
         if (res) {
+          console.log(res, "ehllo");
+
           setMessage(res.message.data);
         }
       } catch (error) {
@@ -67,16 +73,15 @@ const socket = useSocket();
       }
     };
     fetchChat();
-  }, [props.conversationData]);
-
+  }, [conversation?._id]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
   const sendChat = async () => {
-
-    const receiverId = props.conversationData.members.find(
+    setConversation(props?.conversationData);
+    const receiverId = conversation?.members.find(
       (member) => member !== userInfo?._id
     );
 
@@ -86,14 +91,16 @@ const socket = useSocket();
       text: chatText,
     });
 
+    console.log(conversation?._id, "id");
+
     try {
-        const res = await sendMessage({
-        conversationId: props.conversationData._id,
-        senderId:userInfo?._id,
+      const res = await sendMessage({
+        conversationId: conversation?._id,
+        senderId: userInfo?._id,
         text: chatText,
       }).unwrap();
-     setMessage([...message,res.newConversation])
-      setChatText("")
+      setMessage([...message, res.newConversation]);
+      setChatText("");
     } catch (error) {
       console.error(error);
     }
@@ -115,31 +122,34 @@ const socket = useSocket();
           <div className="flex flex-col h-full overflow-x-auto mb-4">
             <div className="flex flex-col h-full">
               {message.map((mes) => (
-                <div ref={scrollRef} key={mes._id} className="grid grid-cols-12 gap-y-2">
-                  {mes.senderId != userInfo?._id ?
-                  <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                    <div className="flex flex-row items-center">
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                        W
-                      </div>
-                      <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                        <div>{mes.text}</div>
-                      </div>
-                    </div>
-                  </div>
-                  :
-                  <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                    <div className="flex items-center justify-start flex-row-reverse">
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                        Me
-                      </div>
-                      <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                        <div>{mes.text}</div>
+                <div
+                  ref={scrollRef}
+                  key={mes._id}
+                  className="grid grid-cols-12 gap-y-2"
+                >
+                  {mes.senderId != userInfo?._id ? (
+                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                      <div className="flex flex-row items-center">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                          U
+                        </div>
+                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <p className="max-w-48 md:max-w-96 break-words">{mes.text}</p>
+                        </div>
                       </div>
                     </div>
-
-                  </div>
-                  }
+                  ) : (
+                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                      <div className="flex items-center justify-start flex-row-reverse">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                          Me
+                        </div>
+                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                        <p className="max-w-48 md:max-w-96 break-words">{mes.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -164,15 +174,15 @@ const socket = useSocket();
               </div>
             </div>
             <div className="ml-4">
-             {chatText && 
-              <button
-              onClick={sendChat}
-              className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-            >
-              <span>Send</span>
-              <span className="ml-2">{/* SVG */}</span>
-            </button>
-             }
+              {chatText && (
+                <button
+                  onClick={sendChat}
+                  className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+                >
+                  <span>Send</span>
+                  <span className="ml-2">{/* SVG */}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -27,6 +27,7 @@ function MyBooking() {
     members: [],
 });
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
+  
 
   useEffect(() => {
     async function fetchBooking() {
@@ -152,9 +153,6 @@ function MyBooking() {
   };  
 
 
-  console.log(conversationData,"jfjfjfjjffjfjf");
-  
-
   return (
     <div className="">
       <div className="relative">
@@ -276,8 +274,8 @@ function MyBooking() {
               )}
             </div>
             {modalIsOpen && 
-            <UserChatModal conversationData={conversationData}/>
-            }
+        <UserChatModal key="userChatModal" conversationData={conversationData}/>
+      }
           </div>
         ))}
       </div>
