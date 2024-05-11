@@ -57,3 +57,12 @@ export interface IConversation {
   _id: string;
   members: string[];
 }
+
+// export interface IConversation {
+//   _id: string;
+//   members: string[];
+//   user:string,
+//   user_profile:string,
+//   worker:string,
+//   worker_profile:string
+// }
