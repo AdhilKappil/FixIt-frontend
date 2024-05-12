@@ -25,6 +25,10 @@ function MyBooking() {
   const [conversationData, setConversationData] = useState<IConversation>({
     _id: "",
     members: [],
+    user:"",
+    user_profile:"",
+    worker:"",
+    worker_profile:""
 });
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
   

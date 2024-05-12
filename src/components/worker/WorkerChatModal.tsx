@@ -40,7 +40,7 @@ const WorkerChatModal = (props: {conversationData: IConversation}) => {
                 conversationId: "",
                 senderId: data.senderId,
                 text: data.text,
-                createdAt: Date.now().toString(), // Convert to string
+                createdAt: new Date().toString(), // Convert to string
             }
         ]);
     });
