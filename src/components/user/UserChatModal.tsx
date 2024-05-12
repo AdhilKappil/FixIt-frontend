@@ -112,8 +112,6 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
     dispatch(closeUserChatModal());
   };
 
-  console.log(conversation);
-  
 
   return (
     <div className="">
@@ -127,10 +125,10 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
           <div className="flex flex-col h-full overflow-x-auto mb-4 rounded-2xl">
             <div className="flex p-2 gap-3">
               <div className="rounded-full w-16 h-16 object-cover">
-                <img className="w-ful h-full rounded-full " src="/src/assets/img/electrician.jpg" alt="" />
+                <img className="w-ful h-full rounded-full " src={conversation?.worker_profile} alt="" />
               </div>
               <div className="flex items-center font-Sans text-2xl">
-                Adhil Ali
+                {conversation?.worker}
               </div>
             </div>
             <hr className="border-2  border-b-white"/>
@@ -145,13 +143,15 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
                     <div className="col-start-1 col-end-8 p-3 rounded-lg">
                       <div className="flex flex-row items-center">
                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          U
+                          W
                         </div>
                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                           <p className="max-w-48 md:max-w-96 break-words">{mes.text}</p>
                         </div>
                       </div>
-                      <p className="text-[10px] font-thin m-1">5 miutes ago</p>
+                      <p className="text-[11px] font-thin m-1">
+                      {new Date(mes.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}
+                        </p>
                     </div>
                   ) : (
                     <div className="col-start-6 col-end-13 p-3 rounded-lg">
@@ -164,7 +164,9 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
                         </div>
                       </div>
                       <div className="flex justify-end">
-                      <p className="text-[10px] font-thin m-1">5 miutes ago</p>
+                      <p className="text-[11px] font-thin m-1">
+                      {new Date(mes.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}
+                        </p>
                       </div>
                     </div>
                   )}
@@ -173,11 +175,6 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
             </div>
           </div>
           <div className="flex flex-row h-16 items-center rounded-xl bg-gray-00 w-full px-4 mb-2">
-            {/* <div>
-              <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
-           
-              </button>
-            </div> */}
             <div className="flex-grow ml-4 items-center">
               <div className="relative w-fulla">
                 <input
@@ -186,21 +183,11 @@ const UserChatModal = (props: { conversationData: IConversation }) => {
                   value={chatText}
                   className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                 />
-                {/* <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
-                 
-                </button> */}
               </div>
             </div>
             <div className="ml-4">
               {chatText && (
                 <button onClick={sendChat} className="rounded-full flex  p-2 bg-blue-600"><IoIosSend color="white" size={25}/></button>
-                // <button
-                //   // onClick={sendChat}
-                //   className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-                // >
-                //   <span>Send</span>
-                //   <span className="ml-2">{/* SVG */}</span>
-                // </button>
               )}
             </div>
           </div>
