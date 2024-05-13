@@ -47,7 +47,7 @@ function WorkTimer(props:{item:IBooking}) {
             <div className="flex justify-center text-primary font-Sans text-2xl font-medium">
               Manage Your Work
             </div>
-            <div className="bg-tertiary rounded-xl mt-5">
+            <div className="bg-tertiary rounded-xl shadow-md mt-5">
               <div className="text-gray-500 font-Sans font-medium text-lg p-5">
                 Booking Id :{" "}
                 <span className="text-primary font-medium font-Sans">

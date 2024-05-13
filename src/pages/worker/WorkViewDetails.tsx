@@ -10,11 +10,11 @@ function WorkViewDetails() {
 
   return (
     <>
-      <div className="flex h-[520px] gap-10">
-        <div className="w-1/2 mt-16">
+      <div className="grid lg:flex gap-10">
+        <div className="lg:w-1/2 mt-16">
           <WorkTimer item={item}/>
         </div>
-        <div className="w-1/2">
+        <div className="lg:w-1/2">
           <WorkerChat key="workerChat" conversationData={conversationData}/>
         </div>
       </div>

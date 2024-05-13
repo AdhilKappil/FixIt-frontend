@@ -83,7 +83,7 @@ function NewWorks() {
       </div>
       <div className="grid xl:grid-cols-2 mt-10 gap-10">
         {bookings.map((items) => (
-          <div key={items._id} className="bg-tertiary rounded-lg">
+          <div key={items._id} className="bg-tertiary rounded-lg shadow-md">
             {/* head */}
             <div className="grid sm:flex justify-between p-4">
               <div className="max-sm:flex max-sm:justify-between">
