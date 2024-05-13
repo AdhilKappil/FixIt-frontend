@@ -83,8 +83,6 @@ function WorkerChat(props: { conversationData: IConversation }) {
     }
   };
 
-  console.log(props);
-
   return (
     <div
       className="bg-tertiary rounded-xl shadow-md h-[540px] relative"

@@ -3,15 +3,15 @@ import {
   useCancelBookingMutation,
   useGetBookingMutation,
 } from "../../slices/api/userApiSlice";
-import { IBooking, IConversation } from "../../@types/schema";
+import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { openUserChatModal } from "../../slices/modalSlices/chatSlice";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 import UserChatModal from "./UserChatModal";
+import { useNavigate } from "react-router-dom";
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
@@ -20,19 +20,10 @@ function MyBooking() {
   const [title, setTitle] = useState("All Bookings");
   const [cancelBooking] = useCancelBookingMutation();
   const [refresh, setRefresh] = useState(false);
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [conversation] = useCreateConversationMutation ();
-  const [conversationData, setConversationData] = useState<IConversation>({
-    _id: "",
-    members: [],
-    user:"",
-    user_profile:"",
-    worker:"",
-    worker_profile:""
-});
   const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
   
-
   useEffect(() => {
     async function fetchBooking() {
       try {
@@ -149,8 +140,7 @@ function MyBooking() {
   const handleChat = async(receiverId:string) => {
     try {
       const res = await conversation({ senderId:userInfo?._id,receiverId}).unwrap();
-      setConversationData(res.newConversation.data)
-      dispatch(openUserChatModal())
+      navigate('/profile/userChat', { state: { conversationData: res.newConversation.data } });
     } catch (error) {
       console.error(error);
     }
@@ -277,9 +267,6 @@ function MyBooking() {
                 </button>
               )}
             </div>
-            {modalIsOpen && 
-        <UserChatModal key="userChatModal" conversationData={conversationData}/>
-      }
           </div>
         ))}
       </div>

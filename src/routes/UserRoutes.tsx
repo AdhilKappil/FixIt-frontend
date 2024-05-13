@@ -9,6 +9,7 @@ import AddLocation from '../components/user/Booking/AddLocation';
 import AddBookingDetails from '../components/user/Booking/AddBookingDetails';
 import UserPrivateRoute from './privateRoutes/UserPrivateRoute';
 import MyBooking from '../components/user/MyBooking';
+import UserChat from '../components/user/UserChat';
 
 
 function UserRoutes() {
@@ -24,6 +25,7 @@ function UserRoutes() {
       <Route path="profile" element={<UserSidebar />}>
           <Route path="personalInfo" element={<AccountInfo/>}/>
           <Route path="myBookings" element={<MyBooking/>}/>
+          <Route path="userChat" element={<UserChat/>}/>
      </Route>
     </Routes>
   );
