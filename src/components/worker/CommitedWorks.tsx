@@ -10,8 +10,9 @@ import {
 // import { toast } from "react-toastify";
 import { FaRocketchat } from "react-icons/fa";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
-import WorkerChatModal from "./WorkerChatModal";
-import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
+// import WorkerChatModal from "./WorkerChatModal";
+// import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
+import { useNavigate } from "react-router-dom";
 
 
 function CommitedWorks() {
@@ -19,16 +20,17 @@ function CommitedWorks() {
   const [conversation] = useCreateConversationMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { workerInfo } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch()
-  const [conversationData, setConversationData] = useState<IConversation>({
-    _id: "",
-    members: [],
-    user:"",
-    user_profile:"",
-    worker:"",
-    worker_profile:""
-});  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
-
+  // const dispatch = useDispatch()
+//   const [conversationData, setConversationData] = useState<IConversation>({
+//     _id: "",
+//     members: [],
+//     user:"",
+//     user_profile:"",
+//     worker:"",
+//     worker_profile:""
+// }); 
+//  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
+const navigate = useNavigate()
 
 // Formating date here
   function formatDate(dateString: string) {
@@ -77,11 +79,13 @@ function CommitedWorks() {
     fetchBooking();
   }, []);
 
-  const handleChat = async(receiverId:string) => {
+  const handleChat = async(item:IBooking) => {
+
     try {
-      const res = await conversation({ senderId:workerInfo?._id,receiverId}).unwrap();
-      setConversationData(res.newConversation.data)
-      dispatch(openWorkerChatModal())
+      const res = await conversation({ senderId:workerInfo?._id,receiverId:item.userId}).unwrap();
+      // setConversationData(res.newConversation.data)
+      navigate('/worker/workViewDetaisl', { state: { conversationData: res.newConversation.data, item: item } });
+      // dispatch(openWorkerChatModal())
     } catch (error) {
       console.error(error);
     }
@@ -157,21 +161,16 @@ function CommitedWorks() {
               </div>
             </div>
             <div className="flex justify-end p-3">
-            <button onClick={()=>handleChat(items.userId)} className="bg-gray-300 rounded-lg p-2 shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans">
-                  <FaRocketchat size={20} />
-                  Chat
+           <div className=""></div>
+           <div>
+           <button onClick={()=>handleChat(items)} className="bg-gray-300 rounded-lg py-2 px-4 shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans">
+               Manage Work
                 </button>
-              {/* <button
-                // onClick={() => handleCommitWork(items._id)}
-                className="bg-primary text-white p-2 font-Sans rounded-lg w-24"
-              >
-                Commit
-              </button> */}
-
+           </div>
             </div>
-            {modalIsOpen && 
+            {/* {modalIsOpen && 
             <WorkerChatModal key="workerChatModal" conversationData={conversationData}/>
-            }
+            } */}
           </div>
         ))}
       </div>

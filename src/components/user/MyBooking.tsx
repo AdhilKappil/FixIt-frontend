@@ -64,7 +64,7 @@ function MyBooking() {
           })
         );
         setBookings(bookingsWithLocation);
-        setTitle("All Bokkings");
+        setTitle("All Bookings");
       } catch (error) {
         console.error("Error fetching services:", error);
       }
@@ -86,7 +86,7 @@ function MyBooking() {
     } else if (status === "completed") {
       setTitle("Completed");
     } else {
-      setTitle("All Bokkings");
+      setTitle("All Bookings");
     }
     try {
       const res = await getBookings({
