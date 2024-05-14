@@ -1,14 +1,13 @@
 
 import { useEffect, useState } from "react";
-import { IBooking, IConversation } from "../../@types/schema";
+import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
 //   useCommitWorkMutation,
   useGetBookingsMutation,
 } from "../../slices/api/workerApiSlice";
 // import { toast } from "react-toastify";
-import { FaRocketchat } from "react-icons/fa";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 // import WorkerChatModal from "./WorkerChatModal";
 // import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
@@ -163,7 +162,7 @@ const navigate = useNavigate()
             <div className="flex justify-end p-3">
            <div className=""></div>
            <div>
-           <button onClick={()=>handleChat(items)} className="bg-gray-300 rounded-lg py-2 px-4 shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans">
+           <button onClick={()=>handleChat(items)} className="bg-gray-300 rounded-md py-2 px-4 shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans">
                Manage Work
                 </button>
            </div>

@@ -26,7 +26,7 @@ const UserSidebar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const menus = [
-    { name: "Personal info", link: "personalInfo", icon: AiOutlineUser },
+    { name: "Personal info", link: "/profile", icon: AiOutlineUser },
     // { name: "Address", link: "", icon: GrLocation },
     { name: "My bookings", link: "myBookings", icon: FaCartPlus },
     // { name: "Completed", link: "", icon: FiCheckCircle },

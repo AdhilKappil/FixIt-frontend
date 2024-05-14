@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IBooking } from "../../@types/schema";
 
-function WorkTimer(props:{item:IBooking}) {
+function WorkTimer(props: { item: IBooking; setOtpConfirm: (value: boolean) => void }) {
 
     const [remainingTime, setRemainingTime] = useState<{
         days: number;
@@ -42,21 +42,24 @@ function WorkTimer(props:{item:IBooking}) {
     
         return () => clearInterval(interval);
       }, [props.item]);
+
+
+      const handleStartWork = () => {
+        props.setOtpConfirm(true);
+      };
+
   return (
     <div>
-            <div className="flex justify-center text-primary font-Sans text-2xl font-medium">
-              Manage Your Work
-            </div>
-            <div className="bg-tertiary rounded-xl shadow-md mt-5">
-              <div className="text-gray-500 font-Sans font-medium text-lg p-5">
+            <div className="bg-tertiary rounded-xl shadow-md mt-10">
+              <div className="text-gray-500 font-Sans font-medium text-xl p-7">
                 Booking Id :{" "}
                 <span className="text-primary font-medium font-Sans">
                 {props.item._id.slice(-8).toUpperCase()}
                 </span>
               </div>
               <hr />
-              <div className="grid justify-center my-5">
-                <div className="flex gap-2 text-4xl font-bold">
+              <div className="grid justify-center my-7">
+                <div className="flex gap-3 text-4xl font-bold">
                   <p className="">
                     {remainingTime ? String(remainingTime.days).padStart(2, "0") : "00"} :
                   </p>
@@ -70,13 +73,13 @@ function WorkTimer(props:{item:IBooking}) {
                     {remainingTime ? String(remainingTime.seconds).padStart(2, "0") : "00"}
                   </p>
                 </div>
-                <div className="flex mt-3 gap-2">
+                <div className="flex mt-5 gap-3">
                   <p className="font-Sans text-lg">Days :</p>
                   <p className="font-Sans text-lg">Hours :</p>
                   <p className="font-Sans text-lg">Minutes :</p>
                   <p className="font-Sans text-lg">Seconds</p>
                 </div>
-                <button className="bg-primary hover:bg-black text-white rounded p-2 mt-3">
+                <button onClick={handleStartWork} className="bg-primary hover:bg-black text-white rounded p-2 mt-5">
                   Start Your Work
                 </button>
               </div>

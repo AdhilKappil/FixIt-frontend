@@ -20,7 +20,6 @@ function WorkerRoutes() {
           <Route path="newWorks" element={<NewWorks/>}/>
           <Route path="commitedWorks" element={<CommitedWorks/>}/>
           <Route path="workViewDetaisl" element={<WorkViewDetails/>}/>
-          
         </Route>
       </Route>
     </Routes>

@@ -10,7 +10,6 @@ import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
-import UserChatModal from "./UserChatModal";
 import { useNavigate } from "react-router-dom";
 
 function MyBooking() {
@@ -22,7 +21,6 @@ function MyBooking() {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate()
   const [conversation] = useCreateConversationMutation ();
-  const modalIsOpen = useSelector((state: RootState) => state.chatModal.userChatModal.value);
   
   useEffect(() => {
     async function fetchBooking() {

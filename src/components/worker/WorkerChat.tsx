@@ -85,7 +85,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
 
   return (
     <div
-      className="bg-tertiary rounded-xl shadow-md h-[540px] relative"
+      className="bg-tertiary rounded-xl shadow-md h-[540px]"
       style={{
         overflowY: "scroll",
         msOverflowStyle: "none",
@@ -108,7 +108,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
         <hr />
       </div>
       <div>
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col p-2 min-h-[370px]">
           {message.map((mes) => (
             <div
               ref={scrollRef}
@@ -161,9 +161,9 @@ function WorkerChat(props: { conversationData: IConversation }) {
             </div>
           ))}
         </div>
-        <div className="flex flex-row h-16 items-center rounded-xl bg-gray-00 w-full px-4 mb-2">
+        <div className="flex flex-row items-center border-t-[1px] bg-tertiary w-full px-4 py-4 sticky bottom-0">
           <div className="flex-grow ml-4 items-center">
-            <div className="relative w-fulla">
+            <div className="relative w-full">
               <input
                 type="text"
                 onChange={(e) => setChatText(e.target.value)}

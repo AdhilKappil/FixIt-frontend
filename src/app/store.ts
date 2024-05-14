@@ -5,7 +5,6 @@ import OtpModalReducer from '../slices/modalSlices/OtpModal'
 import { apiSlice } from '../slices/api/apiSlice'
 import authReducer from '../slices/authSlice'
 import  locationReducer  from '../slices/booking'
-import chatModalReducer  from '../slices/modalSlices/chatSlice'
 
 
 export const store = configureStore({
@@ -13,7 +12,6 @@ export const store = configureStore({
     loginModal: loginModalReducer,
     signupModal: signupModalReducer,
     OtpModal:OtpModalReducer,
-    chatModal:chatModalReducer,
     location:locationReducer,
     auth:authReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,

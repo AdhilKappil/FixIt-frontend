@@ -53,6 +53,15 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // Commit work
+    otpConfrim: builder.mutation({
+      query: (data) => ({
+        url: `${WORKER_URL}/otpConfirm`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     //   setImg: builder.mutation({
     //     query: (data) => ({
     //       url: `${USER_URL}/addProfile`,
