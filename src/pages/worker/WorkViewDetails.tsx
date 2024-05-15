@@ -3,13 +3,14 @@ import { IBooking, IConversation } from "../../@types/schema";
 import WorkTimer from "../../components/worker/WorkTimer";
 import WorkerChat from "../../components/worker/WorkerChat";
 import { useState } from "react";
-import OtpConfirm from "../../components/worker/OtpConfirm";
+import Otp from "../../components/worker/Otp";
 
 function WorkViewDetails() {
   const location = useLocation();
   const item: IBooking = location.state?.item;
   const conversationData:IConversation = location.state?.conversationData;
   const [otpConfirm, setOtpConfirm] = useState(false)
+  
 
   return (
     <>
@@ -18,8 +19,8 @@ function WorkViewDetails() {
         <div className="flex justify-center text-primary font-Sans text-2xl font-medium">
               Manage Your Work
             </div>
-          {otpConfirm ? <OtpConfirm/>:
-          <WorkTimer item={item} setOtpConfirm={setOtpConfirm}/>
+          {otpConfirm ? <Otp bookingId={item._id} conversationData={conversationData}/>:
+          <WorkTimer item={item} conversationData={conversationData} setOtpConfirm={setOtpConfirm}/>
           }
         </div>
         <div className="lg:w-1/2">

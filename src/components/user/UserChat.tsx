@@ -94,7 +94,7 @@ function UserChat()  {
   return (
         <div className="lg:flex justify-center">
             <div
-          className="bg-tertiary rounded-xl shadow-md h-[540px] relative lg:w-2/3"
+          className="bg-tertiary rounded-xl shadow h-[540px] relative lg:w-2/3"
           style={{
             overflowY: "scroll",
             msOverflowStyle: "none",

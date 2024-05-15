@@ -85,7 +85,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
 
   return (
     <div
-      className="bg-tertiary rounded-xl shadow-md h-[540px]"
+      className="bg-tertiary rounded-xl shadow h-[540px]"
       style={{
         overflowY: "scroll",
         msOverflowStyle: "none",

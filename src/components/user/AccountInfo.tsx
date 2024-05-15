@@ -19,8 +19,8 @@ function AccountInfo() {
 
 
   const initialValues : UpdateUser= {
-    name: "",
-    mobile: "",
+    name: userInfo?.name,
+    mobile: userInfo?.mobile,
   };
 
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({

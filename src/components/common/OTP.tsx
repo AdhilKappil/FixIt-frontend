@@ -216,7 +216,7 @@ function OTP() {
               </button>
             )}
             <p className="mt-3 text-red-500">
-              {timer > 0 ? `Resend OTP in ${timer} seconds` : ""}
+              {timer > 0 && `Resend OTP in ${timer} seconds`}
             </p>
           </form>
         )}

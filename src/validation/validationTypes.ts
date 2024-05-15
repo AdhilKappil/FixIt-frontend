@@ -62,8 +62,8 @@ export interface FormValues {
 
   // For updating user
   export interface UpdateUser {
-    name:string;
-    mobile : string;
+    name:string | undefined
+    mobile : string | undefined
   }
 
 

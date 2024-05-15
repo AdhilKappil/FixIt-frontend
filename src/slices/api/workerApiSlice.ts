@@ -53,10 +53,19 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // Commit work
-    otpConfrim: builder.mutation({
+   // start work otp verification
+    sendOtpToEmailStartWork: builder.mutation({
       query: (data) => ({
-        url: `${WORKER_URL}/otpConfirm`,
+        url: `${WORKER_URL}/sendOtpToEmail`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+   // start work otp verification
+   verifyEmailOtp: builder.mutation({
+      query: (data) => ({
+        url: `${WORKER_URL}/verifyEmail`,
         method: "POST",
         body: data,
       }),
@@ -78,5 +87,7 @@ export const {
   useWorkerRegisterMutation,
   useUpdateWorkerProfileMutation,
   useGetBookingsMutation,
-  useCommitWorkMutation
+  useCommitWorkMutation,
+  useSendOtpToEmailStartWorkMutation,
+  useVerifyEmailOtpMutation
 } = workerApiSlice;
