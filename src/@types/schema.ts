@@ -31,6 +31,8 @@ export interface IWorker {
     workerId: string;
     service : string;
     serviceImg:string;
+    firstHourCharge : number;
+    laterHourCharge : number;
     // description: string;
     date: string;
     startTime: string;

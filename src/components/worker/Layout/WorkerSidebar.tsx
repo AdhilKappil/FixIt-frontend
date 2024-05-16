@@ -17,7 +17,7 @@ const WorkerSidebar = () => {
     { name: "Personal info", link: "accountInfo", icon: AiOutlineUser },
     { name: "New Works", link: "newWorks", icon: AiOutlineSchedule },
     { name: "Commited", link: "commitedWorks", icon: FiClock },
-    { name: "Completed", link: "", icon: FiCheckCircle },
+    { name: "Completed", link: "completedWork", icon: FiCheckCircle },
   ];
 
   return (

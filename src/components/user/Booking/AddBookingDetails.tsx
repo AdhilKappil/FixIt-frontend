@@ -53,7 +53,8 @@ function AddBookingDetails() {
       try {
         const {date, startTime, endTime,description} = values
         const userId = userInfo?._id 
-        const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName,serviceImg:service.serviceImg}).unwrap();
+        const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName,
+          serviceImg:service.serviceImg, firstHourCharge:service.firstHourCharge, laterHourCharge:service.laterHourCharge}).unwrap();
 
         navigate('/profile')
         Swal.fire({

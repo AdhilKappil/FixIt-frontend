@@ -71,6 +71,15 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+     // generate bill
+   generateBill: builder.mutation({
+    query: (data) => ({
+      url: `${WORKER_URL}/generateBill`,
+      method: "POST",
+      body: data,
+    }),
+  }),
+
     //   setImg: builder.mutation({
     //     query: (data) => ({
     //       url: `${USER_URL}/addProfile`,
@@ -89,5 +98,6 @@ export const {
   useGetBookingsMutation,
   useCommitWorkMutation,
   useSendOtpToEmailStartWorkMutation,
-  useVerifyEmailOtpMutation
+  useVerifyEmailOtpMutation,
+  useGenerateBillMutation,
 } = workerApiSlice;

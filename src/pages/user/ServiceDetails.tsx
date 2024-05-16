@@ -12,7 +12,7 @@ function ServiceDetails() {
   const dispatch = useDispatch();
 
   const handleBooking = () => {
-    dispatch(setServiceDetails({ serviceName: data.serviceName, serviceImg: data.service_img}));
+    dispatch(setServiceDetails({ serviceName: data.serviceName, serviceImg: data.service_img,firstHourCharge:data.firstHourCharge,laterHourCharge:data.laterHourCharge}));
     navigate("/addLocation");
   };
 

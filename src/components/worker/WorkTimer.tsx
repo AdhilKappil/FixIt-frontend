@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { IBooking, IConversation } from "../../@types/schema";
 import { toast } from "react-toastify";
 import { MyError } from "../../validation/validationTypes";
-import { useSendOtpToEmailStartWorkMutation } from "../../slices/api/workerApiSlice";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { useGenerateBillMutation, useSendOtpToEmailStartWorkMutation } from "../../slices/api/workerApiSlice";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
 function WorkTimer(props: {
@@ -23,6 +23,9 @@ function WorkTimer(props: {
 
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const [hour, setHour] = useState<number | null>(null);
+  const [minutes, setMinutes] = useState<number | null>(null)
+  const [generateBill] = useGenerateBillMutation()
+  const navigate = useNavigate()
   
   useEffect(() => {
     const calculateRemainingTime = () => {
@@ -78,6 +81,27 @@ function WorkTimer(props: {
       setHour(0)
       return
     }
+    let price 
+    if(hour<=1){
+      price = props.item.firstHourCharge
+    }else{
+      price = props.item.firstHourCharge + props.item.laterHourCharge * (hour-1)
+      if(minutes){
+        price += Math.floor((props.item.laterHourCharge / 60) * minutes)
+      }
+    }
+
+    try {
+      const res = await generateBill({price,_id:props.item._id}).unwrap()
+      navigate('/worker/completedWork')
+      Swal.fire({
+        title: res.message,
+        text: "Please verify the amount received from the client",
+        icon: "success"
+      });
+    } catch (err) {
+      toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
+    }
   }
 
   return (
@@ -95,7 +119,7 @@ function WorkTimer(props: {
             <div className="mt-7 flex justify-center">
               <select
                 id="service"
-                className="w-3/5 rounded border p-2"
+                className="w-3/5 rounded border p-2 text-gray-400"
                 onChange={(e:React.ChangeEvent<HTMLSelectElement>)=>setHour(parseInt(e.target.value))}
               >
                 <option value="">Select Worked hours</option>
@@ -105,6 +129,13 @@ function WorkTimer(props: {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="mt-7 flex justify-center">
+              <input type="number"
+              placeholder="Any Extra minutes ?"
+              className="w-3/5 p-2" 
+              onChange={(e)=>setMinutes(parseInt(e.target.value))}
+              />
             </div>
             {hour === 0 &&
             <div className="flex justify-center">

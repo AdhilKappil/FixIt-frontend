@@ -244,7 +244,7 @@ function MyBooking() {
                 </span>{" "}
               </div>
               <div className="text-primary font-Sans font-medium max-sm:mt-2">
-                Total : ₹0.00
+                Total : {items.price === 1 ? "₹0.00" :`₹${items.price}.00`}
               </div>
             </div>
             <div className="flex justify-end p-3 gap-3">

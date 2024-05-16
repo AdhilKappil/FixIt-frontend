@@ -8,6 +8,7 @@ import NewWorks from "../components/worker/NewWorks";
 import CommitedWorks from "../components/worker/CommitedWorks";
 import WorkViewDetails from "../pages/worker/WorkViewDetails";
 import UserChat from "../components/user/UserChat";
+import CompletedWork from "../components/worker/CompletedWork";
 
 function WorkerRoutes() {
   return (
@@ -20,6 +21,7 @@ function WorkerRoutes() {
           <Route path="newWorks" element={<NewWorks/>}/>
           <Route path="commitedWorks" element={<CommitedWorks/>}/>
           <Route path="workViewDetaisl" element={<WorkViewDetails/>}/>
+          <Route path="completedWork" element={<CompletedWork/>}/>
         </Route>
       </Route>
     </Routes>
