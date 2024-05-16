@@ -4,9 +4,11 @@ import { IConversation } from '../../@types/schema';
 import { useSendOtpToEmailStartWorkMutation, useVerifyEmailOtpMutation } from '../../slices/api/workerApiSlice';
 import { toast } from 'react-toastify';
 import { MyError } from '../../validation/validationTypes';
+import { useNavigate } from 'react-router-dom';
 
 
 function Otp(props:{bookingId:string, conversationData: IConversation}) {
+
     const inputStyles: CSSProperties = {
         width: "2.8rem",
         fontSize: "1.4rem",
@@ -25,7 +27,7 @@ function Otp(props:{bookingId:string, conversationData: IConversation}) {
     const [showResendButton, setShowResendButton] = useState(false);
     const [sendOtpToEmail] = useSendOtpToEmailStartWorkMutation();
     const [verifyEmailOtp] = useVerifyEmailOtpMutation()
-console.log(props.bookingId,"booking");
+    const navigate = useNavigate()
 
     // for otp timer
     useEffect(() => {
@@ -62,6 +64,7 @@ console.log(props.bookingId,"booking");
           bookingId:props.bookingId
         }).unwrap()
         toast.success(res.message);
+        navigate('/worker/commitedWorks')
        } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
        }

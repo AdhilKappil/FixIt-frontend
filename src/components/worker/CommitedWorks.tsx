@@ -89,7 +89,6 @@ const navigate = useNavigate()
       console.error(error);
     }
   };
-
   
   return (
     <div className="">
@@ -109,9 +108,9 @@ const navigate = useNavigate()
               </div>
               <div className="flex gap-5 max-sm:mt-2">
                 <div>
-                  <p className="text-gray-500 font-Sans">Order Status</p>
+                  <p className="text-gray-500 font-Sans">Work Status</p>
                   <p className="text-primary font-Sans font-medium mt-2">
-                    {items.status}
+                   {items.price === 1 ? "Work Started" : `${items.status}`} 
                   </p>
                 </div>
                 <div className="border max-sm:mx-4"></div>
@@ -156,14 +155,14 @@ const navigate = useNavigate()
                 </span>{" "}
               </div>
               <div className="text-primary font-Sans font-medium max-sm:mt-2">
-                Total : ₹{items.price}.00
+                Total : ₹0.00
               </div>
             </div>
             <div className="flex justify-end p-3">
            <div className=""></div>
            <div>
            <button onClick={()=>handleChat(items)} className="bg-gray-300 rounded-md py-2 px-4 shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans">
-               Manage Work
+              {items.price === 1 ? "Generate bill" : "Manage Work"} 
                 </button>
            </div>
             </div>

@@ -7,7 +7,9 @@ export interface LocationState {
 
 export interface ServiceState {
   serviceName: string;
-  serviceImg: string; // Adding serviceImg field
+  serviceImg: string;
+  firstHourCharge : number;
+  laterHourCharge : number;
 }
 
 const initialLocationState: LocationState = {
@@ -17,14 +19,25 @@ const initialLocationState: LocationState = {
 
 const initialServiceState: ServiceState = {
   serviceName: '',
-  serviceImg: '', // Adding serviceImg field
+  serviceImg: '',
+  firstHourCharge : 0,
+  laterHourCharge : 0
 };
+
+// interface StartWorkState {
+//   startWork: boolean;
+// }
+
+// const initialStartWorkState: StartWorkState = {
+//   startWork: false,
+// };
 
 export const locationSlice = createSlice({
   name: 'location',
   initialState: {
     ...initialLocationState,
     service: initialServiceState,
+    // startWork: initialStartWorkState.startWork,
   },
   reducers: {
     setLocation: (state, action: PayloadAction<LocationState>) => {
@@ -34,6 +47,10 @@ export const locationSlice = createSlice({
     setServiceDetails: (state, action: PayloadAction<ServiceState>) => {
       state.service = action.payload;
     },
+    // setStartWork: (state) => {
+    //   state.startWork = true;
+    // },
+   
   },
 });
 

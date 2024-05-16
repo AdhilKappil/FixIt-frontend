@@ -94,7 +94,7 @@ function NewWorks() {
               </div>
               <div className="flex gap-5 max-sm:mt-2">
                 <div>
-                  <p className="text-gray-500 font-Sans">Order Status</p>
+                  <p className="text-gray-500 font-Sans">Work Status</p>
                   <p className="text-primary font-Sans font-medium mt-2">
                     {items.status}
                   </p>

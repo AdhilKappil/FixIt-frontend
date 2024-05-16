@@ -244,7 +244,7 @@ function MyBooking() {
                 </span>{" "}
               </div>
               <div className="text-primary font-Sans font-medium max-sm:mt-2">
-                Total : ₹{items.price}.00
+                Total : ₹0.00
               </div>
             </div>
             <div className="flex justify-end p-3 gap-3">

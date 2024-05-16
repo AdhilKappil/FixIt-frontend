@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IBooking, IConversation } from "../../@types/schema";
 import { toast } from "react-toastify";
 import { MyError } from "../../validation/validationTypes";
 import { useSendOtpToEmailStartWorkMutation } from "../../slices/api/workerApiSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+
+
 function WorkTimer(props: {
   item: IBooking;
   conversationData: IConversation;
@@ -17,6 +21,9 @@ function WorkTimer(props: {
     seconds: number;
   } | null>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
+  const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const [hour, setHour] = useState<number | null>(null);
+  
   useEffect(() => {
     const calculateRemainingTime = () => {
       const currentDate = new Date();
@@ -52,6 +59,7 @@ function WorkTimer(props: {
     return () => clearInterval(interval);
   }, [props.item]);
 
+
   const handleStartWork = async () => {
     try {
       props.setOtpConfirm(true);
@@ -65,6 +73,13 @@ function WorkTimer(props: {
     }
   };
 
+  const handleGenetateBill = async()=>{
+    if(!hour){
+      setHour(0)
+      return
+    }
+  }
+
   return (
     <div>
       <div className="bg-tertiary rounded-xl shadow mt-10">
@@ -75,48 +90,76 @@ function WorkTimer(props: {
           </span>
         </div>
         <hr />
-       {props.item.price === 1 ? 
-       <div>Work Started you can genarate the bill after work</div>
-       : <div className="grid justify-center my-7">
-       <div className="flex gap-3 text-4xl font-bold">
-         <p className="">
-           {remainingTime
-             ? String(remainingTime.days).padStart(2, "0")
-             : "00"}{" "}
-           :
-         </p>
-         <p className="">
-           {remainingTime
-             ? String(remainingTime.hours).padStart(2, "0")
-             : "00"}{" "}
-           :
-         </p>
-         <p className="">
-           {remainingTime
-             ? String(remainingTime.minutes).padStart(2, "0")
-             : "00"}{" "}
-           :
-         </p>
-         <p className="">
-           {remainingTime
-             ? String(remainingTime.seconds).padStart(2, "0")
-             : "00"}
-         </p>
-       </div>
-       <div className="flex mt-5 gap-3">
-         <p className="font-Sans text-lg">Days :</p>
-         <p className="font-Sans text-lg">Hours :</p>
-         <p className="font-Sans text-lg">Minutes :</p>
-         <p className="font-Sans text-lg">Seconds</p>
-       </div>
-       <button
-         onClick={handleStartWork}
-         className="bg-primary hover:bg-black text-white rounded p-2 mt-5"
-       >
-         Start Your Work
-       </button>
-     </div>
-       }
+        {props.item.price === 1? (
+          <div>
+            <div className="mt-7 flex justify-center">
+              <select
+                id="service"
+                className="w-3/5 rounded border p-2"
+                onChange={(e:React.ChangeEvent<HTMLSelectElement>)=>setHour(parseInt(e.target.value))}
+              >
+                <option value="">Select Worked hours</option>
+                {hours.map((hour, index) => (
+                  <option key={index} value={hour}>
+                    {hour}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {hour === 0 &&
+            <div className="flex justify-center">
+            <p className="text-red-700 w-3/5">Please select worked hous</p>
+          </div>
+            }
+            <div className="flex justify-center">
+            <button onClick={handleGenetateBill}
+              className="w-3/5 font-Sans my-7 bg-primary hover:bg-black text-white rounded p-2"
+            >
+              Generate bill
+            </button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid justify-center my-7">
+            <div className="flex gap-3 text-4xl font-bold">
+              <p className="">
+                {remainingTime
+                  ? String(remainingTime.days).padStart(2, "0")
+                  : "00"}{" "}
+                :
+              </p>
+              <p className="">
+                {remainingTime
+                  ? String(remainingTime.hours).padStart(2, "0")
+                  : "00"}{" "}
+                :
+              </p>
+              <p className="">
+                {remainingTime
+                  ? String(remainingTime.minutes).padStart(2, "0")
+                  : "00"}{" "}
+                :
+              </p>
+              <p className="">
+                {remainingTime
+                  ? String(remainingTime.seconds).padStart(2, "0")
+                  : "00"}
+              </p>
+            </div>
+            <div className="flex mt-5 gap-3">
+              <p className="font-Sans text-lg">Days :</p>
+              <p className="font-Sans text-lg">Hours :</p>
+              <p className="font-Sans text-lg">Minutes :</p>
+              <p className="font-Sans text-lg">Seconds</p>
+            </div>
+            <button
+              onClick={handleStartWork}
+              className="bg-primary hover:bg-black text-white rounded p-2 mt-5"
+            >
+              Start Your Work
+            </button>
+          </div>
+        )}
         <hr />
         <div className="text-gray-500 font-Sans font-medium text-lg p-5">
           Location :{" "}
