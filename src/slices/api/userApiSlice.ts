@@ -113,6 +113,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+     // Cancel booking
+     payment: builder.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/payment`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
   }),
 });
 
@@ -129,5 +138,6 @@ export const {
   useUpdateProfileMutation,
   useBookServiceMutation,
   useGetBookingMutation,
-  useCancelBookingMutation
+  useCancelBookingMutation,
+  usePaymentMutation
 } = userApiSlice;

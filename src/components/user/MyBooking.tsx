@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   useCancelBookingMutation,
   useGetBookingMutation,
+  usePaymentMutation,
 } from "../../slices/api/userApiSlice";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
@@ -11,6 +12,8 @@ import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 import { useNavigate } from "react-router-dom";
+import { loadStripe,Stripe  } from "@stripe/stripe-js";
+const public_stripe_key = "pk_test_51PIUXXSCq8UdAoferwx1NGQqo893YNrXCszS1tVh8qa5C6WBJ8ezUiKgEwMwsBA1CN1RvOuWKpsf5QuuJibVHPtz00eZYV05r6"
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
@@ -21,6 +24,7 @@ function MyBooking() {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate()
   const [conversation] = useCreateConversationMutation ();
+  const [payment] = usePaymentMutation()
   
   useEffect(() => {
     async function fetchBooking() {
@@ -142,7 +146,28 @@ function MyBooking() {
     } catch (error) {
       console.error(error);
     }
-  };  
+  }; 
+  
+  // stripe payment 
+  const handlePayment = async (item:IBooking) => {
+ 
+
+    const stripePromise: Stripe | null  = await loadStripe(public_stripe_key);
+
+    const res = await payment({ amount:item.price, bookingId:item._id }).unwrap()
+    const session = res
+    console.log(res)
+
+    if (stripePromise) {
+        stripePromise.redirectToCheckout({
+            sessionId: session.data,
+        });
+    } else {
+        console.error('Failed to initialize Stripe');
+        // Handle the error appropriately
+    }
+
+}
 
 
   return (
@@ -256,14 +281,22 @@ function MyBooking() {
                   <FaRocketchat size={20} />
                   Chat
                 </button>
-              ) : (
+              ) : items.status === "pending" ? (
                 <button
                   onClick={() => handleCancel(items._id)}
                   className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24"
                 >
                   Cancel
                 </button>
-              )}
+              ): !items.payment ?
+              <button
+              onClick={() => handlePayment(items)}
+              className="bg-primary text-white p-2 font-Sans rounded-lg w-24"
+            >
+              Pay
+            </button>
+            :""
+              }
             </div>
           </div>
         ))}
