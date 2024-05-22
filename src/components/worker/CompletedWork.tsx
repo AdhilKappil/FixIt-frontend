@@ -1,7 +1,9 @@
 
 function CompletedWork() {
   return (
-    <div>CompletedWork</div>
+    <div>
+      Completed
+    </div>
   )
 }
 

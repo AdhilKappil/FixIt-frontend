@@ -151,7 +151,6 @@ function MyBooking() {
   // stripe payment 
   const handlePayment = async (item:IBooking) => {
  
-
     const stripePromise: Stripe | null  = await loadStripe(public_stripe_key);
 
     const res = await payment({ amount:item.price, bookingId:item._id }).unwrap()

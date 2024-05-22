@@ -14,14 +14,28 @@ function AccountInfo() {
 
   return (
     <div>
-        <div className="">
+     <div className="">
+      <div className="font-Sans font-semibold text-xl text-primary">My Wallet</div>
+       <div className="bg-gray-700 w-80 rounded-lg mt-3">
+        <div className="flex">
+          <div className="w-2/3 p-5">
+            <p className="text-white font-semibold text-3xl mt-2 font-Sans">Balance</p>
+            <p className="text-white font-bold text-5xl mt-7 font-Sans">₹ 6000</p>
+          </div>
+          <div className="">
+            <img  className="" src="/src/assets/icons/wallet_icone.png" alt="" />
+          </div>
+        </div>
+       </div>
+    </div>
+        <div className="mt-3">
            <div className="flex w-full">
-            <div className="flex w-1/2 font-Sans font-semibold text-xl">Account info</div>
+            <div className="flex w-1/2 font-Sans font-semibold text-xl text-primary">Account info</div>
             <div className="flex justify-end w-1/2">
                 <button className="bg-tertiary rounded-md shadow-md w-28 h-10 font-medium">Save</button>
             </div>
            </div>
-           <div className="mt-5 grid grid-cols-2 gap-5 max-lg:grid-cols-1">
+           <div className="mt-3 grid grid-cols-2 gap-5 max-lg:grid-cols-1">
             <div className="bg-tertiary shadow-sm p-3 flex rounded-lg ">
                 <div className="bg-white flex justify-center items-center w-12 h-12 rounded-lg">
                 <MdOutlineDriveFileRenameOutline  size={25}/>
