@@ -35,7 +35,7 @@ function AccountInfo() {
                 <button className="bg-tertiary rounded-md shadow-md w-28 h-10 font-medium">Save</button>
             </div>
            </div>
-           <div className="mt-3 grid grid-cols-2 gap-5 max-lg:grid-cols-1">
+           <div className="mt-2 grid grid-cols-2 gap-5 max-lg:grid-cols-1">
             <div className="bg-tertiary shadow-sm p-3 flex rounded-lg ">
                 <div className="bg-white flex justify-center items-center w-12 h-12 rounded-lg">
                 <MdOutlineDriveFileRenameOutline  size={25}/>
