@@ -12,6 +12,7 @@ import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 // import WorkerChatModal from "./WorkerChatModal";
 // import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
 import { useNavigate } from "react-router-dom";
+import formatDate from "../../utils/formateDate";
 
 
 function CommitedWorks() {
@@ -30,15 +31,6 @@ function CommitedWorks() {
 // }); 
 //  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
 const navigate = useNavigate()
-
-// Formating date here
-  function formatDate(dateString: string) {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
 
   useEffect(() => {
     async function fetchBooking() {

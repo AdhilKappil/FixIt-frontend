@@ -27,6 +27,16 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+      // Get worker
+      getWorker: builder.mutation({
+        query: ({email}) => ({
+          url: `${WORKER_URL}/getWorker`,
+          method: "GET",
+          params: {email},
+        }),
+      }),
+
+      // For updating worker profile
     updateWorkerProfile: builder.mutation({
       query: (data) => ({
         url: `${WORKER_URL}/updateProfile`,
@@ -100,4 +110,5 @@ export const {
   useSendOtpToEmailStartWorkMutation,
   useVerifyEmailOtpMutation,
   useGenerateBillMutation,
+  useGetWorkerMutation
 } = workerApiSlice;

@@ -153,7 +153,7 @@ function MyBooking() {
  
     const stripePromise: Stripe | null  = await loadStripe(public_stripe_key);
 
-    const res = await payment({ amount:item.price, bookingId:item._id }).unwrap()
+    const res = await payment({ amount:item.price, bookingId:item._id,workerId:item.workerId }).unwrap()
     const session = res
     console.log(res)
 

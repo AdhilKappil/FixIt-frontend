@@ -112,7 +112,7 @@ function SideBar({ open, setOpen }: Open) {
         component: <Worker {...{setSelectedLink,link:'workers'}}/>,
       },
       {
-        title: "Transactions",
+        title: "Sales Report",
         icon: <ReceiptIcon />,
         link: "transactions",
         component: <Transaction {...{setSelectedLink,link:'transactions'}}/>,

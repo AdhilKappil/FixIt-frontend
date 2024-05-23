@@ -87,7 +87,7 @@ function WorkTimer(props: {
     }else{
       price = props.item.firstHourCharge + props.item.laterHourCharge * (hour-1)
       if(minutes){
-        price += Math.floor((props.item.laterHourCharge / 60) * minutes)
+        price += Math.round((props.item.laterHourCharge / 60) * minutes)
       }
     }
 

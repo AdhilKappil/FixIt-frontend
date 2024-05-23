@@ -39,10 +39,12 @@ export interface IWorker {
     endTime: string;
     status?: string;
     price?:number;
+    paymentId?:string;
     payment?:boolean;
     latitude:number;
     longitude:number;
     location? : string
+    updatedAt:string
   }
 
 
