@@ -91,7 +91,7 @@ const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
        Manage Service
      </Typography>
       <div className="flex justify-end mb-3">
-       <button onClick={()=>setAddService(true)}  className="bg-gray-400 rounded-md px-2 py-1">Add Service</button>
+       <button onClick={()=>setAddService(true)}  className="bg-gray-400 rounded-md px-4 py-1">Add Service</button>
       </div>
      <DataGrid
        columns={columns}

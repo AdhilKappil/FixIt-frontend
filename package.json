@@ -25,6 +25,7 @@
     "@types/react-router-dom": "^5.3.3",
     "aos": "^3.0.0-beta.6",
     "dotenv": "^16.4.5",
+    "file-saver": "^2.0.5",
     "firebase": "^10.10.0",
     "formik": "^2.4.5",
     "jwt-decode": "^4.0.0",
@@ -40,6 +41,7 @@
     "react-toastify": "^10.0.5",
     "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.10.8",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -3,7 +3,6 @@ import { useGetBookingsMutation } from "../../slices/api/workerApiSlice";
 import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import formatDate from "../../utils/formateDate";
 
 function CompletedWork() {
 
@@ -28,6 +27,14 @@ function CompletedWork() {
     fetchBooking();
   }, []);
 
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <div>
        <div className="flex justify-center text-primary font-Sans text-3xl font-medium">
@@ -36,13 +43,6 @@ function CompletedWork() {
   <section className="relative mt-10">
       <div className="w-full mb-12">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-tertiary ">
-          {/* <div className="rounded-t mb-0 px-4 py-3 border-0">
-            <div className="flex flex-wrap items-center">
-              <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                <h3 className="font-semibold font-Sans text-xl">Works history</h3>
-              </div>
-            </div>
-          </div> */}
           <div className="block w-full overflow-x-auto">
             <table className="items-center w-full bg-transparent border-collapse">
               <thead className="bg-white">

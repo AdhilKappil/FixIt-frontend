@@ -38,7 +38,7 @@ export interface IWorker {
     startTime: string;
     endTime: string;
     status?: string;
-    price?:number;
+    price:number;
     paymentId?:string;
     payment?:boolean;
     latitude:number;

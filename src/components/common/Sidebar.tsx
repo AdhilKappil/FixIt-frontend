@@ -21,10 +21,10 @@ import UsersManagement from "../../pages/admin/user_Mgmt/User";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Services_Mgmt from "../../pages/admin/services/Services_Mgmt";
 import Worker from "../../pages/admin/workers_Mgmt/Worker";
-import Transaction from "../../pages/admin/transaction/Transaction";
 import JoinRequests from "../../pages/admin/joinRequests/JoinRequests";
 import { Open } from "../../@types/Props";
 import Admin_Dashboard from '../../pages/admin/dashboard/Dashboard'
+import SalesReport from "../../pages/admin/salesReport/SalesReport";
 
 
 
@@ -115,7 +115,7 @@ function SideBar({ open, setOpen }: Open) {
         title: "Sales Report",
         icon: <ReceiptIcon />,
         link: "transactions",
-        component: <Transaction {...{setSelectedLink,link:'transactions'}}/>,
+        component: <SalesReport {...{setSelectedLink,link:'transactions'}}/>,
       },
       {
         title: "Join Requests",
