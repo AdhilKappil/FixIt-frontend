@@ -55,8 +55,7 @@ function AddBookingDetails() {
         const userId = userInfo?._id 
         const res = await bookService({userId,latitude,longitude, date, startTime, endTime, description,service:service.serviceName,
           serviceImg:service.serviceImg, firstHourCharge:service.firstHourCharge, laterHourCharge:service.laterHourCharge}).unwrap();
-
-        navigate('/profile')
+          navigate("/bookingDetails",{ state: { data: res.data } })
         Swal.fire({
           title: "Your booking has been successfully completed and is now in progress",
           text: res.message,
@@ -71,7 +70,7 @@ function AddBookingDetails() {
   return (
     <>
       <Navbar />
-      <BookingProgess />
+      <BookingProgess status="false"/>
      <form action="" onSubmit={handleSubmit}>
       <div className="flex justify-center">
         <div className="w-4/5 sm:w-3/5 md:w-2/5 mt-5">

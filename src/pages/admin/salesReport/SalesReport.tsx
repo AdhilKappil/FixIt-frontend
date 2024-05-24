@@ -48,6 +48,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "_id", headerName: "Booking Id", width: 220 },
+      { field: "service", headerName: "Service", width: 140 },
       { field: "userId", headerName: "User Id", width: 220 },
       { field: "workerId", headerName: "Worker Id", width: 220 },
       {
@@ -90,6 +91,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
 
     const transformedRows = visibleRows.map((row) => ({
       BookingId: row._id,
+      Service: row.service,
       UserId: row.userId,
       WorkerId: row.workerId,
       Date: moment(row.createdAt).format(" DD-MM-YYYY"),
@@ -100,6 +102,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
 
     transformedRows.push({
       BookingId: "",
+      Service:"",
       UserId: "",
       WorkerId: "",
       Date: "",
@@ -113,6 +116,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     // Set column widths
     const columnWidths = [
       { wch: 25 },
+      { wch: 20 },
       { wch: 25 },
       { wch: 25 },
       { wch: 12 },

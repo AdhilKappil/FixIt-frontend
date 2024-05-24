@@ -40,7 +40,7 @@ const AddLocation = () => {
   return (
     <>
       <Navbar />
-      <BookingProgess/>
+      <BookingProgess status="false"/>
       <div className="pt-10 md:px-20 px-5">
         <Box
           sx={{

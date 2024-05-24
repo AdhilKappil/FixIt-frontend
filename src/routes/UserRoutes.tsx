@@ -10,6 +10,7 @@ import AddBookingDetails from '../components/user/Booking/AddBookingDetails';
 import UserPrivateRoute from './privateRoutes/UserPrivateRoute';
 import MyBooking from '../components/user/MyBooking';
 import UserChat from '../components/user/UserChat';
+import BookkingDetails from '../components/user/Booking/BookkingDetails';
 
 
 function UserRoutes() {
@@ -21,6 +22,7 @@ function UserRoutes() {
       <Route path='*' element={<UserPrivateRoute/>}>
       <Route path="addLocation" element={<AddLocation/>} />
       <Route path="addBookingDetails" element={<AddBookingDetails/>} />
+      <Route path="bookingDetails" element={<BookkingDetails/>} />
       </Route>
       <Route path="profile" element={<UserSidebar />}>
           <Route path="personalInfo" element={<AccountInfo/>}/>
