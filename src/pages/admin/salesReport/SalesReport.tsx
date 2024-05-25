@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import {
   DataGrid,
   GridCellParams,
   gridClasses,
   GridColDef,
+  GridRowId,
   GridSortModel,
   useGridApiRef,
 } from "@mui/x-data-grid";
@@ -15,6 +16,8 @@ import { useGetBookingsMutation } from "../../../slices/api/workerApiSlice";
 import { IBooking } from "../../../@types/schema";
 import * as XLSX from "xlsx";
 
+
+
 const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [getBookings] = useGetBookingsMutation();
@@ -22,6 +25,8 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
   const apiRef = useGridApiRef();
 
   useEffect(() => {
@@ -45,43 +50,75 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     fetchUser();
   }, [link]);
 
+  const formatId = (id: string) => id.slice(-8).toUpperCase();
+
   const columns: GridColDef[] = useMemo(
     () => [
-      { field: "_id", headerName: "Booking Id", width: 220 },
-      { field: "service", headerName: "Service", width: 140 },
-      { field: "userId", headerName: "User Id", width: 220 },
-      { field: "workerId", headerName: "Worker Id", width: 220 },
+      {
+        field: "_id",
+        headerName: "Booking Id",
+        width: 170,
+        renderCell: (params: GridCellParams) => formatId(params.value as string),
+      },
+      { field: "service", headerName: "Service", width: 170 },
+      {
+        field: "userId",
+        headerName: "User",
+        width: 170,
+        renderCell: (params: GridCellParams) => params.row.userId.name,
+      },
+      {
+        field: "workerId",
+        headerName: "Worker",
+        width: 170,
+        renderCell: (params: GridCellParams) => params.row.workerId.name,
+      },
       {
         field: "updatedAt",
         headerName: "Date",
-        width: 120,
+        width: 170,
         renderCell: (params: GridCellParams) =>
           moment(params.row.createdAt).format(" DD-MM-YYYY"),
       },
+      { field: "paymentId", headerName: "Transaction Id", width: 270 },
       {
         field: "price",
         headerName: "Amount",
-        width: 100,
+        width: 170,
         renderCell: (params: GridCellParams) => `₹${params.value}`,
-      },
-      { field: "paymentId", headerName: "Transaction Id", width: 250 },
-      {
-        field: "payment",
-        headerName: "Payment Status",
-        width: 120,
-        renderCell: (params: GridCellParams) =>
-          params.value ? "Success" : "Pending",
       },
     ],
     [rowId]
   );
 
-  const totalSales = useMemo(
-    () => bookings.reduce((total, booking) => total + booking.price, 0),
-    [bookings]
-  );
+  const filteredBookings = useMemo(() => {
+    return bookings.filter((booking) => {
+      const bookingDate = moment(booking.updatedAt);
+      const from = fromDate ? moment(fromDate) : null;
+      const to = toDate ? moment(toDate) : null;
 
-  const totalProfit = useMemo(() => totalSales * 0.03, [totalSales]);
+      if (from && bookingDate.isBefore(from, "day")) return false;
+      if (to && bookingDate.isAfter(to, "day")) return false;
+
+      return true;
+    });
+  }, [bookings, fromDate, toDate]);
+
+  const totalSales = useMemo(
+    () => {
+      const sales = filteredBookings.reduce((total, booking) => total + booking.price, 0);
+      return Math.round(parseFloat(sales.toFixed(2)));
+    },
+    [filteredBookings]
+  );
+  
+  const totalProfit = useMemo(
+    () => {
+      const profit = totalSales * 0.03;
+      return Math.round(parseFloat(profit.toFixed(2)));
+    },
+    [totalSales]
+  );
 
   const handleDownload = () => {
     if (!apiRef.current) return;
@@ -90,25 +127,25 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     const visibleRows = allRows.slice(page * pageSize, (page + 1) * pageSize);
 
     const transformedRows = visibleRows.map((row) => ({
-      BookingId: row._id,
+      BookingId: formatId(row._id),
       Service: row.service,
-      UserId: row.userId,
-      WorkerId: row.workerId,
+      UserId: row.userId.name,
+      WorkerId: row.workerId.name,
       Date: moment(row.createdAt).format(" DD-MM-YYYY"),
       Amount: `₹${row.price}`,
       TransactionId: row.paymentId,
-      PaymentStatus: row.payment ? "Success" : "Pending",
+      
     }));
 
     transformedRows.push({
       BookingId: "",
-      Service:"",
+      Service:`Total Profit: ₹${totalProfit}`,
       UserId: "",
       WorkerId: "",
       Date: "",
-      Amount: `Total Sales: ₹${totalSales.toFixed(2)}`,
-      TransactionId: "",
-      PaymentStatus: `Total Profit: ₹${totalProfit.toFixed(2)}`,
+      Amount: `Total Sales: ₹${totalSales}`,
+      TransactionId:"",
+      
     });
 
     const ws = XLSX.utils.json_to_sheet(transformedRows);
@@ -133,7 +170,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   };
 
   return (
-    <Box sx={{ height: 450, width: "95%", mt: 4 }}>
+    <Box sx={{  width: "95%", mt: 4 }}>
       <Typography
         variant="h4"
         component="h4"
@@ -141,9 +178,31 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
       >
         Sales Report
       </Typography>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        <Grid item xs={6} md={3}>
+          <TextField
+            label="From Date"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <TextField
+            label="To Date"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
       <DataGrid
         columns={columns}
-        rows={bookings}
+        rows={filteredBookings}
         getRowId={(row: any) => row._id}
         pageSize={pageSize}
         page={page}
@@ -168,7 +227,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
       <Grid container sx={{ alignItems: "center", mt: 2 }}>
         <Grid item xs={4}>
           <Typography variant="h6" component="div">
-            Total Sales: ₹{totalSales.toFixed(2)}
+            Total Sales: ₹{totalSales}
           </Typography>
         </Grid>
         <Grid item xs={4} sx={{ textAlign: "center" }}>
@@ -182,7 +241,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
         </Grid>
         <Grid item xs={4} sx={{ textAlign: "right" }}>
           <Typography variant="h6" component="div">
-            Total Profit: ₹{totalProfit.toFixed(2)}
+            Total Profit: ₹{totalProfit}
           </Typography>
         </Grid>
       </Grid>

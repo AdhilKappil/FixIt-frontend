@@ -35,6 +35,7 @@ function MyBooking() {
           workerId: "",
           service: "",
         }).unwrap();
+        console.log(res);
         const bookingsWithLocation = await Promise.all(
           res.data.map(async (booking: any) => {
             const { latitude, longitude } = booking;
@@ -88,6 +89,8 @@ function MyBooking() {
         workerId: "",
         service: "",
       }).unwrap();
+      console.log(res);
+      
       const bookingsWithLocation = await Promise.all(
         res.data.map(async (booking: any) => {
           const { latitude, longitude } = booking;

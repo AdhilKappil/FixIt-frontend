@@ -27,7 +27,7 @@ export interface IWorker {
 
   export interface IBooking {
     _id: string;
-    userId: string;
+    userId: string ;
     workerId: string;
     service : string;
     serviceImg:string;

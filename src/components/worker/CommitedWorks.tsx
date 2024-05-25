@@ -45,9 +45,9 @@ const navigate = useNavigate()
       try {
         const res = await getBookings({
           status: "commited",
-          service: workerInfo?.service,
+          service: "",
           userId: "",
-          workerId: "",
+          workerId: workerInfo?._id,
         }).unwrap();
         const bookingsWithLocation = await Promise.all(
           res.data.map(async (booking: any) => {
