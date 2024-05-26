@@ -38,7 +38,7 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
       {
         field: "profile_img",
         headerName: "Profile",
-        width: 60,
+        width: 100,
         renderCell: (params: GridCellParams) => (
           <Avatar src={params.row.profile_img} />
         ),
@@ -46,7 +46,7 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
         filterable: false,
       },
       { field: "name", headerName: "Name", width: 170 },
-      { field: "email", headerName: "Email", width: 200 },
+      { field: "email", headerName: "Email", width: 300 },
       { field: "mobile", headerName: "Mobile", width: 200 },
       {
         field: "createdAt",
@@ -55,7 +55,6 @@ const UsersManagement: React.FC<Selected> = ({ setSelectedLink, link }) => {
         renderCell: (params: GridCellParams) =>
           moment(params.row.createdAt).format(" DD-MM-YYYY"),
       },
-      { field: "_id", headerName: "Id", width: 220 },
       {
         field: "isBlocked",
         headerName: "Blocked",

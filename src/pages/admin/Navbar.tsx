@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import {  Brightness4, Brightness7, Home } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import SideBar from '../../components/common/Sidebar';
+import SideBar from '../../components/admin/Sidebar';
 
 const drawerWidth = 240;
 
