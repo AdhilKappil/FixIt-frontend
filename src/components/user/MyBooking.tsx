@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 import { useNavigate } from "react-router-dom";
 import { loadStripe,Stripe  } from "@stripe/stripe-js";
-const public_stripe_key = "pk_test_51PIUXXSCq8UdAoferwx1NGQqo893YNrXCszS1tVh8qa5C6WBJ8ezUiKgEwMwsBA1CN1RvOuWKpsf5QuuJibVHPtz00eZYV05r6"
+const public_stripe_key = import.meta.env.VITE_STRIPE_PUBLIC_KET
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
@@ -35,7 +35,6 @@ function MyBooking() {
           workerId: "",
           service: "",
         }).unwrap();
-        console.log(res);
         const bookingsWithLocation = await Promise.all(
           res.data.map(async (booking: any) => {
             const { latitude, longitude } = booking;

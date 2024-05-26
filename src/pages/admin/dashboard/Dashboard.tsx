@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Selected } from "../../../@types/Props";
 import { Group } from '@mui/icons-material';
 import EngineeringIcon from "@mui/icons-material/Engineering";
@@ -15,17 +15,35 @@ import {
   Typography,
 } from '@mui/material';
 import moment from 'moment';
-import { RootState } from "../../../app/store";
-import { useSelector } from "react-redux";
+import { IUser, IWorker } from "../../../@types/schema";
+import { useGetJoinRequestsMutation, useGetUsersDataMutation } from "../../../slices/api/adminApiSlices";
+import ServiceBookingPieChart from "./ServiceBookingPieChart";
 
 
 function Dashboard({setSelectedLink, link}:Selected) {
 
-  const { userInfo } = useSelector((state:RootState) => state.auth);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [getUsersData] = useGetUsersDataMutation();
+  const [workers, setWorkers] = useState<IWorker[]>([]);
+  const [getJoinRequests] = useGetJoinRequestsMutation();
 
       useEffect(() => {
         setSelectedLink(link);
-      }, []);
+        async function fetchDatas() {
+          try {
+            const user = await getUsersData("").unwrap();
+            setUsers(user.data);
+            const res = await getJoinRequests("").unwrap();
+            const pendingWorkers = res.data.filter(
+              (worker: Record<string, any>) => worker.status === "accept"
+            );
+            setWorkers(pendingWorkers);
+          } catch (error) {
+            console.error("Error fetching users:", error);
+          }
+        }
+        fetchDatas();
+      }, [link]);
       return (
         <Box
           sx={{
@@ -47,7 +65,7 @@ function Dashboard({setSelectedLink, link}:Selected) {
               }}
             >
               <Group sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
-              <Typography variant="h4">0</Typography>
+              <Typography variant="h4">{users.length}</Typography>
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 3 }}>
@@ -60,56 +78,58 @@ function Dashboard({setSelectedLink, link}:Selected) {
               }}
             >
               <EngineeringIcon sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
-              <Typography variant="h4">0</Typography>
+              <Typography variant="h4">{workers.length}</Typography>
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 2, gridColumn: 3, gridRow: '1/4' }}>
             <Box>
               <Typography>Recently added Users</Typography>
               <List>
-                {/* {users.slice(0, 4).map((user, i) => ( */}
-                  <Box >
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar alt={userInfo?.name} src={userInfo?.profile_img} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={userInfo?.name}
-                        secondary={`Joined: ${moment(userInfo?.createdAt).format(
-                          'YYYY-MM-DD'
-                        )}`}
-                      />
-                    </ListItem>
-                    {/* {i !== 3 && <Divider variant="inset" />} */}
-                  </Box>
-                {/* ))} */}
-              </List>
+            {users.slice(0, 3).map((user, i) => (
+              <Box key={user?._id}>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar alt={user?.name} src={user?.profile_img} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={user?.name}
+                    secondary={`Joined: ${moment(user?.createdAt).format(
+                      'YYYY-MM-DD'
+                    )}`}
+                  />
+                </ListItem>
+                {i !== 3 && <Divider variant="inset" />}
+              </Box>
+            ))}
+          </List>
             </Box>
             <Divider sx={{ mt: 3, mb: 3, opacity: 0.7 }} />
-            {/* <Box>
-              <Typography>Recently added Rooms</Typography>
+            <Box>
+              <Typography>Recently added Workers</Typography>
               <List>
-                {rooms.slice(0, 4).map((room, i) => (
-                  <Box key={room._id}>
+                {workers.slice(0, 3).map((worker, i) => (
+                  <Box key={worker?._id}>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar
-                          alt={room?.title}
-                          src={room?.images[0]}
-                          variant="rounded"
+                          alt={worker?.name}
+                          src={worker?.profile_img}
                         />
                       </ListItemAvatar>
                       <ListItemText
-                        primary={room?.title}
-                        secondary={`Added: ${moment(room?.createdAt).fromNow()}`}
-                      />
+                      primary={worker?.name}
+                      secondary={`${worker?.service} | Joined: ${moment(worker?.createdAt).format('YYYY-MM-DD')}`}
+                    />
                     </ListItem>
                     {i !== 3 && <Divider variant="inset" />}
                   </Box>
                 ))}
               </List>
-            </Box> */}
+            </Box>
           </Paper>
+          <Paper elevation={3} sx={{ p: 2, gridColumn: '1/3' }}>
+        <ServiceBookingPieChart />
+      </Paper>
         </Box>
       );
     };

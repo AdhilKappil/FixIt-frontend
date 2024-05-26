@@ -88,6 +88,15 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+     // Get bookings
+     adminGetBookings: builder.mutation({
+      query: ({ userId, status, service,workerId }) => ({
+        url: `${ADMIN_URL}/getBookings`,
+        method: "GET",
+        params: { userId, status, service,workerId },
+      }),
+    }),
+
 
   }),
 });
@@ -102,5 +111,6 @@ export const {
   useEditServiceMutation,
   useGetJoinRequestsMutation,
   useAcceptOrRejectRequestMutation,
-  useBlockWorkerMutation
+  useBlockWorkerMutation,
+  useAdminGetBookingsMutation
 } = adminApiSlice;

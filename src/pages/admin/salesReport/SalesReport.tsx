@@ -12,15 +12,15 @@ import {
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import { Selected } from "../../../@types/Props";
-import { useGetBookingsMutation } from "../../../slices/api/workerApiSlice";
 import { IBooking } from "../../../@types/schema";
 import * as XLSX from "xlsx";
+import { useAdminGetBookingsMutation } from "../../../slices/api/adminApiSlices";
 
 
 
 const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
-  const [getBookings] = useGetBookingsMutation();
+  const [getBookings] = useAdminGetBookingsMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
