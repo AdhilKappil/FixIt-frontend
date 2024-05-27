@@ -15,9 +15,10 @@ import {
   Typography,
 } from '@mui/material';
 import moment from 'moment';
-import { IUser, IWorker } from "../../../@types/schema";
-import { useGetJoinRequestsMutation, useGetUsersDataMutation } from "../../../slices/api/adminApiSlices";
+import { IBooking, IUser, IWorker } from "../../../@types/schema";
+import { useAdminGetBookingsMutation, useGetJoinRequestsMutation, useGetUsersDataMutation } from "../../../slices/api/adminApiSlices";
 import ServiceBookingPieChart from "./ServiceBookingPieChart";
+import GraphUsersBookings from "./GrapshUserBokkings";
 
 
 function Dashboard({setSelectedLink, link}:Selected) {
@@ -26,18 +27,29 @@ function Dashboard({setSelectedLink, link}:Selected) {
   const [getUsersData] = useGetUsersDataMutation();
   const [workers, setWorkers] = useState<IWorker[]>([]);
   const [getJoinRequests] = useGetJoinRequestsMutation();
+  const [bookings, setBookings] = useState<IBooking[]>([]);
+  const [getBookings] = useAdminGetBookingsMutation();
+
 
       useEffect(() => {
         setSelectedLink(link);
         async function fetchDatas() {
           try {
+            // for getting user
             const user = await getUsersData("").unwrap();
             setUsers(user.data);
-            const res = await getJoinRequests("").unwrap();
-            const pendingWorkers = res.data.filter(
+
+            // for getting worker
+            const worker = await getJoinRequests("").unwrap();
+            const acceptWorkers = worker.data.filter(
               (worker: Record<string, any>) => worker.status === "accept"
             );
-            setWorkers(pendingWorkers);
+            setWorkers(acceptWorkers);
+
+            //for getting bookings
+            const booking = await getBookings({
+              userId: "",status: "completed",workerId: "",service: "" }).unwrap();
+              setBookings(booking.data)
           } catch (error) {
             console.error("Error fetching users:", error);
           }
@@ -121,7 +133,31 @@ function Dashboard({setSelectedLink, link}:Selected) {
                       secondary={`${worker?.service} | Joined: ${moment(worker?.createdAt).format('YYYY-MM-DD')}`}
                     />
                     </ListItem>
-                    {i !== 3 && <Divider variant="inset" />}
+                    {i !== 3 && <Divider variant="inset"/>}
+                  </Box>
+                ))}
+              </List>
+            </Box>
+            <Divider sx={{ mt: 3, mb: 3, opacity: 0.7 }} />
+            <Box>
+              <Typography>Recent Bookings</Typography>
+              <List>
+                {bookings.slice(0, 3).map((booking, i) => (
+                  <Box key={booking?._id}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar
+                          alt={booking?.service}
+                          src={booking?.serviceImg}
+                          variant="rounded"
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                      primary={booking?.service}
+                      secondary={`Date: ${moment(booking?.createdAt).format('YYYY-MM-DD')}`}
+                    />
+                    </ListItem>
+                    {i !== 3 && <Divider variant="inset"/>}
                   </Box>
                 ))}
               </List>
@@ -129,6 +165,9 @@ function Dashboard({setSelectedLink, link}:Selected) {
           </Paper>
           <Paper elevation={3} sx={{ p: 2, gridColumn: '1/3' }}>
         <ServiceBookingPieChart />
+      </Paper>
+      <Paper elevation={3} sx={{ p: 2, gridColumn: '1/3' }}>
+        <GraphUsersBookings users={users} bookings={bookings} />
       </Paper>
         </Box>
       );
