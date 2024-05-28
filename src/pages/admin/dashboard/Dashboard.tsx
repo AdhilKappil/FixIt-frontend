@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Selected } from "../../../@types/Props";
 import { Group } from '@mui/icons-material';
 import EngineeringIcon from "@mui/icons-material/Engineering";
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import {
   Avatar,
@@ -119,7 +121,7 @@ function Dashboard({ setSelectedLink, link }: Selected) {
                 justifyContent: 'center',
               }}
             >
-              <Group sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
+              <ShoppingCartIcon sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
               <Typography variant="h4">{bookings.length}</Typography>
             </Box>
           </Paper>
@@ -132,7 +134,7 @@ function Dashboard({ setSelectedLink, link }: Selected) {
                 justifyContent: 'center',
               }}
             >
-              <EngineeringIcon sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
+               <MiscellaneousServicesIcon sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }} />
               <Typography variant="h4">{service.length}</Typography>
             </Box>
           </Paper>

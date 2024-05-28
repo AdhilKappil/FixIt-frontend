@@ -21,10 +21,10 @@ function ServiceDetails() {
       <Navbar />
       <div className="">
         <div className=" relative flex justify-center p-10 max-md:p-5">
-          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+          <div className="absolute inset-0 bg-black bg-opacity-10"></div>
           <div className="max-md:grid max-md:w-full flex w-3/4">
             <div className="mt-5 w-1/2 max-md:w-full grid p-5 justify-center">
-              <h1 className="relative text-5xl max-lg:text-4xl leading-tight text-primary font-Sans font-bold ">
+              <h1 className="relative text-5xl max-lg:text-4xl leading-tight text-primary font-Sans">
                 Top-Notch Services Await: Quality Solutions for Everyday Needs!
               </h1>
               <div className="flex justify-center">
