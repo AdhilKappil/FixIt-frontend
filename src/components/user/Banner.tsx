@@ -7,10 +7,10 @@ function Banner() {
 
   return (
     <div className="">
-       <div className=" relative flex justify-center pt-5 px-5 max-md:p-5">
+       <div className=" relative flex justify-center pt-5 max-md:p-5">
           <div className="absolute inset-0 bg-black bg-opacity-10"></div>
           <div className="max-md:grid max-md:w-full flex w-3/4">
-            <div className="mt-20 w-1/2 max-md:w-full grid p-5 justify-center">
+            <div className="mt-20 w-1/2 max-md:w-full grid p-5 justify-center" data-aos="fade-down">
               <h1 className="relative text-5xl max-lg:text-4xl leading-tight text-primary font-Sans font-light">
               Your Home, Our Priority Premier Services for Every Corner of Your House!
               </h1>
@@ -23,7 +23,7 @@ function Banner() {
                 </button>
               </div>
             </div>
-            <div className="w-1/2 max-md:w-full">
+            <div className="w-1/2 max-md:w-full" data-aos="fade-up">
               <img
               style={{ height: "calc(100vh - 80px)"}}
                 className="w-full rounded-lg"
