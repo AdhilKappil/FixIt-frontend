@@ -11,6 +11,7 @@ import UserPrivateRoute from './privateRoutes/UserPrivateRoute';
 import MyBooking from '../components/user/MyBooking';
 import UserChat from '../components/user/UserChat';
 import BookkingDetails from '../components/user/Booking/BookkingDetails';
+import About from '../components/common/About';
 
 
 function UserRoutes() {
@@ -19,6 +20,7 @@ function UserRoutes() {
       <Route path="/" element={<HomeScreen />} />
       <Route path="services" element={<Services/>} />
       <Route path="serviceDetails" element={<ServiceDetails/>} />
+      <Route path="about" element={<About/>} />
       <Route path='*' element={<UserPrivateRoute/>}>
       <Route path="addLocation" element={<AddLocation/>} />
       <Route path="addBookingDetails" element={<AddBookingDetails/>} />

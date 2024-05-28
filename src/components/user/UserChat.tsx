@@ -27,7 +27,6 @@ function UserChat()  {
         socket?.emit("addUser", userInfo?._id);
         socket?.on("getMessage", (data: any) => {
           console.log(data);
-    
           // Append the new message to the existing array
           setMessage((prev) => [
             ...prev,
