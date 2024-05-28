@@ -50,7 +50,7 @@ function Dashboard({ setSelectedLink, link }: Selected) {
 
         // for getting bookings
         const booking = await getBookings({
-          userId: "", status: "completed", workerId: "", service: ""
+          userId: "", status: "all", workerId: "", service: ""
         }).unwrap();
         setBookings(booking.data);
 

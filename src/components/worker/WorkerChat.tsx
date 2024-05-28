@@ -95,11 +95,18 @@ function WorkerChat(props: { conversationData: IConversation }) {
       <div className="sticky top-0 z-10 bg-tertiary">
         <div className="flex items-center gap-5 p-3 ">
           <div className="">
+            {props.conversationData.user_profile ? 
             <img
-              className="h-16 w-16 rounded-full"
-              src={props.conversationData.user_profile}
-              alt=""
-            />
+            className="h-16 w-16 rounded-full"
+            src={props.conversationData.user_profile}
+            alt=""
+          />
+          : <img
+          className="h-16 w-16 rounded-full"
+          src="/src/assets/img/images.jpg"
+          alt=""
+        />
+            }
           </div>
           <div className="font-Sans text-2xl">
             {props.conversationData.user}

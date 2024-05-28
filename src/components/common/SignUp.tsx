@@ -1,4 +1,3 @@
-
 import Modal from "react-modal";
 import { CustomStyles } from "./ModalStyle";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,17 +14,16 @@ import { openOtpModal } from "../../slices/modalSlices/OtpModal";
 import { FormValues, MyError } from "../../validation/validationTypes";
 import Spinner from "./Spinner";
 import { useState } from "react";
-
+import { MdEmail, MdPerson, MdPhone } from "react-icons/md";
+import { IoMdLock } from "react-icons/io";
 
 function SignUp() {
-    
-  const modalIsOpen = useSelector((state: RootState) => state.signupModal.value)
+  const modalIsOpen = useSelector((state: RootState) => state.signupModal.value);
   const [sendOtpToEmail] = useSendOtpToEmailMutation();
-  const [isSumbit, setSubmit] = useState(false)
-  const dispatch = useDispatch()
+  const [isSubmit, setSubmit] = useState(false);
+  const dispatch = useDispatch();
 
-
-  const initialValues : FormValues= {
+  const initialValues: FormValues = {
     name: "",
     mobile: "",
     password: "",
@@ -38,130 +36,145 @@ function SignUp() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       dispatch(setRegister({ ...values }));
-      setSubmit(true)
+      setSubmit(true);
       try {
         const { name, email } = values; // Destructure values
         const res = await sendOtpToEmail({ name, email }).unwrap();
-        dispatch(closeSignupModal())
-        dispatch(openOtpModal())
-        setSubmit(false)
-        toast.success(res.message)
-      } catch (err) { 
+        dispatch(closeSignupModal());
+        dispatch(openOtpModal());
+        setSubmit(false);
+        toast.success(res.message);
+      } catch (err) {
         dispatch(clearRegister());
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
     },
   });
-  
-  function closeModal() { 
-    dispatch(closeSignupModal())
-    
+
+  function closeModal() {
+    dispatch(closeSignupModal());
   }
 
   const handleSigninButtonClick = () => {
     dispatch(closeSignupModal());
-    dispatch(openLoginModal())
+    dispatch(openLoginModal());
   };
 
-  
   return (
     <div>
-    <Modal
-      isOpen={modalIsOpen}
-      // onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
-      style={CustomStyles}
-      contentLabel="Example Modal"
-    >
-      <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
-        <div className="relative z-0 flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-          <div className="p-6 mb-0 text-center font-Sans font-semibold text-2xl text-primary bg-white border-b-0 rounded-t-2xl">
-            <h5>Sign up</h5>
-          </div> 
-          <div className="flex flex-wrap px-3 -mx-3 sm:px-6 xl:px-12 justify-center">
-           
-          </div>
-          <div className="flex-auto">
-            <form role="form text-left" className="md:w-80" onSubmit={handleSubmit}>
-            <div className="mb-4">
-                  <input
-                    name="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    placeholder="Name"
-                    type="text"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"/>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={CustomStyles}
+        contentLabel="Sign Up Modal"
+      >
+        <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
+          <div className="relative z-0 flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
+            <div className="p-6 mb-0 text-center font-Sans font-semibold text-2xl text-primary bg-white border-b-0 rounded-t-2xl">
+              <h5>Sign up</h5>
+            </div>
+            <div className="flex flex-wrap px-3 -mx-3 sm:px-6 xl:px-12 justify-center"></div>
+            <div className="flex-auto">
+              <form role="form text-left" className="md:w-80" onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <div className="relative flex items-center">
+                    <MdPerson size={19} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      placeholder="Name"
+                      type="text"
+                      className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pl-8 pr-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    />
+                  </div>
                   {errors.name && touched.name && (
                     <div className="text-red-500">{errors.name}</div>
                   )}
                 </div>
                 <div className="mb-4">
-                  <input
-                    name="mobile"
-                    value={values.mobile}
-                    onChange={handleChange}
-                    placeholder="Mobile"
-                    type="text"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  <div className="relative flex items-center">
+                    <MdPhone size={19} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      name="mobile"
+                      value={values.mobile}
+                      onChange={handleChange}
+                      placeholder="Mobile"
+                      type="text"
+                      className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pl-8 pr-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    />
+                  </div>
                   {errors.mobile && touched.mobile && (
                     <div className="text-red-500">{errors.mobile}</div>
                   )}
                 </div>
                 <div className="mb-4">
-                  <input
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    type="email"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  <div className="relative flex items-center">
+                    <MdEmail size={19} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      type="email"
+                      className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pl-8 pr-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    />
+                  </div>
                   {errors.email && touched.email && (
                     <div className="text-red-500">{errors.email}</div>
                   )}
                 </div>
                 <div className="mb-4">
-                  <input
-                    name="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    placeholder="Password"
-                    type="password"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  <div className="relative flex items-center">
+                    <IoMdLock size={22} className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      placeholder="Password"
+                      type="password"
+                      className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pl-8 pr-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    />
+                  </div>
                   {errors.password && touched.password && (
                     <div className="text-red-500">{errors.password}</div>
                   )}
                 </div>
                 <div className="mb-4">
-                  <input
-                    name="cpassword"
-                    value={values.cpassword}
-                    onChange={handleChange}
-                    placeholder="Confirm password"
-                    type="password"
-                    className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"                  />
+                  <div className="relative flex items-center">
+                    <IoMdLock size={22} className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      name="cpassword"
+                      value={values.cpassword}
+                      onChange={handleChange}
+                      placeholder="Confirm password"
+                      type="password"
+                      className="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pl-8 pr-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    />
+                  </div>
                   {errors.cpassword && touched.cpassword && (
                     <div className="text-red-500">{errors.cpassword}</div>
                   )}
                 </div>
-              <div className="text-center">
-                <button type="submit" className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">
-                  {isSumbit ? <Spinner/> : "Sign Up"} </button>
-              </div>
-              <p className="mt-4 mb-0 leading-normal text-sm">
-                Already have an account?
-                <button onClick={handleSigninButtonClick}
-                    className="font-bold text-slate-700">
-                      Sign in
+                <div className="text-center">
+                  <button type="submit" className="bg-primary hover:bg-black w-full text-white p-2 rounded-md">
+                    {isSubmit ? <Spinner /> : "Sign Up"}
                   </button>
-              </p>
-            </form>
+                </div>
+                <p className="mt-4 mb-0 leading-normal text-sm">
+                  Already have an account?
+                  <button onClick={handleSigninButtonClick} className="font-bold text-slate-700">
+                    Sign in
+                  </button>
+                </p>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
-    <OTP/>
-  </div>
-  )
+      </Modal>
+      <OTP />
+    </div>
+  );
 }
 
-export default SignUp
+export default SignUp;
