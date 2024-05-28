@@ -7,14 +7,15 @@ import AccountInfo from "../components/worker/AccountInfo";
 import NewWorks from "../components/worker/NewWorks";
 import CommitedWorks from "../components/worker/CommitedWorks";
 import WorkViewDetails from "../pages/worker/WorkViewDetails";
-import UserChat from "../components/user/UserChat";
 import CompletedWork from "../components/worker/CompletedWork";
+import Home from "../components/worker/Home";
 
 function WorkerRoutes() {
   return (
     <Routes>
       <Route path="/workerLogin" element={<WorkerLogin />} />
       <Route path="/signup" element={<JoinTeam />} />
+      <Route path="/home" element={<Home />} />
       <Route path="*" element={<WorkerPrivateRoute />}>
         <Route path="*" element={<Profile />}>
           <Route path="accountInfo" element={<AccountInfo/>}/>

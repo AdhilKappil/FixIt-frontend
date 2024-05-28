@@ -16,7 +16,7 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Home', href: '#', current: false },
+  { name: 'Home', href: '/worker/home', current: false },
   { name: 'About', href: '#', current: false },
   { name: 'Contact', href: '#', current: false },
 ];
