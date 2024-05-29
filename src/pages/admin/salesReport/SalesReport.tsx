@@ -15,14 +15,10 @@ import { IBooking } from "../../../@types/schema";
 import * as XLSX from "xlsx";
 import { useAdminGetBookingsMutation } from "../../../slices/api/adminApiSlices";
 
-
-
 const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [getBookings] = useAdminGetBookingsMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
@@ -47,7 +43,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     }
 
     fetchUser();
-  }, [link]);
+  }, [link, getBookings, setSelectedLink]);
 
   const formatId = (id: string) => id.slice(-8).toUpperCase();
 
@@ -110,7 +106,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     },
     [filteredBookings]
   );
-  
+
   const totalProfit = useMemo(
     () => {
       const profit = totalSales * 0.03;
@@ -123,9 +119,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
     if (!apiRef.current) return;
 
     const allRows = apiRef.current.getSortedRows();
-    const visibleRows = allRows.slice(page * pageSize, (page + 1) * pageSize);
-
-    const transformedRows = visibleRows.map((row) => ({
+    const transformedRows = allRows.map((row) => ({
       BookingId: formatId(row._id),
       Service: row.service,
       UserId: row.userId.name,
@@ -133,18 +127,16 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
       Date: moment(row.createdAt).format(" DD-MM-YYYY"),
       Amount: `₹${row.price}`,
       TransactionId: row.paymentId,
-      
     }));
 
     transformedRows.push({
       BookingId: "",
-      Service:`Total Profit: ₹${totalProfit}`,
+      Service: `Total Profit: ₹${totalProfit}`,
       UserId: "",
       WorkerId: "",
       Date: "",
       Amount: `Total Sales: ₹${totalSales}`,
-      TransactionId:"",
-      
+      TransactionId: "",
     });
 
     const ws = XLSX.utils.json_to_sheet(transformedRows);
@@ -169,7 +161,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   };
 
   return (
-    <Box sx={{  width: "95%", mt: 4 }}>
+    <Box sx={{ width: "95%", mt: 4 }}>
       <Typography
         variant="h4"
         component="h4"
@@ -203,10 +195,6 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
         columns={columns}
         rows={filteredBookings}
         getRowId={(row: any) => row._id}
-        pageSize={pageSize}
-        page={page}
-        onPageChange={(params: any) => setPage(params.page)}
-        onPageSizeChange={(params: any) => setPageSize(params.pageSize)}
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
         getRowSpacing={(params) => ({
