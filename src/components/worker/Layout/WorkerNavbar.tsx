@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Login from '../../common/Login';
 import { workerLogOut } from '../../../slices/authSlice';
 import { RootState } from '../../../app/store';
+import { useWorkerLogoutMutation } from '../../../slices/api/workerApiSlice';
+import { toast } from 'react-toastify';
 // import { useWorkerLogoutMutation } from '../../../slices/workerApiSlice';
 
 type NavigationItem = {
@@ -30,11 +32,13 @@ export default function WorkerNavbar() {
   const dispatch = useDispatch()
   const { workerInfo } = useSelector((state:RootState) => state.auth);
   const navigate = useNavigate()
-//   const [logOut] = useWorkerLogoutMutation();
+  const [logOut] = useWorkerLogoutMutation();
 
 
   const handleLogout = async()=>{
     try {
+      const res = await logOut("").unwrap()
+      toast.success(res.message)
       dispatch(workerLogOut())
       navigate('/worker/workerLogin')
     //   await logOut('').unwrap()
@@ -96,7 +100,7 @@ export default function WorkerNavbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </a>
 
-                  
+                {workerInfo ?
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -117,29 +121,34 @@ export default function WorkerNavbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
+                
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                    <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
+                          <button
+                           onClick={()=>navigate("/worker")}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Settings
-                          </a>
+                            Your Profile
+                          </button>
                         )}
                       </Menu.Item>
                       <Menu.Item>
-                        {({ active }) => (
-                          <a onClick={handleLogout}
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
+                      {({ active }) => (
+                        <a onClick={handleLogout}
+                          className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                        >
+                          Sign out
+                        </a>
+                      )}
+                    </Menu.Item>
                     </Menu.Items>
+                  
                   </Transition>
                 </Menu> 
+                  : <button  onClick={()=>navigate("/worker/workerLogin")}  className='bg-primary hover:bg-black text-white rounded w-20 h-8 ml-3 text-sm'>Login
+                  </button>
+                   } 
               </div>
             </div>
           <Login/>

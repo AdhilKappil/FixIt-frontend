@@ -90,13 +90,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
     }),
   }),
 
-    //   setImg: builder.mutation({
-    //     query: (data) => ({
-    //       url: `${USER_URL}/addProfile`,
-    //       method: 'POST', // Corrected method to POST
-    //       body: data,
-    //     }),
-    //   }),
+
   }),
 });
 

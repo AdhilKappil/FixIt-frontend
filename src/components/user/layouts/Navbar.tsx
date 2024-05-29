@@ -8,6 +8,7 @@ import Login from '../../common/Login';
 import { RootState } from '../../../app/store';
 import { userLogOut } from '../../../slices/authSlice';
 import { useLogoutMutation } from '../../../slices/api/userApiSlice';
+import { toast } from 'react-toastify';
 
 
 type NavigationItem = {
@@ -41,9 +42,10 @@ export default function Navbar() {
 
   const handleLogout = async()=>{
     try {
+      const res = await logOut('').unwrap()
+      toast.success(res.message)
       navigate('/')
       dispatch(userLogOut())
-      await logOut('').unwrap()
     } catch (error) {
       console.error(error);
     }
@@ -141,16 +143,6 @@ export default function Navbar() {
                           >
                             Your Profile
                           </button>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
                         )}
                       </Menu.Item>
                       <Menu.Item>

@@ -12,6 +12,12 @@ import { ThemeProvider } from '@emotion/react';
 import {  Brightness4, Brightness7, Home } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import SideBar from '../../components/admin/Sidebar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useAdminLogoutMutation } from '../../slices/api/adminApiSlices';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { adminLogout } from '../../slices/authSlice';
+import { toast } from 'react-toastify';
 
 const drawerWidth = 240;
 
@@ -42,9 +48,12 @@ const AppBar = styled(MuiAppBar, {
 
 
 export default function Navbar() {
-//   const theme = useTheme();
+
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(true)
+  const [logOut] = useAdminLogoutMutation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const darkTheam = useMemo(()=>createTheme({
     palette:{
@@ -55,6 +64,18 @@ export default function Navbar() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+  const handleLogOut = async()=>{
+    try {
+      const res = await logOut("").unwrap()
+      dispatch(adminLogout())
+      toast.success(res.message)
+      navigate("/admin/adminLogin")
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
 
   return (
@@ -85,6 +106,9 @@ export default function Navbar() {
           </Typography>
           <IconButton onClick={()=>setDark(!dark)}>
             {dark ? <Brightness7/> : <Brightness4/>}
+          </IconButton>
+          <IconButton onClick={handleLogOut}>
+            <LogoutIcon/>
           </IconButton>
         </Toolbar>
       </AppBar>

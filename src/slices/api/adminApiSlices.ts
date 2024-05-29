@@ -14,12 +14,12 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // adminLogout: builder.mutation({
-    //   query: () => ({
-    //     url: `${ADMIN_URL}/logout`,
-    //     method: 'POST'
-    //   })
-    // }),
+    adminLogout: builder.mutation({
+      query: () => ({
+        url: `${ADMIN_URL}/logout`,
+        method: 'POST'
+      })
+    }),
 
     // For get user data
     getUsersData: builder.mutation({
@@ -103,7 +103,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useAdminLoginMutation,
-  //   useAdminLogoutMutation,
+    useAdminLogoutMutation,
   useGetUsersDataMutation,
   usePutBlockUserMutation,
   useCreateServiceMutation,

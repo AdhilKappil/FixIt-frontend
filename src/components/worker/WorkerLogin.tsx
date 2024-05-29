@@ -123,12 +123,10 @@ function WorkerLogin() {
             New Feature
           </span> */}
           <p className="my-6 text-3xl font-semibold leading-10">
-            Join us and become our heroes! Spend less time and earn more money
-            with our platform.
+          Find your happiness by offering your best skills at the right place and time.
             <span className="abg-white whitespace-nowrap py-2 text-cyan-300">
             We'll achieve greatness.
             </span>
-            .
           </p>
           <p className="mb-4">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt
@@ -141,7 +139,7 @@ function WorkerLogin() {
             Learn More
           </a>
         </div>
-        <img className="ml-8 w-11/12 max-w-lg rounded-lg object-cover" src="" />
+        <img className="ml-8 w-11/12 max-w-lg rounded-lg object-cover" src=""/>
       </div>
     </div>
   );
