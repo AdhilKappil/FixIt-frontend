@@ -33,7 +33,6 @@ export interface IWorker {
     serviceImg:string;
     firstHourCharge : number;
     laterHourCharge : number;
-    // description: string;
     date: string;
     startTime: string;
     endTime: string;
@@ -57,11 +56,6 @@ export interface IWorker {
     createdAt: string;
 }
 
-
-// export interface IConversation {
-//   _id: string;
-//   members: string[];
-// }
 
 export interface IConversation {
   _id: string;

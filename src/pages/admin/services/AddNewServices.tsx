@@ -11,8 +11,6 @@ import { AddNewServicesProps } from "../../../@types/Props";
 import Spinner from "../../../components/common/Spinner";
 
 
-
-
 function AddNewServices({ setAddService }: AddNewServicesProps) {
      
       const [createService] = useCreateServiceMutation();

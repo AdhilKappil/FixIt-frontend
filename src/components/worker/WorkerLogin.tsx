@@ -10,39 +10,37 @@ import { useEffect } from "react";
 import { RootState } from "../../app/store";
 
 function WorkerLogin() {
+  const [login] = useWorkerLoginMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { workerInfo } = useSelector((state: RootState) => state.auth);
 
-    const [login] = useWorkerLoginMutation();
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { workerInfo } = useSelector((state:RootState) => state.auth);
+  useEffect(() => {
+    if (workerInfo) {
+      navigate("/worker");
+    }
+  }, [navigate, workerInfo]);
 
-    useEffect(()=>{
-      if(workerInfo){
-          navigate('/worker')
+  const initialValues: FormLogin = {
+    password: "",
+    email: "",
+  };
+
+  const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+    initialValues: initialValues,
+    validationSchema: loginValidation,
+    onSubmit: async (values) => {
+      try {
+        const { password, email } = values; // Destructure values
+        const res = await login({ password, email }).unwrap();
+        dispatch(setWorkerCredential({ ...res.data }));
+        navigate("/worker");
+        toast.success(res.message);
+      } catch (err) {
+        toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
       }
-  },[navigate, workerInfo])
-
-    const initialValues : FormLogin= {
-        password: "",
-        email: "",
-      };
-    
-      const { values, handleChange, handleSubmit, errors, touched } = useFormik({
-        initialValues: initialValues,
-        validationSchema: loginValidation,
-        onSubmit: async (values) => {
-          try {
-    
-            const { password, email } = values; // Destructure values
-            const res = await login({ password, email }).unwrap();
-            dispatch(setWorkerCredential({...res.data}))
-            navigate('/worker')
-            toast.success(res.message)
-          } catch (err) { 
-            toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
-          }
-        },
-      });
+    },
+  });
 
   return (
     <div className="flex w-screen flex-wrap text-slate-800">
@@ -59,21 +57,24 @@ function WorkerLogin() {
             Sign in to your account below.
           </p>
 
-          <form className="flex flex-col items-stretch pt-3 md:pt-8" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col items-stretch pt-3 md:pt-8"
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-col pt-4">
               <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                 <input
-                   name="email"
-                   value={values.email}
-                   onChange={handleChange}
-                   placeholder="Email"
-                   type="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  type="email"
                   className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
-                  />
+                />
               </div>
-                  {errors.email && touched.email && (
-                    <div className="text-red-500">{errors.email}</div>
-                  )}
+              {errors.email && touched.email && (
+                <div className="text-red-500">{errors.email}</div>
+              )}
             </div>
             <div className="mb-4 flex flex-col pt-4">
               <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
@@ -82,21 +83,16 @@ function WorkerLogin() {
                   type="password"
                   id="login-password"
                   value={values.password}
-                    onChange={handleChange}
+                  onChange={handleChange}
                   className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                   placeholder="Password"
-                  />
+                />
               </div>
-                  {errors.password && touched.password && (
-                    <div className="text-red-500">{errors.password}</div>
-                  )}
+              {errors.password && touched.password && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
             </div>
-            {/* <a
-              href="#"
-              className="mb-6 text-center text-sm font-medium text-gray-600 md:text-left"
-            >
-              Forgot password?
-            </a> */}
+
             <button
               type="submit"
               className="bg-primary hover:bg-black w-full text-white p-2 rounded-md"
@@ -108,7 +104,7 @@ function WorkerLogin() {
             <p className="text-gray-600">
               Don't have an account?
               <button
-                onClick={()=>navigate('/worker/signup')}
+                onClick={() => navigate("/worker/signup")}
                 className="whitespace-nowrap font-semibold text-gray-900 underline underline-offset-4 hover:text-blue-500"
               >
                 Join our team for free.
@@ -119,13 +115,11 @@ function WorkerLogin() {
       </div>
       <div className="relative hidden h-screen select-non bg-primary bg-gradient-to-br md:block md:w-1/2">
         <div className="py-16 px-8 text-white xl:w-[40rem]">
-          {/* <span className="rounded-full bg-white px-3 py-1 font-medium text-blue-600">
-            New Feature
-          </span> */}
           <p className="my-6 text-3xl font-semibold leading-10">
-          Find your happiness by offering your best skills at the right place and time.
+            Find your happiness by offering your best skills at the right place
+            and time.
             <span className="abg-white whitespace-nowrap py-2 text-cyan-300">
-            We'll achieve greatness.
+              We'll achieve greatness.
             </span>
           </p>
           <p className="mb-4">
@@ -139,7 +133,7 @@ function WorkerLogin() {
             Learn More
           </a>
         </div>
-        <img className="ml-8 w-11/12 max-w-lg rounded-lg object-cover" src=""/>
+        <img className="ml-8 w-11/12 max-w-lg rounded-lg object-cover" src="" />
       </div>
     </div>
   );

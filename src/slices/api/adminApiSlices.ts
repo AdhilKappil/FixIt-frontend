@@ -2,9 +2,7 @@ import { apiSlice } from "./apiSlice";
 const ADMIN_URL = "/api/admin";
 
 export const adminApiSlice = apiSlice.injectEndpoints({
-
   endpoints: (builder) => ({
-
     // For admin login
     adminLogin: builder.mutation({
       query: (data) => ({
@@ -14,11 +12,12 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // for admin log out
     adminLogout: builder.mutation({
       query: () => ({
         url: `${ADMIN_URL}/logout`,
-        method: 'POST'
-      })
+        method: "POST",
+      }),
     }),
 
     // For get user data
@@ -88,22 +87,20 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-     // Get bookings
-     adminGetBookings: builder.mutation({
-      query: ({ userId, status, service,workerId }) => ({
+    // Get bookings
+    adminGetBookings: builder.mutation({
+      query: ({ userId, status, service, workerId }) => ({
         url: `${ADMIN_URL}/getBookings`,
         method: "GET",
-        params: { userId, status, service,workerId },
+        params: { userId, status, service, workerId },
       }),
     }),
-
-
   }),
 });
 
 export const {
   useAdminLoginMutation,
-    useAdminLogoutMutation,
+  useAdminLogoutMutation,
   useGetUsersDataMutation,
   usePutBlockUserMutation,
   useCreateServiceMutation,
@@ -112,5 +109,5 @@ export const {
   useGetJoinRequestsMutation,
   useAcceptOrRejectRequestMutation,
   useBlockWorkerMutation,
-  useAdminGetBookingsMutation
+  useAdminGetBookingsMutation,
 } = adminApiSlice;

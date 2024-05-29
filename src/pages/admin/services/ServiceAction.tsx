@@ -38,7 +38,6 @@ const ServiceAction = ({
       // Handle error appropriately, e.g., show error message
     } finally {
       setLoading(false);
-    //   setSuccess(false); // Reset success state here
     }
   };
   

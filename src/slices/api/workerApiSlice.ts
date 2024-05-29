@@ -4,6 +4,8 @@ const WORKER_URL = "/api/worker";
 
 export const workerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+
+    // for worker login
     workerLogin: builder.mutation({
       query: (data) => ({
         url: `${WORKER_URL}/login`,
@@ -12,6 +14,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // worker login
     workerLogout: builder.mutation({
       query: () => ({
         url: `${WORKER_URL}/logout`,
@@ -19,6 +22,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    // worker register
     workerRegister: builder.mutation({
       query: (data) => ({
         url: `${WORKER_URL}/signup`,
@@ -81,7 +85,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-     // generate bill
+   // generate bill
    generateBill: builder.mutation({
     query: (data) => ({
       url: `${WORKER_URL}/generateBill`,

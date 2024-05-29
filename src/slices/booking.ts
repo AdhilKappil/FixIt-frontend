@@ -24,20 +24,12 @@ const initialServiceState: ServiceState = {
   laterHourCharge : 0
 };
 
-// interface StartWorkState {
-//   startWork: boolean;
-// }
-
-// const initialStartWorkState: StartWorkState = {
-//   startWork: false,
-// };
 
 export const locationSlice = createSlice({
   name: 'location',
   initialState: {
     ...initialLocationState,
     service: initialServiceState,
-    // startWork: initialStartWorkState.startWork,
   },
   reducers: {
     setLocation: (state, action: PayloadAction<LocationState>) => {
@@ -47,9 +39,6 @@ export const locationSlice = createSlice({
     setServiceDetails: (state, action: PayloadAction<ServiceState>) => {
       state.service = action.payload;
     },
-    // setStartWork: (state) => {
-    //   state.startWork = true;
-    // },
    
   },
 });

@@ -134,7 +134,10 @@ function Login() {
                   </div>
                   <div className="p-4">
                     <div className="relative flex items-center mt-1">
-                      <MdEmail size={20} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <MdEmail
+                        size={20}
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      />
                       <input
                         name="email"
                         value={forgotValues.email}
@@ -218,7 +221,10 @@ function Login() {
                   <div className="flex-auto p-4">
                     <div className="mb-4">
                       <div className="relative flex items-center">
-                        <MdEmail size={19} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <MdEmail
+                          size={19}
+                          className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        />
                         <input
                           name="email"
                           value={loginValues.email}

@@ -10,7 +10,6 @@ import { IService } from "../../../validation/validationTypes";
 import AddNewServices from "./AddNewServices";
 
 
-
 const Services_Mgmt: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [service, setService] = useState<IService[]>([]);

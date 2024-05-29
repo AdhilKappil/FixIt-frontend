@@ -31,14 +31,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         params: { conversationId},
       }),
     }),
-
-    // getConversation: builder.mutation({
-    //   query: ({ senderId, receiverId}) => ({
-    //     url: `${CHAT_URL}/conversation`,
-    //     method: "GET",
-    //     params: { senderId, receiverId},
-    //   }),
-    // }),
  
 
   }),
@@ -49,6 +41,5 @@ export const {
     useCreateConversationMutation,
     useSendMessageMutation,
     useGetMessageMutation
-    // useGetConversationMutation
     
 } = userApiSlice;

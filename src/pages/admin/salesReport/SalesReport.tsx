@@ -5,7 +5,6 @@ import {
   GridCellParams,
   gridClasses,
   GridColDef,
-  GridRowId,
   GridSortModel,
   useGridApiRef,
 } from "@mui/x-data-grid";

@@ -20,8 +20,7 @@ function Otp(props: { bookingId: string; conversationData: IConversation }) {
     backgroundColor: "#F7F7F7",
     border: "1px solid #C7C8CC",
     textAlign: "center",
-    // borderColor: ${error ? "#FF204E" : '#C7C8CC'},
-    // marginBottom: ${error ? "0px" : '12px'}
+
   };
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);

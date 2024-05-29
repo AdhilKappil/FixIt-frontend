@@ -46,7 +46,7 @@ export const serviceValidation = Yup.object().shape({
     .max(500, "Description must be at most 500 characters")
     .matches(/^[^\s]+(\s[^\s]+)*$/, "Description cannot have adjacent spaces")
     .required("Please enter description"),
-    firstHourCharge: Yup.number()
+  firstHourCharge: Yup.number()
     .required("Please enter First hour price")
     .positive("First hour charge must be positive")
     .integer("First hour charge must be an integer")
@@ -95,8 +95,6 @@ export const validationWrokerJoin = Yup.object({
     .integer("Experience must be an integer"),
 });
 
-
-
 export const fogotPasswordShema = Yup.object({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
@@ -111,24 +109,20 @@ export const fogotPasswordShema = Yup.object({
     .required("Please enter confirm password"),
 });
 
-
 export const validationForUserUpdate = Yup.object({
   name: Yup.string()
-  .min(3)
-  .max(30)
-  .matches(/^[^\s]+(\s[^\s]+)*$/, "Name cannot have adjacent spaces")
-  .required("Please enter name"),
-mobile: Yup.string()
-  .matches(/^(?!(\d)\1{9})[5-9]\d{9}$/, "Invalid mobile number")
-  .required("Please enter mobile"),
-})
+    .min(3)
+    .max(30)
+    .matches(/^[^\s]+(\s[^\s]+)*$/, "Name cannot have adjacent spaces")
+    .required("Please enter name"),
+  mobile: Yup.string()
+    .matches(/^(?!(\d)\1{9})[5-9]\d{9}$/, "Invalid mobile number")
+    .required("Please enter mobile"),
+});
 
 // For add booking detaisl from client
 export const addBookingDetails = Yup.object({
-  date: Yup.string()
-  .required("Please choose your prefered date"),
-startTime: Yup.string()
-  .required("Please select start time"),
-endTime: Yup.string()
-  .required("Please select end time"),
-})
+  date: Yup.string().required("Please choose your prefered date"),
+  startTime: Yup.string().required("Please select start time"),
+  endTime: Yup.string().required("Please select end time"),
+});

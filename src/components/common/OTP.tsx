@@ -9,7 +9,11 @@ import {
   useRegisterMutation,
   useSendOtpToEmailMutation,
 } from "../../slices/api/userApiSlice";
-import { clearForgotEmail, clearRegister, setCredential } from "../../slices/authSlice";
+import {
+  clearForgotEmail,
+  clearRegister,
+  setCredential,
+} from "../../slices/authSlice";
 import { closeOtpModal } from "../../slices/modalSlices/OtpModal";
 import { toast } from "react-toastify";
 import { CSSProperties, useEffect, useState } from "react";
@@ -18,7 +22,6 @@ import { useFormik } from "formik";
 import { fogotPasswordShema } from "../../validation/yupValidation";
 import OtpInput from "react-otp-input";
 import { IoMdLock } from "react-icons/io";
-
 
 function OTP() {
   const modalIsOpen = useSelector((state: RootState) => state.OtpModal.value);
@@ -31,7 +34,7 @@ function OTP() {
   const [otpVerification] = useOtpVerificationMutation();
   const [register] = useRegisterMutation();
   const [sendOtpToEmail] = useSendOtpToEmailMutation();
-  const [forgotPassword] = useForgotPasswordMutation()
+  const [forgotPassword] = useForgotPasswordMutation();
 
   const [timer, setTimer] = useState(60);
   const [showResendButton, setShowResendButton] = useState(false);
@@ -66,11 +69,11 @@ function OTP() {
 
   const submitRegisterHandler = async (e: any) => {
     e.preventDefault();
-    if(!otp){
-      return toast.error("Please enter the OTP")
+    if (!otp) {
+      return toast.error("Please enter the OTP");
     }
-    if(otp.length<6){
-      return toast.error("Please enter 6 digits OTP")
+    if (otp.length < 6) {
+      return toast.error("Please enter 6 digits OTP");
     }
     try {
       if (!registerInfo) {
@@ -81,8 +84,8 @@ function OTP() {
         }
       }
       const { email }: any = registerInfo;
-      console.log(otp,"otp");
-        console.log("submit");
+      console.log(otp, "otp");
+      console.log("submit");
       const res = await otpVerification({ otp, email }).unwrap();
 
       if (res.success) {
@@ -107,7 +110,7 @@ function OTP() {
     dispatch(closeOtpModal());
     dispatch(clearRegister());
   }
- 
+
   const initialValues: forgetValues = {
     password: "",
     cpassword: "",
@@ -117,7 +120,7 @@ function OTP() {
     initialValues: initialValues,
     validationSchema: fogotPasswordShema,
     onSubmit: async (values) => {
-      console.log('Form submitted'); // Check if handleSubmit is being called
+      console.log("Form submitted"); // Check if handleSubmit is being called
       try {
         const email = forgotEmailInfo;
         const { password } = values; // Destructure values
@@ -143,16 +146,12 @@ function OTP() {
     backgroundColor: "#F7F7F7",
     border: "1px solid #C7C8CC",
     textAlign: "center",
-    // borderColor: ${error ? "#FF204E" : '#C7C8CC'},
-    // marginBottom: ${error ? "0px" : '12px'}
   };
-  
 
   return (
     <div>
       <Modal
         isOpen={modalIsOpen}
-        // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={CustomStyles}
         contentLabel="Example Modal"
@@ -173,9 +172,12 @@ function OTP() {
                 </span>
               </div>
               <div className="p-4">
-              <div className="mb-4">
+                <div className="mb-4">
                   <div className="relative flex items-center">
-                    <IoMdLock size={22} className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <IoMdLock
+                      size={22}
+                      className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    />
                     <input
                       name="password"
                       value={values.password}
@@ -191,7 +193,10 @@ function OTP() {
                 </div>
                 <div className="mb-4">
                   <div className="relative flex items-center">
-                    <IoMdLock size={22} className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <IoMdLock
+                      size={22}
+                      className="absolute left-1.5 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    />
                     <input
                       name="cpassword"
                       value={values.cpassword}
@@ -205,62 +210,66 @@ function OTP() {
                     <div className="text-red-500">{errors.cpassword}</div>
                   )}
                 </div>
-              <div className="text-center">
-                <button 
-                  type="submit"
-                  className="bg-primary my-2 hover:bg-black w-full text-white p-2 rounded-md"
-                >
-                  Save 
-                </button>
-              </div>
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="bg-primary my-2 hover:bg-black w-full text-white p-2 rounded-md"
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         ) : (
           <div className="">
-          <div className="w-full px-10">
-            <div className="font-Sans text-2xl my-5 flex justify-center">OTP</div>
-            <div className="flex justify-center">
-              <hr className="border w-full" />
-            </div>
-            <div className="font-Sans text-3xl flex justify-center mt-5">
-              Enter OTP
-            </div>
-            <div className="mt-5 flex justify-center">
-              <OtpInput
-                value={otp}
-                onChange={setOtp}
-                numInputs={6}
-                renderSeparator={<span> &nbsp; </span>}
-                renderInput={(props) => <input {...props} style={inputStyles} />}
-              />
-            </div>
-            <div className="flex justify-center mt-5">
-              {" "}
-              {timer > 0 && `Resend OTP in ${timer} seconds`}
-            </div>
-            <div className="flex justify-center my-5">
-              {showResendButton ? (
-                <button
-                  onClick={resendOtpHandler}
-                  className="bg-primary p-2 w-28 text-white rounded"
-                >
-                  Resend OTP
-                </button>
-              ) : (
-                <button
-                  onClick={submitRegisterHandler}
-                  className="bg-primary p-2 w-28 text-white rounded"
-                >
-                  Verify
-                </button>
-              )}
-            </div>
-            <div className="flex justify-center h-10">
-             <hr className="border w-full" />
+            <div className="w-full px-10">
+              <div className="font-Sans text-2xl my-5 flex justify-center">
+                OTP
+              </div>
+              <div className="flex justify-center">
+                <hr className="border w-full" />
+              </div>
+              <div className="font-Sans text-3xl flex justify-center mt-5">
+                Enter OTP
+              </div>
+              <div className="mt-5 flex justify-center">
+                <OtpInput
+                  value={otp}
+                  onChange={setOtp}
+                  numInputs={6}
+                  renderSeparator={<span> &nbsp; </span>}
+                  renderInput={(props) => (
+                    <input {...props} style={inputStyles} />
+                  )}
+                />
+              </div>
+              <div className="flex justify-center mt-5">
+                {" "}
+                {timer > 0 && `Resend OTP in ${timer} seconds`}
+              </div>
+              <div className="flex justify-center my-5">
+                {showResendButton ? (
+                  <button
+                    onClick={resendOtpHandler}
+                    className="bg-primary p-2 w-28 text-white rounded"
+                  >
+                    Resend OTP
+                  </button>
+                ) : (
+                  <button
+                    onClick={submitRegisterHandler}
+                    className="bg-primary p-2 w-28 text-white rounded"
+                  >
+                    Verify
+                  </button>
+                )}
+              </div>
+              <div className="flex justify-center h-10">
+                <hr className="border w-full" />
+              </div>
             </div>
           </div>
-        </div>
         )}
       </Modal>
     </div>

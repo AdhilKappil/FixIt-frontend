@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
+
+export interface Open {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export interface Selected {
-    link: string;
-    setSelectedLink: Dispatch<SetStateAction<String>>;
-  }
-
-export  interface Open {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
-  }  
+  setSelectedLink: React.Dispatch<React.SetStateAction<string>>;
+  link: string;
+} 
 
 export interface AddNewServicesProps {
   setAddService: (newValue: boolean) => void;

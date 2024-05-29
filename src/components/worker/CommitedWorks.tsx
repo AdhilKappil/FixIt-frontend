@@ -4,13 +4,9 @@ import { IBooking } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import {
-//   useCommitWorkMutation,
   useGetBookingsMutation,
 } from "../../slices/api/workerApiSlice";
-// import { toast } from "react-toastify";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
-// import WorkerChatModal from "./WorkerChatModal";
-// import { openWorkerChatModal } from "../../slices/modalSlices/chatSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -19,16 +15,6 @@ function CommitedWorks() {
   const [conversation] = useCreateConversationMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { workerInfo } = useSelector((state: RootState) => state.auth);
-  // const dispatch = useDispatch()
-//   const [conversationData, setConversationData] = useState<IConversation>({
-//     _id: "",
-//     members: [],
-//     user:"",
-//     user_profile:"",
-//     worker:"",
-//     worker_profile:""
-// }); 
-//  const modalIsOpen = useSelector((state: RootState) => state.chatModal.workerChatModal.value);
 const navigate = useNavigate()
 
 // Formating date here
@@ -82,9 +68,7 @@ const navigate = useNavigate()
 
     try {
       const res = await conversation({ senderId:workerInfo?._id,receiverId:item.userId}).unwrap();
-      // setConversationData(res.newConversation.data)
       navigate('/worker/workViewDetaisl', { state: { conversationData: res.newConversation.data, item: item } });
-      // dispatch(openWorkerChatModal())
     } catch (error) {
       console.error(error);
     }
@@ -166,9 +150,6 @@ const navigate = useNavigate()
                 </button>
            </div>
             </div>
-            {/* {modalIsOpen && 
-            <WorkerChatModal key="workerChatModal" conversationData={conversationData}/>
-            } */}
           </div>
         ))}
       </div>

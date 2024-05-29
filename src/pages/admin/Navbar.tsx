@@ -73,7 +73,6 @@ export default function Navbar() {
       navigate("/admin/adminLogin")
     } catch (error) {
       console.log(error);
-      
     }
   }
 
@@ -95,21 +94,21 @@ export default function Navbar() {
             }}
           >
             <MenuIcon />
-            <Tooltip title='Go back to home page'>
-                <IconButton sx={{m:1}}>
-                <Home/>
-                </IconButton>
-            </Tooltip>
+                <Home sx={{m:1}}></Home>
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
             Dashboard
           </Typography>
+          <Tooltip title='Change Theam'>
           <IconButton onClick={()=>setDark(!dark)}>
             {dark ? <Brightness7/> : <Brightness4/>}
           </IconButton>
+          </Tooltip>
+          <Tooltip title='Log Out'>
           <IconButton onClick={handleLogOut}>
             <LogoutIcon/>
           </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <SideBar {...{open, setOpen}}/>

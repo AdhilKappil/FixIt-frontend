@@ -59,10 +59,6 @@ function Services() {
                <IoIosStar size={20} className="text-yellow-400" />
                <IoIosStar size={20} className="text-yellow-400" />
              </div>
-             {/* <div className="items-center justify-between mt-2">
-               <p className="text-gray-500 font-medium">First Hour Chage : ₹{item.firstHourCharge}.00</p>
-               <p className="text-gray-500 font-medium">Later Hour Charge : ₹{item.laterHourCharge}.00</p>
-             </div> */}
            </div>
          </div>
          ))}

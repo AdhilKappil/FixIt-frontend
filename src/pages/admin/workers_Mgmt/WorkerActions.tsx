@@ -2,7 +2,6 @@
 import { Box, CircularProgress, Fab } from "@mui/material";
 import { Check, Save } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
-// import { updateStatus } from '../../../actions/user'; // Import your updateStatus function
 import { useState } from "react";
 import { useBlockWorkerMutation } from "../../../slices/api/adminApiSlices";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +50,6 @@ const WorkerActions = ({
       // Handle error appropriately, e.g., show error message
     } finally {
       setLoading(false);
-    //   setSuccess(false); // Reset success state here
     }
   };
   

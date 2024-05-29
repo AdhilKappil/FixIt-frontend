@@ -90,7 +90,7 @@ function SideBar({ open, setOpen }: Open) {
       {
         title: "Dashboard",
         icon: <Dashboard />,
-        link: "dashboard",
+        link: "",
         component: <Admin_Dashboard {...{setSelectedLink,link:'dashboard'}}/>,
       },
       {

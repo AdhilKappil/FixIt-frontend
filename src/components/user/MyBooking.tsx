@@ -157,7 +157,6 @@ function MyBooking() {
 
     const res = await payment({ amount:item.price, bookingId:item._id,workerId:item.workerId }).unwrap()
     const session = res
-    console.log(res)
 
     if (stripePromise) {
         stripePromise.redirectToCheckout({
