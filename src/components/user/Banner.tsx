@@ -27,7 +27,7 @@ function Banner() {
               <img
               style={{ height: "calc(100vh - 80px)"}}
                 className="w-full rounded-lg"
-                src="/src/assets/img/banner_img.png"
+                src="/assets/img/banner_img.png"
                 alt=""
               />
             </div>

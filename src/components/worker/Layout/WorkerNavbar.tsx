@@ -69,7 +69,7 @@ export default function WorkerNavbar() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="/src/assets/icons/adhil-02.png"
+                    src="/assets/icons/adhil-02.png"
                     alt="FixIt"
                   />
                 </div>

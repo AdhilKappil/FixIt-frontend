@@ -37,7 +37,7 @@ function AccountInfo() {
               <p className="text-white font-bold text-5xl mt-7 font-Sans">₹ {balance}</p>
             </div>
             <div className="">
-              <img className="" src="/src/assets/icons/wallet_icone.png" alt="Wallet Icon" />
+              <img className="" src="/assets/icons/wallet_icone.png" alt="Wallet Icon" />
             </div>
           </div>
         </div>

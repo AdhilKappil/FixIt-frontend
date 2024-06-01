@@ -15,14 +15,14 @@ const About = () => {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                   <div className="py-3 sm:py-4">
                     <img
-                      src="/src/assets/img/kitchen.png"
+                      src="/assets/img/kitchen.png"
                       alt=""
                       className="w-full rounded-2xl"
                     />
                   </div>
                   <div className="py-3 sm:py-4">
                     <img
-                      src="/src/assets/img/download.jpg"
+                      src="/assets/img/download.jpg"
                       alt=""
                       className="w-full rounded-2xl"
                     />
@@ -31,7 +31,7 @@ const About = () => {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                   <div className="relative my-4">
                     <img
-                      src="/src/assets/img/service-maintenance.jpg"
+                      src="/assets/img/service-maintenance.jpg"
                       alt=""
                       className="w-full rounded-2xl"
                     />

@@ -73,7 +73,7 @@ export default function Navbar() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="/src/assets/icons/adhil-02.png"
+                    src="/assets/icons/adhil-02.png"
                     alt="FixIt"
                   />
                 </div>
@@ -120,7 +120,7 @@ export default function Navbar() {
                      />:
                      <img
                      className="h-8 w-8 rounded-full"
-                     src='/src/assets/img/images.jpg'
+                     src='/assets/img/images.jpg'
                       alt=""
                    />
                    }

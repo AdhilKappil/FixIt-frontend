@@ -22,12 +22,12 @@ function HomeScreen() {
           <div className="w-3/4 ">
             <img
               className="w-full rounded-xl max-md:hidden"
-              src="src/assets/img/banner normal.jpg"
+              src="/assets/img/banner normal.jpg"
               alt=""
             />
             <img
               className="w-full rounded-xl md:hidden"
-              src="/src/assets/img/banner mobile.jpg"
+              src="/assets/img/banner mobile.jpg"
               alt=""
             />
           </div>

@@ -10,22 +10,22 @@ interface Step {
 const steps: Step[] = [
   {
     title: "Booking Online",
-    image: "src/assets/icons/booking (1) 1.png",
+    image: "/assets/icons/booking (1) 1.png",
     alt: "Booking Online Image"
   },
   {
     title: "Confirmation",
-    image: "/src/assets/icons/Frame.png",
+    image: "/assets/icons/Frame.png",
     alt: "Confirmation Image"
   },
   {
     title: "Estimate Details",
-    image: "/src/assets/icons/image 73.png",
+    image: "/assets/icons/image 73.png",
     alt: "Estimate Details Image"
   },
   {
     title: "Complete Work",
-    image: "src/assets/icons/Vector 153 (Stroke).png",
+    image: "/assets/icons/Vector 153 (Stroke).png",
     alt: "Complete Work",
     round:true
   }
@@ -45,7 +45,7 @@ const Process: React.FC = () => {
             <div key={index} className='grid justify-center'>
               <div className="h-36 w-36  lg:ml-0 lg:w-52 lg:h-52 rounded-full flex items-center justify-center" style={{ background: '#FAE084' }}>
                 {step.round ?<div className="h-20 w-20 bg-primary rounded-full flex justify-center items-center">
-                <img src="src/assets/icons/Vector 153 (Stroke).png" alt=""/>
+                <img src="/assets/icons/Vector 153 (Stroke).png" alt=""/>
                 </div> :<img src={step.image} alt={step.alt} /> }
               </div>
               <div className="mt-5 text-base text-primary  font-semibold lg:text-xl mb-5">{step.title}</div>
