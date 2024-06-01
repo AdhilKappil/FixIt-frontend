@@ -19,7 +19,7 @@ export const useSocket = (): Socket | null => useContext(SocketContext);
 function App() {
 
   const socket = useMemo(()=>{
-    return io("http://localhost:3000");
+    return io("http://shopbrandhub.online");
   },[])
 
   return (
