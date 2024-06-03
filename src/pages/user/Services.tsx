@@ -26,6 +26,7 @@ function Services() {
     fetchUser();
   }, []); // Add dependencies if needed
   
+  console.log(service);
   
   return (
     <div>

@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const WORKER_URL = "/api/worker";
+const WORKER_URL = "https://shopbrandhub.online/api/worker";
 
 export const workerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

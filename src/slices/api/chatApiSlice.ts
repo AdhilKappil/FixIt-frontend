@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const CHAT_URL = "/api/chat";
+const CHAT_URL = "https://shopbrandhub.online/api/chat";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

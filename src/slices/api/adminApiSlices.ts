@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const ADMIN_URL = "/api/admin";
+const ADMIN_URL = "https://shopbrandhub.online/api/admin";
 
 export const adminApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

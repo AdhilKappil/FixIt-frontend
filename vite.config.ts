@@ -1,21 +1,10 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dotenv from 'dotenv';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-dotenv.config();
-
-// Retrieve environment variables
-const { BASE_URL } = process.env;
-
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 9000,
-    proxy: {
-      '/api': {
-        target: BASE_URL,
-        changeOrigin: true,
-      },
-    },
+    host: "0.0.0.0", // This allows access from your local network
   },
 });
