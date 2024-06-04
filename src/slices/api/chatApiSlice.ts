@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const CHAT_URL = "https://shopbrandhub.online/api/chat";
+const CHAT_URL = `${import.meta.env.VITE_BASE_URL}/api/chat`
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +11,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${CHAT_URL}/conversation`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -20,6 +21,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${CHAT_URL}/message`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -29,6 +31,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${CHAT_URL}/message`,
         method: "GET",
         params: { conversationId},
+        credentials: "include",
       }),
     }),
  

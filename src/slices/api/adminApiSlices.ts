@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const ADMIN_URL = "https://shopbrandhub.online/api/admin";
+const ADMIN_URL = `${import.meta.env.VITE_BASE_URL}/api/admin`;
 
 export const adminApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +9,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         url: `${ADMIN_URL}/login`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -17,6 +18,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ADMIN_URL}/logout`,
         method: "POST",
+        credentials: "include",
       }),
     }),
 
@@ -25,6 +27,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ADMIN_URL}/getUsers`,
         method: "GET",
+        credentials: "include",
       }),
     }),
 
@@ -33,6 +36,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `${ADMIN_URL}/users/unblock-block?id=${data}`,
         method: "PATCH",
+        credentials: "include",
       }),
     }),
 
@@ -41,6 +45,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `${ADMIN_URL}/worker/unblock-block?id=${data}`,
         method: "PATCH",
+        credentials: "include",
       }),
     }),
 
@@ -50,6 +55,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         url: `${ADMIN_URL}/createService`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -58,6 +64,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ADMIN_URL}/getServices`,
         method: "GET",
+        credentials: "include",
       }),
     }),
 
@@ -67,6 +74,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         url: `${ADMIN_URL}/editService`,
         method: "PUT",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -75,6 +83,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ADMIN_URL}/getJoinRequests`,
         method: "GET",
+        credentials: "include",
       }),
     }),
 
@@ -84,6 +93,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         url: `${ADMIN_URL}/worker/accept-rejectRequest`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -93,6 +103,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         url: `${ADMIN_URL}/getBookings`,
         method: "GET",
         params: { userId, status, service, workerId },
+        credentials: "include",
       }),
     }),
   }),

@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const USER_URL = "https://shopbrandhub.online/api/user";
+const USER_URL = `${import.meta.env.VITE_BASE_URL}/api/user`;
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +11,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/login`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -19,6 +20,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${USER_URL}/logout`,
         method: "POST",
+        credentials: "include",
       }),
     }),
 
@@ -28,6 +30,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/signup`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -37,6 +40,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/googleAuth`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -46,6 +50,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/sendEmail`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -55,6 +60,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/verifyEmail`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -64,6 +70,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/sendOTPforgotPassword`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -73,6 +80,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/forgotPassword`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -82,6 +90,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/updateProfile`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -91,6 +100,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/addProfile`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -100,6 +110,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/bookService`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -109,6 +120,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/getBookings`,
         method: "GET",
         params: { userId, status,workerId,service },
+        credentials: "include",
       }),
     }),
 
@@ -118,6 +130,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/cancelBooking`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -127,6 +140,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/payment`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 

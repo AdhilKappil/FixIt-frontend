@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const WORKER_URL = "https://shopbrandhub.online/api/worker";
+const WORKER_URL = `${import.meta.env.VITE_BASE_URL}/api/worker`;
 
 export const workerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +11,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/login`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -19,6 +20,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${WORKER_URL}/logout`,
         method: "POST",
+        credentials: "include",
       }),
     }),
 
@@ -28,6 +30,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/signup`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -37,6 +40,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
           url: `${WORKER_URL}/getWorker`,
           method: "GET",
           params: {email},
+          credentials: "include",
         }),
       }),
 
@@ -46,6 +50,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/updateProfile`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -55,6 +60,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/getBookings`,
         method: "GET",
         params: { userId, status, service,workerId },
+        credentials: "include",
       }),
     }),
 
@@ -64,6 +70,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/commitWork`,
         method: "PATCH",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -73,6 +80,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/sendOtpToEmail`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -82,6 +90,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
         url: `${WORKER_URL}/verifyEmail`,
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -91,6 +100,7 @@ export const workerApiSlice = apiSlice.injectEndpoints({
       url: `${WORKER_URL}/generateBill`,
       method: "POST",
       body: data,
+      credentials: "include",
     }),
   }),
 
