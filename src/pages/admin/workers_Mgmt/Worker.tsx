@@ -81,7 +81,7 @@ const Workers: React.FC<Selected> = ({ setSelectedLink, link }) => {
   );
 
   return (
-    <Box sx={{ height: 400, width: "95%" }}>
+    <Box sx={{ height: 500, width: "95%" }}>
       <Typography
         variant="h4"
         component="h4"

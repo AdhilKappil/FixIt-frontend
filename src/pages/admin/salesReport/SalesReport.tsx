@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import * as React from 'react';
+import { Box, Button, Grid,  Typography } from "@mui/material";
 import {
   DataGrid,
   GridCellParams,
@@ -14,15 +15,20 @@ import { Selected } from "../../../@types/Props";
 import { IBooking } from "../../../@types/schema";
 import * as XLSX from "xlsx";
 import { useAdminGetBookingsMutation } from "../../../slices/api/adminApiSlices";
+import dayjs, { Dayjs } from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   const [rowId, setRowId] = useState<string | null>(null);
   const [getBookings] = useAdminGetBookingsMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
-  const [fromDate, setFromDate] = useState<string>("");
-  const [toDate, setToDate] = useState<string>("");
   const apiRef = useGridApiRef();
+  const [fromDate, setFromDate] = React.useState<Dayjs | null>();
+  const [toDate, setToDate] = React.useState<Dayjs | null>();
 
   useEffect(() => {
     setSelectedLink(link);
@@ -88,13 +94,13 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
 
   const filteredBookings = useMemo(() => {
     return bookings.filter((booking) => {
-      const bookingDate = moment(booking.updatedAt);
-      const from = fromDate ? moment(fromDate) : null;
-      const to = toDate ? moment(toDate) : null;
-
-      if (from && bookingDate.isBefore(from, "day")) return false;
-      if (to && bookingDate.isAfter(to, "day")) return false;
-
+      const bookingDate = dayjs(booking.updatedAt);
+      const from = fromDate ? fromDate.startOf('day') : null;
+      const to = toDate ? toDate.endOf('day') : null;
+  
+      if (from && bookingDate.isBefore(from)) return false;
+      if (to && bookingDate.isAfter(to)) return false;
+  
       return true;
     });
   }, [bookings, fromDate, toDate]);
@@ -161,7 +167,7 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
   };
 
   return (
-    <Box sx={{ width: "95%", mt: 4 }}>
+    <Box sx={{ height: 400,width: "95%"}}>
       <Typography
         variant="h4"
         component="h4"
@@ -169,28 +175,20 @@ const SalesReport: React.FC<Selected> = ({ setSelectedLink, link }) => {
       >
         Sales Report
       </Typography>
-      <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={6} md={3}>
-          <TextField
-            label="From Date"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <TextField
-            label="To Date"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            fullWidth
-          />
-        </Grid>
-      </Grid>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker', 'DatePicker']}>
+        <DatePicker
+           label="From Date"
+          value={fromDate}
+          onChange={(newValue) => setFromDate(newValue)}
+        />
+        <DatePicker
+           label="To Date"
+          value={toDate}
+          onChange={(newValue) => setToDate(newValue)}
+        />
+      </DemoContainer>
+    </LocalizationProvider>
       <DataGrid
         columns={columns}
         rows={filteredBookings}

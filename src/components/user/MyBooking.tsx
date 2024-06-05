@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
 import { useNavigate } from "react-router-dom";
 import { loadStripe,Stripe  } from "@stripe/stripe-js";
+import { useSocket } from "../../App";
 const public_stripe_key = import.meta.env.VITE_STRIPE_PUBLIC_KET
 
 function MyBooking() {
@@ -25,6 +26,8 @@ function MyBooking() {
   const navigate = useNavigate()
   const [conversation] = useCreateConversationMutation ();
   const [payment] = usePaymentMutation()
+  const socket = useSocket(); 
+  const [chatNotification,setChatNotification] = useState<[]>()
   
   useEffect(() => {
     async function fetchBooking() {
@@ -169,6 +172,18 @@ function MyBooking() {
 
 }
 
+useEffect(() => {
+  socket?.emit("addUser", userInfo?._id);
+  socket?.on("getMessage", (data: any) => {
+    console.log(data,"da");
+    setChatNotification(data)
+  });
+  return () => {
+    socket?.off("getMessage");
+  };
+}, [socket]);
+
+console.log(chatNotification,"aaa");
 
   return (
     <div className="">
@@ -274,13 +289,17 @@ function MyBooking() {
             </div>
             <div className="flex justify-end p-3 gap-3">
               {items.status === "commited" ? (
-                <button
+             <div className="relative">
+                 <button
                   onClick={()=>handleChat(items.workerId)}
-                  className="bg-gray-300 p-2 rounded-lg shadow-md w-24 flex justify-center font-medium text-primary gap-2 items-center font-Sans"
+                  className="bg-gray-300 p-3 my-1 rounded-full shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans"
                 >
-                  <FaRocketchat size={20} />
-                  Chat
+                  <FaRocketchat size={20}/>
                 </button>
+                {chatNotification && 
+                <div className="absolute bottom-8 left-6 bg-red-700 rounded-full w-5 h-5 flex justify-center items-center text-xs text-white">{chatNotification.length}</div>
+                }
+             </div>
               ) : items.status === "pending" ? (
                 <button
                   onClick={() => handleCancel(items._id)}

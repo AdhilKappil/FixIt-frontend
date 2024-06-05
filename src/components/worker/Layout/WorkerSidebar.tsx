@@ -49,7 +49,7 @@ const WorkerSidebar = () => {
             />
           </div>
           {open && (
-            <div className="bg-[url(/src/assets/img/workerProfileBackground.png)] rounded-xl grid hover:cursor-pointer">
+            <div className="bg-[url(/assets/img/workerProfileBackground.png)] rounded-xl grid hover:cursor-pointer">
               <div className="mt-3 flex justify-center">
                 <img
                   className="rounded-full w-28"

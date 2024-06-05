@@ -120,7 +120,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/getBookings`,
         method: "GET",
         params: { userId, status,workerId,service },
-        credentials: "include",
+        credentials: "include" as const,
       }),
     }),
 

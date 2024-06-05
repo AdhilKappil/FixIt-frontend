@@ -19,7 +19,7 @@ export const useSocket = (): Socket | null => useContext(SocketContext);
 function App() {
 
   const socket = useMemo(()=>{
-    return io("https://shopbrandhub.online");
+    return io(import.meta.env.VITE_BASE_URL);
   },[])
 
   return (

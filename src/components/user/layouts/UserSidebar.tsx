@@ -112,7 +112,7 @@ const UserSidebar = () => {
             />
           </div>
           {open && (
-            <div className="bg-[url(/src/assets/img/workerProfileBackground.png)] rounded-xl grid">
+            <div className="bg-[url(/assets/img/workerProfileBackground.png)] rounded-xl grid">
               <div>
                 <div className="mt-3 flex justify-center">
                   <img
