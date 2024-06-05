@@ -14,7 +14,7 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 flex justify-start items-center">
@@ -44,7 +44,7 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 w-8/1 flex justify-start items-center">
@@ -74,7 +74,7 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 w-8/1 flex justify-start items-center">
