@@ -75,6 +75,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
       const res = await sendMessage({
         conversationId: props.conversationData._id,
         senderId: workerInfo?._id,
+        receiverId,
         text: chatText,
       }).unwrap();
       setMessage([...message, res.newConversation]);

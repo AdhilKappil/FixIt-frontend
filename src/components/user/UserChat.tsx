@@ -91,6 +91,7 @@ function UserChat() {
       const res = await sendMessage({
         conversationId: conversationData._id,
         senderId: userInfo?._id,
+        receiverId,
         text: chatText,
       }).unwrap();
       setMessage([...message, res.newConversation]);
