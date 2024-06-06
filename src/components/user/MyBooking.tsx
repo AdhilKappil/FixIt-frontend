@@ -4,31 +4,36 @@ import {
   useGetBookingMutation,
   usePaymentMutation,
 } from "../../slices/api/userApiSlice";
-import { IBooking } from "../../@types/schema";
+import { IBooking, IMessage } from "../../@types/schema";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import { FaRocketchat } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { useCreateConversationMutation } from "../../slices/api/chatApiSlice";
+import {
+  useCreateConversationMutation,
+  useGetUnReadMessagesMutation,
+} from "../../slices/api/chatApiSlice";
 import { useNavigate } from "react-router-dom";
-import { loadStripe,Stripe  } from "@stripe/stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { useSocket } from "../../App";
-const public_stripe_key = import.meta.env.VITE_STRIPE_PUBLIC_KET
+const public_stripe_key = import.meta.env.VITE_STRIPE_PUBLIC_KET;
 
 function MyBooking() {
   const [getBookings] = useGetBookingMutation();
+  const [getUnReadMessages] = useGetUnReadMessagesMutation();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [title, setTitle] = useState("All Bookings");
   const [cancelBooking] = useCancelBookingMutation();
   const [refresh, setRefresh] = useState(false);
-  const navigate = useNavigate()
-  const [conversation] = useCreateConversationMutation ();
-  const [payment] = usePaymentMutation()
-  const socket = useSocket(); 
-  const [chatNotification,setChatNotification] = useState<[]>()
-  
+  const navigate = useNavigate();
+  const [conversation] = useCreateConversationMutation();
+  const [payment] = usePaymentMutation();
+  const socket = useSocket();
+  const [chatNotification, setChatNotification] = useState<[]>();
+  const [message, setMessage] = useState<IMessage[]>([]);
+
   useEffect(() => {
     async function fetchBooking() {
       try {
@@ -68,6 +73,34 @@ function MyBooking() {
     fetchBooking();
   }, [refresh]);
 
+  // for get all un read messages
+  useEffect(() => {
+    const fetchChat = async () => {
+      try {
+        console.log("hell");
+
+        const res = await getUnReadMessages({ id: userInfo?._id }).unwrap();
+        console.log(res, "res");
+
+        setMessage(res.message.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChat();
+  }, []);
+
+  useEffect(() => {
+    socket?.emit("addUser", userInfo?._id);
+    socket?.on("getMessage", (data: any) => {
+      console.log(data, "da");
+      setChatNotification(data);
+    });
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket]);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -92,7 +125,7 @@ function MyBooking() {
         service: "",
       }).unwrap();
       console.log(res);
-      
+
       const bookingsWithLocation = await Promise.all(
         res.data.map(async (booking: any) => {
           const { latitude, longitude } = booking;
@@ -144,48 +177,43 @@ function MyBooking() {
     }
   };
 
-  const handleChat = async(receiverId:string) => {
+  const handleChat = async (receiverId: string) => {
     try {
-      const res = await conversation({ senderId:userInfo?._id,receiverId}).unwrap();
-      navigate('/profile/userChat', { state: { conversationData: res.newConversation.data } });
+      const res = await conversation({
+        senderId: userInfo?._id,
+        receiverId,
+      }).unwrap();
+      navigate("/profile/userChat", {
+        state: { conversationData: res.newConversation.data },
+      });
     } catch (error) {
       console.error(error);
     }
-  }; 
-  
-  // stripe payment 
-  const handlePayment = async (item:IBooking) => {
- 
-    const stripePromise: Stripe | null  = await loadStripe(public_stripe_key);
+  };
 
-    const res = await payment({ amount:item.price, bookingId:item._id,workerId:item.workerId }).unwrap()
-    const session = res
+  // stripe payment
+  const handlePayment = async (item: IBooking) => {
+    const stripePromise: Stripe | null = await loadStripe(public_stripe_key);
+
+    const res = await payment({
+      amount: item.price,
+      bookingId: item._id,
+      workerId: item.workerId,
+    }).unwrap();
+    const session = res;
 
     if (stripePromise) {
-        stripePromise.redirectToCheckout({
-            sessionId: session.data,
-        });
+      stripePromise.redirectToCheckout({
+        sessionId: session.data,
+      });
     } else {
-        console.error('Failed to initialize Stripe');
-        // Handle the error appropriately
+      console.error("Failed to initialize Stripe");
+      // Handle the error appropriately
     }
-
-}
-
-
-
-useEffect(() => {
-  socket?.emit("addUser", userInfo?._id);
-  socket?.on("getMessage", (data: any) => {
-    console.log(data,"da");
-    setChatNotification(data)
-  });
-  return () => {
-    socket?.off("getMessage");
   };
-}, [socket]);
 
-console.log(chatNotification,"aaa");
+  console.log(message);
+  console.log(message.length);
 
   return (
     <div className="">
@@ -227,100 +255,109 @@ console.log(chatNotification,"aaa");
       </div>
 
       <div className="grid xl:grid-cols-2 mt-10 gap-10">
-        {bookings.map((items) => (
-          <div key={items._id} className="bg-tertiary rounded-lg shadow-md">
-            {/* head */}
-            <div className="grid sm:flex justify-between p-4">
-              <div className="max-sm:flex max-sm:justify-between">
-                <p className="text-gray-500 font-Sans">Booking Id</p>
-                <p className="text-primary font-medium font-Sans sm:mt-2">
-                  {items._id.slice(-8).toUpperCase()}
-                </p>
-              </div>
-              <div className="flex gap-5 max-sm:mt-2">
-                <div>
-                  <p className="text-gray-500 font-Sans">Order Status</p>
-                  <p className="text-primary font-Sans font-medium mt-2">
-                      {items.status.charAt(0).toUpperCase() + items.status.slice(1)}
+        {bookings.map((items) => {
+          const newMessages = message.filter(
+            (msg) => msg.senderId === items.workerId
+          );
+          return (
+            <div key={items._id} className="bg-tertiary rounded-lg shadow-md">
+              {/* head */}
+              <div className="grid sm:flex justify-between p-4">
+                <div className="max-sm:flex max-sm:justify-between">
+                  <p className="text-gray-500 font-Sans">Booking Id</p>
+                  <p className="text-primary font-medium font-Sans sm:mt-2">
+                    {items._id.slice(-8).toUpperCase()}
                   </p>
                 </div>
-                <div className="border max-sm:mx-4"></div>
-                <div>
-                  <p className="text-gray-500 font-Sans">Payment Status</p>
-                  {items.payment ? (
+                <div className="flex gap-5 max-sm:mt-2">
+                  <div>
+                    <p className="text-gray-500 font-Sans">Order Status</p>
                     <p className="text-primary font-Sans font-medium mt-2">
-                      Paid
+                      {items.status.charAt(0).toUpperCase() +
+                        items.status.slice(1)}
                     </p>
-                  ) : (
-                    <p className="text-primary font-Sans font-medium mt-2">
-                      Not Paid
-                    </p>
-                  )}
+                  </div>
+                  <div className="border max-sm:mx-4"></div>
+                  <div>
+                    <p className="text-gray-500 font-Sans">Payment Status</p>
+                    {items.payment ? (
+                      <p className="text-primary font-Sans font-medium mt-2">
+                        Paid
+                      </p>
+                    ) : (
+                      <p className="text-primary font-Sans font-medium mt-2">
+                        Not Paid
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <hr />
-            {/* section */}
-            <div className="flex md:p-5">
-              <div className="h-14 w-20 mt-1 max-sm:hidden">
-                <img
-                  className="h-full"
-                  src={items.serviceImg}
-                  alt={items.service}
-                />
+              <hr />
+              {/* section */}
+              <div className="flex md:p-5">
+                <div className="h-14 w-20 mt-1 max-sm:hidden">
+                  <img
+                    className="h-full"
+                    src={items.serviceImg}
+                    alt={items.service}
+                  />
+                </div>
+                <div className="ml-5">
+                  <p className="text-primary font-Sans text-lg font-medium max-sm:my-2">
+                    {items.service}
+                  </p>
+                  <p className="text-gray-500 font-San text-sm">
+                    {items.location}
+                  </p>
+                </div>
               </div>
-              <div className="ml-5">
-                <p className="text-primary font-Sans text-lg font-medium max-sm:my-2">
-                  {items.service}
-                </p>
-                <p className="text-gray-500 font-San text-sm">
-                  {items.location}
-                </p>
+              <div className="sm:flex justify-between px-5 max-sm:mt-2 ">
+                <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
+                  Booking At {formatDate(items.date)}{" "}
+                  <span className="text-primary font-medium font-Sans">
+                    {items.startTime}-{items.endTime}
+                  </span>{" "}
+                </div>
+                <div className="text-primary font-Sans font-medium max-sm:mt-2">
+                  Total : {items.price === 1 ? "₹0.00" : `₹${items.price}.00`}
+                </div>
+              </div>
+              <div className="flex justify-end p-3 gap-3">
+                {items.status === "commited" ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => handleChat(items.workerId)}
+                      className="bg-gray-300 p-3 my-1 rounded-full shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans"
+                    >
+                      <FaRocketchat size={20} />
+                    </button>
+                    {newMessages.length > 0 && (
+                      <div className="absolute bottom-8 left-6 bg-red-700 rounded-full w-5 h-5 flex justify-center items-center text-xs text-white">
+                        {newMessages.length}
+                      </div>
+                    )}
+                  </div>
+                ) : items.status === "pending" ? (
+                  <button
+                    onClick={() => handleCancel(items._id)}
+                    className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24"
+                  >
+                    Cancel
+                  </button>
+                ) : !items.payment ? (
+                  <button
+                    onClick={() => handlePayment(items)}
+                    className="bg-primary text-white p-2 font-Sans rounded-lg w-24"
+                  >
+                    Pay
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
-            <div className="sm:flex justify-between px-5 max-sm:mt-2 ">
-              <div className="text-gray-500 gap-3 font-Sans flex max-sm:text-sm">
-                Booking At {formatDate(items.date)}{" "}
-                <span className="text-primary font-medium font-Sans">
-                  {items.startTime}-{items.endTime}
-                </span>{" "}
-              </div>
-              <div className="text-primary font-Sans font-medium max-sm:mt-2">
-                Total : {items.price === 1 ? "₹0.00" :`₹${items.price}.00`}
-              </div>
-            </div>
-            <div className="flex justify-end p-3 gap-3">
-              {items.status === "commited" ? (
-             <div className="relative">
-                 <button
-                  onClick={()=>handleChat(items.workerId)}
-                  className="bg-gray-300 p-3 my-1 rounded-full shadow-md flex justify-center font-medium text-primary gap-2 items-center font-Sans"
-                >
-                  <FaRocketchat size={20}/>
-                </button>
-                {chatNotification && 
-                <div className="absolute bottom-8 left-6 bg-red-700 rounded-full w-5 h-5 flex justify-center items-center text-xs text-white">{chatNotification.length}</div>
-                }
-             </div>
-              ) : items.status === "pending" ? (
-                <button
-                  onClick={() => handleCancel(items._id)}
-                  className="bg-red-600 text-white p-2 font-Sans rounded-lg w-24"
-                >
-                  Cancel
-                </button>
-              ): !items.payment ?
-              <button
-              onClick={() => handlePayment(items)}
-              className="bg-primary text-white p-2 font-Sans rounded-lg w-24"
-            >
-              Pay
-            </button>
-            :""
-              }
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

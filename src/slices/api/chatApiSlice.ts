@@ -35,7 +35,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-      // get all message
+      // get all messages
       viewMessages: builder.mutation({
         query: (data) => ({
           url: `${CHAT_URL}/viewMessages`,
@@ -44,6 +44,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
           credentials: "include",
         }),
       }),
+
+      
+    // get all un read messages
+     getUnReadMessages: builder.mutation({
+      query: ({id}) => ({
+        url: `${CHAT_URL}/getUnReadMessages`,
+        method: "GET",
+        params: {id},
+        credentials: "include",
+      }),
+    }),
  
 
   }),
@@ -54,6 +65,7 @@ export const {
     useCreateConversationMutation,
     useSendMessageMutation,
     useGetMessageMutation,
-    useViewMessagesMutation
+    useViewMessagesMutation,
+    useGetUnReadMessagesMutation
     
 } = userApiSlice;
