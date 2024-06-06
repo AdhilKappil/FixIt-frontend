@@ -94,7 +94,7 @@ const navigate = useNavigate()
                 <div>
                   <p className="text-gray-500 font-Sans">Work Status</p>
                   <p className="text-primary font-Sans font-medium mt-2">
-                   {items.price === 1 ? "Work Started" : `${items.status}`} 
+                   {items.price === 1 ? "Work Started" : `${items.status.charAt(0).toUpperCase() + items.status.slice(1)}`} 
                   </p>
                 </div>
                 <div className="border max-sm:mx-4"></div>

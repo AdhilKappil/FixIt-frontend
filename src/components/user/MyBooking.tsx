@@ -239,7 +239,7 @@ console.log(chatNotification,"aaa");
                 <div>
                   <p className="text-gray-500 font-Sans">Order Status</p>
                   <p className="text-primary font-Sans font-medium mt-2">
-                    {items.status}
+                      {items.status.charAt(0).toUpperCase() + items.status.slice(1)}
                   </p>
                 </div>
                 <div className="border max-sm:mx-4"></div>

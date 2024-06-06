@@ -26,7 +26,7 @@ function App() {
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
         <div>
-          <ToastContainer autoClose={2000} />
+          <ToastContainer autoClose={2500} />
           <Routes>
             <Route path="/*" element={<UserRoutes />} />
             <Route path="/worker/*" element={<WorkerRoutes />} />

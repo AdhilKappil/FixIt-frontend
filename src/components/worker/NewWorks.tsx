@@ -7,6 +7,7 @@ import {
   useGetBookingsMutation,
 } from "../../slices/api/workerApiSlice";
 import { toast } from "react-toastify";
+import { MyError } from "../../validation/validationTypes";
 
 function NewWorks() {
   const [getBookings] = useGetBookingsMutation();
@@ -71,7 +72,8 @@ function NewWorks() {
       setRefresh(!refresh)
       toast.success(res.message);
     } catch (err) {
-      console.log(err);
+      setRefresh(!refresh)
+      toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
     }
   };
 
@@ -96,7 +98,7 @@ function NewWorks() {
                 <div>
                   <p className="text-gray-500 font-Sans">Work Status</p>
                   <p className="text-primary font-Sans font-medium mt-2">
-                    {items.status}
+                    {items.status.charAt(0).toUpperCase() + items.status.slice(1)}
                   </p>
                 </div>
                 <div className="border max-sm:mx-4"></div>

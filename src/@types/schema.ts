@@ -36,7 +36,7 @@ export interface IWorker {
     date: string;
     startTime: string;
     endTime: string;
-    status?: string;
+    status: string;
     price:number;
     paymentId?:string;
     payment?:boolean;

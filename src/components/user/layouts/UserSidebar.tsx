@@ -120,7 +120,7 @@ const UserSidebar = () => {
                     src={
                       imagePreview ||
                       userInfo?.profile_img ||
-                      "/src/assets/img/images.jpg"
+                      "/assets/img/images.jpg"
                     }
                     alt=""
                     onClick={handleFileClick}

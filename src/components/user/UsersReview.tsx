@@ -14,17 +14,17 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/headshot2_5000x.webp" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 flex justify-start items-center">
-                <p className="text-2xl font-semibold font">Adhil Ali  </p>
+                <p className="text-2xl font-semibold font">Laila T</p>
               </div>
             </div>
             <div className="mt-4">
               <p className="text-gray-500">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
+               I am extremely pleased with the service provided by Fixit.
+               The technicians were highly skilled and knowledgeable
               </p>
             </div>
             <div className="flex mt-3">
@@ -44,17 +44,17 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/headshot2_5000x.webp" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 w-8/1 flex justify-start items-center">
-                <p className="text-2xl font-semibold font">Adhil Ali</p>
+                <p className="text-2xl font-semibold font">Rosna CT</p>
               </div>
             </div>
             <div className="mt-4">
               <p className="text-gray-500">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
+              I am extremely pleased with the service provided by Fixit.
+               The technicians were highly skilled and knowledgeable
               </p>
             </div>
             <div className="flex mt-3">
@@ -74,17 +74,17 @@ function UsersReview() {
             <div className="flex">
               <div className="w-4/12 h-20">
                 <div className="w-20 h-20 rounded-full bg-black">
-                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/headshot2_5000x.webp" alt="" />
                 </div>
               </div>
               <div className="max-sm:ml-2 w-8/1 flex justify-start items-center">
-                <p className="text-2xl font-semibold font">Adhil Ali</p>
+                <p className="text-2xl font-semibold font">Ramsheena</p>
               </div>
             </div>
             <div className="mt-4">
               <p className="text-gray-500">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
+              I am extremely pleased with the service provided by Fixit.
+               The technicians were highly skilled and knowledgeable
               </p>
             </div>
             <div className="flex mt-3">

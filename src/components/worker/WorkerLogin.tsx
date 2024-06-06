@@ -118,7 +118,7 @@ function WorkerLogin() {
           <p className="my-6 text-3xl font-semibold leading-10">
             Find your happiness by offering your best skills at the right place
             and time.
-            <span className="abg-white whitespace-nowrap py-2 text-cyan-300">
+            <span className="abg-white whitespace-nowrap py-2 text-yellow-500">
               We'll achieve greatness.
             </span>
           </p>

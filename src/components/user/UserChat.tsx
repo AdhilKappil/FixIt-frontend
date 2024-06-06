@@ -10,6 +10,8 @@ import { IConversation, IMessage } from "../../@types/schema";
 import { useSocket } from "../../App";
 import { IoIosSend } from "react-icons/io";
 import { useLocation } from "react-router-dom";
+import { VscTriangleDown } from "react-icons/vsc";
+
 
 
 function UserChat()  {
@@ -126,15 +128,13 @@ function UserChat()  {
                   {mes.senderId != userInfo?._id ? (
                     <div className="col-start-1 col-end-8 p-3 rounded-lg">
                       <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 flex-shrink-0">
-                          <img className="rounded-full" src={conversationData.worker_profile} alt="" />
-                        </div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <p className="max-w-48 md:max-w-96 break-words">
-                            {mes.text}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="relative text-sm bg-gray-500 py-2 px-4 shadow rounded-lg">
+                      <p className="max-w-48 md:max-w-96 break-words text-white">
+                        {mes.text}
+                      </p>
+                      <VscTriangleDown className="absolute text-[30px] top-[-9.3px] left-[-12px] text-gray-500" />
+                    </div>
+                  </div>
                       <p className="text-[11px] font-thin m-1">
                         {new Date(mes.createdAt).toLocaleTimeString([], {
                           hour: "numeric",
@@ -146,15 +146,13 @@ function UserChat()  {
                   ) : (
                     <div className="col-start-6 col-end-13 p-3 rounded-lg">
                       <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 flex-shrink-0">
-                          <img className="rounded-full" src={userInfo.profile_img} alt="" />
-                        </div>
-                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <p className="max-w-48 md:max-w-96 break-words">
-                            {mes.text}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="relative text-sm bg-indigo-100 py-2 px-4 shadow rounded-lg">
+                      <p className="max-w-48 md:max-w-96 break-words">
+                        {mes.text}
+                      </p>
+                      <VscTriangleDown className="absolute text-[30px] top-[-9.5px] right-[-14px] text-indigo-100" />
+                    </div>
+                  </div>
                       <div className="flex justify-end">
                         <p className="text-[11px] font-thin m-1">
                           {new Date(mes.createdAt).toLocaleTimeString([], {
