@@ -34,6 +34,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+
+      // get all message
+      viewMessages: builder.mutation({
+        query: (data) => ({
+          url: `${CHAT_URL}/viewMessages`,
+          method: "PATCH",
+          body: data,
+          credentials: "include",
+        }),
+      }),
  
 
   }),
@@ -43,6 +53,7 @@ export const {
    
     useCreateConversationMutation,
     useSendMessageMutation,
-    useGetMessageMutation
+    useGetMessageMutation,
+    useViewMessagesMutation
     
 } = userApiSlice;

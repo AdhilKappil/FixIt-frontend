@@ -126,7 +126,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
               {mes.senderId != workerInfo?._id ? (
                 <div className="col-start-1 col-end-8 p-3 rounded-lg">
                   <div className="flex flex-row items-center">
-                    <div className="relative text-sm bg-gray-500 py-2 px-4 shadow rounded-lg">
+                    <div className="relative text-sm bg-gray-500 py-2 px-4 shadow rounded-lg ml-3">
                       <p className="max-w-48 md:max-w-96 break-words text-white">
                         {mes.text}
                       </p>
@@ -144,7 +144,7 @@ function WorkerChat(props: { conversationData: IConversation }) {
               ) : (
                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                   <div className="flex items-center justify-start flex-row-reverse">
-                    <div className="relative text-sm bg-indigo-100 py-2 px-4 shadow rounded-lg">
+                    <div className="relative text-sm bg-indigo-100 py-2 px-4 shadow rounded-lg mr-3">
                       <p className="max-w-48 md:max-w-96 break-words">
                         {mes.text}
                       </p>

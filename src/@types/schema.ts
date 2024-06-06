@@ -53,6 +53,7 @@ export interface IWorker {
     conversationId : string;
     senderId : string;
     text: string;
+    status?: boolean;
     createdAt: string;
 }
 
