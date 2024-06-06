@@ -28,6 +28,7 @@
     "aos": "^3.0.0-beta.6",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
+    "emoji-picker-react": "^4.9.4",
     "file-saver": "^2.0.5",
     "firebase": "^10.10.0",
     "formik": "^2.4.5",

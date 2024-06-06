@@ -93,8 +93,18 @@ function MyBooking() {
   useEffect(() => {
     socket?.emit("addUser", userInfo?._id);
     socket?.on("getMessage", (data: any) => {
-      console.log(data, "da");
-      setChatNotification(data);
+      console.log(data);
+      // Append the new message to the existing array
+      setMessage((prev) => [
+        ...prev,
+        {
+          _id: "", // You may need to assign an ID here
+          conversationId: "",
+          senderId: data.senderId,
+          text: data.text,
+          createdAt: new Date().toString(), // Convert to string
+        },
+      ]);
     });
     return () => {
       socket?.off("getMessage");

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
@@ -12,6 +12,9 @@ import { useSocket } from "../../App";
 import { IoIosSend } from "react-icons/io";
 import { useLocation } from "react-router-dom";
 import { VscTriangleDown } from "react-icons/vsc";
+import { IoSendSharp } from "react-icons/io5";
+import EmojiPicker from "emoji-picker-react";
+import { BsEmojiGrin } from "react-icons/bs";
 
 function UserChat() {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -24,6 +27,11 @@ function UserChat() {
   const socket = useSocket();
   const location = useLocation();
   const conversationData: IConversation = location.state?.conversationData;
+
+  // for emoji picker
+  const [emoji, setEmoji] = useState<boolean>(false);
+  const messageInputRef = React.useRef<HTMLInputElement>(null);
+  const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   useEffect(() => {
     socket?.emit("addUser", userInfo?._id);
@@ -53,15 +61,17 @@ function UserChat() {
           conversationId: conversationData._id,
         }).unwrap();
         if (res) {
-          setMessage(res.message.data)
+          setMessage(res.message.data);
           const idsToUpdate = res.message.data
             .filter(
-              (msg:IMessage) => msg.status === false && msg.senderId !== userInfo?._id
-            ).map((msg:IMessage) => msg._id);
-            
+              (msg: IMessage) =>
+                msg.status === false && msg.senderId !== userInfo?._id
+            )
+            .map((msg: IMessage) => msg._id);
+
           if (idsToUpdate.length > 0) {
             // Send the array of IDs to the backend to update their status
-             await viewMessages({ _id: idsToUpdate }).unwrap();
+            await viewMessages({ _id: idsToUpdate }).unwrap();
           }
         }
       } catch (error) {
@@ -70,7 +80,6 @@ function UserChat() {
     };
     fetchChat();
   }, [conversationData._id]);
-  
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -100,6 +109,17 @@ function UserChat() {
       console.error(error);
     }
   };
+
+  function handleEmojiClick(emojiObject: { emoji: string }) {
+    console.log(emojiObject, "emojiObject");
+
+    const { emoji } = emojiObject;
+    console.log(selectedEmoji);
+
+    setChatText((prevInput) => prevInput + emoji);
+    setSelectedEmoji(emoji);
+    setEmoji(false);
+  }
 
   return (
     <div className="lg:flex justify-center">
@@ -177,12 +197,25 @@ function UserChat() {
           <div className="flex flex-row items-center border-t-[1px] bg-tertiary w-full py-4 px-4 sticky bottom-0">
             <div className="flex-grow ml-4 items-center">
               <div className="relative w-full">
-                <input
-                  type="text"
-                  onChange={(e) => setChatText(e.target.value)}
-                  value={chatText}
-                  className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
-                />
+                {emoji && (
+                  <div className="absolute bottom-[75px] transition-transform duration-300 ease-in-out transform ">
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  </div>
+                )}
+                <div className="flex relative">
+                  <BsEmojiGrin
+                    size={20}
+                    className="text-[25px] text-gray-400 absolute top-2.5 left-2"
+                    onClick={() => setEmoji(!emoji)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Message..."
+                    onChange={(e) => setChatText(e.target.value)}
+                    value={chatText}
+                    className="flex w-full pl-10 border rounded-xl focus:outline-none focus:border-indigo-300 h-10"
+                  />
+                </div>
               </div>
             </div>
             <div className="ml-4">
