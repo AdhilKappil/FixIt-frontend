@@ -14,7 +14,6 @@ import { useLocation } from "react-router-dom";
 import { VscTriangleDown } from "react-icons/vsc";
 import EmojiPicker from "emoji-picker-react";
 import { BsEmojiGrin } from "react-icons/bs";
-import { live } from "../../slices/liveUpdate";
 
 function UserChat() {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -73,7 +72,6 @@ function UserChat() {
             // Send the array of IDs to the backend to update their status
             await viewMessages({ _id: idsToUpdate }).unwrap();
             // for updating navbar chat notification
-            dispatch(live())
           }
         }
       } catch (error) {

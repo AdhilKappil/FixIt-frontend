@@ -71,11 +71,10 @@ const UserSidebar = () => {
 
       try {
         const res = await addProfile({ profile_img, _id }).unwrap();
-        console.log(res);
-
         setSubmit(false);
         toast.success(res.message);
         dispatch(setCredential({ ...res.user }));
+        setImagePreview("")
       } catch (err) {
         toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
         setSubmit(false);

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
 import {
@@ -23,7 +23,6 @@ function WorkerChat(props: { conversationData: IConversation }) {
   const [message, setMessage] = useState<IMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const socket = useSocket();
-
   // for emoji picker
   const [emoji, setEmoji] = useState<boolean>(false);
 

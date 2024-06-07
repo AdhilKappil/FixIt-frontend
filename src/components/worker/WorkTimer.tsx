@@ -93,12 +93,16 @@ function WorkTimer(props: {
 
     try {
       const res = await generateBill({price,_id:props.item._id}).unwrap()
+      if(res.message === "You already generated the bill"){
+        toast.error(res.message)
+      }else{
+        Swal.fire({
+          title: res.message,
+          text: "Please verify the amount received from the client",
+          icon: "success"
+        });
+      }
       navigate('/worker/completedWork')
-      Swal.fire({
-        title: res.message,
-        text: "Please verify the amount received from the client",
-        icon: "success"
-      });
     } catch (err) {
       toast.error((err as MyError)?.data?.message || (err as MyError)?.error);
     }

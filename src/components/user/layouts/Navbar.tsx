@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,9 +9,9 @@ import { RootState } from '../../../app/store';
 import { userLogOut } from '../../../slices/authSlice';
 import { useLogoutMutation } from '../../../slices/api/userApiSlice';
 import { toast } from 'react-toastify';
-import { useSocket } from '../../../App';
-import { IMessage } from '../../../@types/schema';
-import { useGetUnReadMessagesMutation } from '../../../slices/api/chatApiSlice';
+// import { useSocket } from '../../../App';
+// import { IMessage } from '../../../@types/schema';
+// import { useGetUnReadMessagesMutation } from '../../../slices/api/chatApiSlice';
 
 
 type NavigationItem = {
@@ -36,54 +36,53 @@ export default function Navbar() {
   const dispatch = useDispatch()
  const navigate = useNavigate()
   const { userInfo } = useSelector((state:RootState) => state.auth);
-  const live = useSelector((state:RootState) => state.live.value);
   const [logOut] = useLogoutMutation();
-  const [getUnReadMessages] = useGetUnReadMessagesMutation();
-  const socket = useSocket();
-  const [message, setMessage] = useState<IMessage[]>([]);
+  // const [getUnReadMessages] = useGetUnReadMessagesMutation();
+  // const socket = useSocket();
+  // const [message, setMessage] = useState<IMessage[]>([]);
 
   const handleLoginButtonClick = () => {
     dispatch(openLoginModal());
   };
 
 
-  // for get all un read messages
-  useEffect(() => {
-    const fetchChat = async () => {
-      try {
-        const res = await getUnReadMessages({ id: userInfo?._id }).unwrap();
-        setMessage(res.message.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchChat();
-  }, [live]);
-
-  console.log(live);
+  // // for get all un read messages
+  // useEffect(() => {
+  //   const fetchChat = async () => {
+  //     try {
+  //       if(userInfo){
+  //         const res = await getUnReadMessages({ id: userInfo?._id }).unwrap();
+  //         setMessage(res.message.data);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchChat();
+  // }, []);  
   
 
-  // for live new message notification
-  useEffect(() => {
-    socket?.emit("addUser", userInfo?._id);
-    socket?.on("getMessage", (data: any) => {
-      console.log(data);
-      // Append the new message to the existing array
-      setMessage((prev) => [
-        ...prev,
-        {
-          _id: "", // You may need to assign an ID here
-          conversationId: "",
-          senderId: data.senderId,
-          text: data.text,
-          createdAt: new Date().toString(), // Convert to string
-        },
-      ]);
-    });
-    return () => {
-      socket?.off("getMessage");
-    };
-  }, [socket]);
+  // // for live new message notification
+  // useEffect(() => {
+  //   socket?.emit("addUser", userInfo?._id);
+  //   socket?.on("getMessage", (data: any) => {
+  //     console.log(data);
+  //     // Append the new message to the existing array
+  //     setMessage((prev) => [
+  //       ...prev,
+  //       {
+  //         _id: "", // You may need to assign an ID here
+  //         conversationId: "",
+  //         senderId: data.senderId,
+  //         text: data.text,
+  //         createdAt: new Date().toString(), // Convert to string
+  //       },
+  //     ]);
+  //   });
+  //   return () => {
+  //     socket?.off("getMessage");
+  //   };
+  // }, [socket]);
 
   const handleLogout = async()=>{
     try {
@@ -141,7 +140,7 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-             <div className='relative'>
+             {/* <div className='relative'>
              <button
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
@@ -154,7 +153,7 @@ export default function Navbar() {
                 {message.length}
             </div>
                }
-             </div>
+             </div> */}
 
                 {userInfo ?(
                 //  Profile dropdown
