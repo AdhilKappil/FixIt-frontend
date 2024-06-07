@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import  { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
 import {
@@ -12,9 +12,9 @@ import { useSocket } from "../../App";
 import { IoIosSend } from "react-icons/io";
 import { useLocation } from "react-router-dom";
 import { VscTriangleDown } from "react-icons/vsc";
-import { IoSendSharp } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
 import { BsEmojiGrin } from "react-icons/bs";
+import { live } from "../../slices/liveUpdate";
 
 function UserChat() {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -27,10 +27,10 @@ function UserChat() {
   const socket = useSocket();
   const location = useLocation();
   const conversationData: IConversation = location.state?.conversationData;
+  const dispatch = useDispatch()
 
   // for emoji picker
   const [emoji, setEmoji] = useState<boolean>(false);
-  const messageInputRef = React.useRef<HTMLInputElement>(null);
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   useEffect(() => {
@@ -72,6 +72,8 @@ function UserChat() {
           if (idsToUpdate.length > 0) {
             // Send the array of IDs to the backend to update their status
             await viewMessages({ _id: idsToUpdate }).unwrap();
+            // for updating navbar chat notification
+            dispatch(live())
           }
         }
       } catch (error) {

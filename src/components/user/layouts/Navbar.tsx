@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { RootState } from '../../../app/store';
 import { userLogOut } from '../../../slices/authSlice';
 import { useLogoutMutation } from '../../../slices/api/userApiSlice';
 import { toast } from 'react-toastify';
+import { useSocket } from '../../../App';
+import { IMessage } from '../../../@types/schema';
+import { useGetUnReadMessagesMutation } from '../../../slices/api/chatApiSlice';
 
 
 type NavigationItem = {
@@ -33,12 +36,54 @@ export default function Navbar() {
   const dispatch = useDispatch()
  const navigate = useNavigate()
   const { userInfo } = useSelector((state:RootState) => state.auth);
+  const live = useSelector((state:RootState) => state.live.value);
   const [logOut] = useLogoutMutation();
-
+  const [getUnReadMessages] = useGetUnReadMessagesMutation();
+  const socket = useSocket();
+  const [message, setMessage] = useState<IMessage[]>([]);
 
   const handleLoginButtonClick = () => {
     dispatch(openLoginModal());
   };
+
+
+  // for get all un read messages
+  useEffect(() => {
+    const fetchChat = async () => {
+      try {
+        const res = await getUnReadMessages({ id: userInfo?._id }).unwrap();
+        setMessage(res.message.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChat();
+  }, [live]);
+
+  console.log(live);
+  
+
+  // for live new message notification
+  useEffect(() => {
+    socket?.emit("addUser", userInfo?._id);
+    socket?.on("getMessage", (data: any) => {
+      console.log(data);
+      // Append the new message to the existing array
+      setMessage((prev) => [
+        ...prev,
+        {
+          _id: "", // You may need to assign an ID here
+          conversationId: "",
+          senderId: data.senderId,
+          text: data.text,
+          createdAt: new Date().toString(), // Convert to string
+        },
+      ]);
+    });
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket]);
 
   const handleLogout = async()=>{
     try {
@@ -50,6 +95,7 @@ export default function Navbar() {
       console.error(error);
     }
   }
+
 
   return (
     <Disclosure as="nav" className="bg-white sticky top-0 z-10">
@@ -95,17 +141,22 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a
-                  href="#"
+             <div className='relative'>
+             <button
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </a>
+                  <BellIcon className="h-6 w-6" aria-hidden="true"/>
+                </button>
+               {message.length>0 && 
+                <div className="absolute top-[-8px] left-5 bg-red-700 rounded-full w-5 h-5 flex justify-center items-center text-xs text-white">
+                {message.length}
+            </div>
+               }
+             </div>
 
                 {userInfo ?(
-                  
                 //  Profile dropdown
                 <Menu as="div" className="relative ml-3">
                   <div>

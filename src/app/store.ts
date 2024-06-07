@@ -5,6 +5,7 @@ import OtpModalReducer from '../slices/modalSlices/OtpModal'
 import { apiSlice } from '../slices/api/apiSlice'
 import authReducer from '../slices/authSlice'
 import  locationReducer  from '../slices/booking'
+import liveReducer from '../slices/liveUpdate'
 
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     OtpModal:OtpModalReducer,
     location:locationReducer,
     auth:authReducer,
+    live: liveReducer, 
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),

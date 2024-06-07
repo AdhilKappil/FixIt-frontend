@@ -31,7 +31,6 @@ function MyBooking() {
   const [conversation] = useCreateConversationMutation();
   const [payment] = usePaymentMutation();
   const socket = useSocket();
-  const [chatNotification, setChatNotification] = useState<[]>();
   const [message, setMessage] = useState<IMessage[]>([]);
 
   useEffect(() => {
@@ -64,7 +63,7 @@ function MyBooking() {
             return booking;
           })
         );
-        setBookings(bookingsWithLocation);
+        setBookings(bookingsWithLocation)
         setTitle("All Bookings");
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -77,11 +76,7 @@ function MyBooking() {
   useEffect(() => {
     const fetchChat = async () => {
       try {
-        console.log("hell");
-
         const res = await getUnReadMessages({ id: userInfo?._id }).unwrap();
-        console.log(res, "res");
-
         setMessage(res.message.data);
       } catch (error) {
         console.error(error);
@@ -90,6 +85,7 @@ function MyBooking() {
     fetchChat();
   }, []);
 
+  // for live new message notification
   useEffect(() => {
     socket?.emit("addUser", userInfo?._id);
     socket?.on("getMessage", (data: any) => {
@@ -134,8 +130,6 @@ function MyBooking() {
         workerId: "",
         service: "",
       }).unwrap();
-      console.log(res);
-
       const bookingsWithLocation = await Promise.all(
         res.data.map(async (booking: any) => {
           const { latitude, longitude } = booking;
@@ -158,7 +152,6 @@ function MyBooking() {
         })
       );
       setBookings(bookingsWithLocation);
-      console.log(bookingsWithLocation);
     } catch (error) {
       console.error("Error fetching services:", error);
     }
@@ -218,12 +211,8 @@ function MyBooking() {
       });
     } else {
       console.error("Failed to initialize Stripe");
-      // Handle the error appropriately
     }
   };
-
-  console.log(message);
-  console.log(message.length);
 
   return (
     <div className="">

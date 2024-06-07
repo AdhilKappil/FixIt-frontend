@@ -1,5 +1,5 @@
 
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { workerLogOut } from '../../../slices/authSlice';
 import { RootState } from '../../../app/store';
 import { useWorkerLogoutMutation } from '../../../slices/api/workerApiSlice';
 import { toast } from 'react-toastify';
+import { useGetUnReadMessagesMutation } from '../../../slices/api/chatApiSlice';
+import { useSocket } from '../../../App';
+import { IMessage } from '../../../@types/schema';
 // import { useWorkerLogoutMutation } from '../../../slices/workerApiSlice';
 
 type NavigationItem = {
@@ -33,7 +36,45 @@ export default function WorkerNavbar() {
   const { workerInfo } = useSelector((state:RootState) => state.auth);
   const navigate = useNavigate()
   const [logOut] = useWorkerLogoutMutation();
+  const [getUnReadMessages] = useGetUnReadMessagesMutation();
+  const socket = useSocket();
+  const [message, setMessage] = useState<IMessage[]>([]);
 
+  // for get all un read messages
+  useEffect(() => {
+    const fetchChat = async () => {
+      try {
+        const res = await getUnReadMessages({ id: workerInfo?._id }).unwrap();
+        setMessage(res.message.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChat();
+  }, []);
+  
+  // for live new message notification
+  useEffect(() => {
+    socket?.emit("addUser", workerInfo?._id);
+    socket?.on("getMessage", (data: any) => {
+      console.log(data);
+      // Append the new message to the existing array
+      setMessage((prev) => [
+        ...prev,
+        {
+          _id: "", // You may need to assign an ID here
+          conversationId: "",
+          senderId: data.senderId,
+          text: data.text,
+          createdAt: new Date().toString(), // Convert to string
+        },
+      ]);
+    });
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket]);
+  
 
   const handleLogout = async()=>{
     try {
@@ -91,14 +132,20 @@ export default function WorkerNavbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a
-                  href="#"
+              <div className='relative'>
+             <button
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </a>
+                  <BellIcon className="h-6 w-6" aria-hidden="true"/>
+                </button>
+               {message.length>0 && 
+                <div className="absolute top-[-8px] left-5 bg-red-700 rounded-full w-5 h-5 flex justify-center items-center text-xs text-white">
+                {message.length}
+            </div>
+               }
+             </div>
 
                 {workerInfo ?
                 <Menu as="div" className="relative ml-3">
