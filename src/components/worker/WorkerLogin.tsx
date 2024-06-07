@@ -114,7 +114,7 @@ function WorkerLogin() {
         </div>
       </div>
       <div className="relative hidden h-screen select-non bg-primary bg-gradient-to-br md:block md:w-1/2">
-        <div className="py-16 px-8 text-white xl:w-[40rem]">
+        <div className="mt-16 px-8 text-white xl:w-[40rem]">
           <p className="my-6 text-3xl font-semibold leading-10">
             Find your happiness by offering your best skills at the right place
             and time.
@@ -122,18 +122,10 @@ function WorkerLogin() {
               We'll achieve greatness.
             </span>
           </p>
-          <p className="mb-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt
-            necessitatibus nostrum repellendus ab totam.
-          </p>
-          <a
-            href="#"
-            className="font-semibold tracking-wide text-white underline underline-offset-4"
-          >
-            Learn More
-          </a>
         </div>
-        <img className="ml-8 w-11/12 max-w-lg rounded-lg object-cover" src="" />
+        <div className="flex justify-center mt-8">
+        <img className="ml-8 w-11/12 max-w-lg rounded-lg" src="/assets/img/workerLogin.png" />
+        </div>
       </div>
     </div>
   );
