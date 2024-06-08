@@ -3,7 +3,7 @@ const ADMIN_URL = `${import.meta.env.VITE_BASE_URL}/api/admin`;
 
 export const adminApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // For admin login
+    // For admin login with jwt
     adminLogin: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/login`,
