@@ -26,7 +26,6 @@ function UserChat() {
   const socket = useSocket();
   const location = useLocation();
   const conversationData: IConversation = location.state?.conversationData;
-  const dispatch = useDispatch()
 
   // for emoji picker
   const [emoji, setEmoji] = useState<boolean>(false);

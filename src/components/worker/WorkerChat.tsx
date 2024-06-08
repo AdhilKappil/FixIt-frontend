@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import "../common/commonStyle.css";
 import {
