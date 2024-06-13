@@ -4,6 +4,7 @@ import WorkTimer from "../../components/worker/WorkTimer";
 import WorkerChat from "../../components/worker/WorkerChat";
 import { useState } from "react";
 import Otp from "../../components/worker/Otp";
+import LocationTracking from "../../components/worker/LocationTracking";
 
 function WorkViewDetails() {
   const location = useLocation();
@@ -14,7 +15,8 @@ function WorkViewDetails() {
 
   return (
     <>
-      <div className="grid lg:flex gap-10">
+     <div>
+     <div className="grid lg:flex gap-10">
         <div className="lg:w-1/2 mt-10">
         <div className="flex justify-center text-primary font-Sans text-2xl font-medium">
               Manage Your Work
@@ -27,6 +29,10 @@ function WorkViewDetails() {
           <WorkerChat key="workerChat" conversationData={conversationData}/>
         </div>
       </div>
+      <div className="mt-10">
+        <LocationTracking bookings={item}/>
+      </div>
+     </div>
     </>
   );
 }
