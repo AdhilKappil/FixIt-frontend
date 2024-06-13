@@ -2,9 +2,9 @@
 const Footer = () => {
   return (
     <footer className="bg-primary mt-10">
-    <div className="px-4 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div className="px-4 pt-8 sm:pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
       <div className="grid row-gap-10 mb-8 lg:grid-cols-6">
-        <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
+        <div className="grid max-sm:grid-cols-1 grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
         <div className="sm:col-span-2">
           <a
             href="/"
@@ -12,22 +12,8 @@ const Footer = () => {
             title="Company"
             className="inline-flex items-center"
           >
-            <svg
-              className="w-8 text-deep-purple-accent-400"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeMiterlimit="10"
-              stroke="currentColor"
-              fill="none"
-            >
-              <rect x="3" y="1" width="7" height="12" />
-              <rect x="3" y="17" width="7" height="6" />
-              <rect x="14" y="1" width="7" height="6" />
-              <rect x="14" y="11" width="7" height="12" />
-            </svg>
-            <span className="ml-2 text-xl font-bold tracking-wide text-white uppercase">
+            <img className="h-12 w-12" src="/assets/icons/favicone.png" alt="" />
+            <span className="ml-2 text-2xl font-Sans font-bold tracking-wide text-white">
               FixIt
             </span>
           </a>
@@ -117,7 +103,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="md:max-w-md lg:col-span-2">
+        <div className="md:max-w-md lg:col-span-2 max-lg:mt-5">
           <span className="text-base font-medium tracking-wide text-gray-300">
             Subscribe for updates
           </span>

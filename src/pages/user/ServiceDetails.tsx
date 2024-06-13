@@ -104,7 +104,7 @@ function ServiceDetails() {
                 <div>
                   <div className="flex gap-10 items-center">
                     <div className="rounded-full h-10 w-10">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                     </div>
                     <div className="w-1/2">
                       <p className="font-semibold">Adhil Ali</p>
@@ -131,7 +131,7 @@ function ServiceDetails() {
                 <div>
                   <div className="flex gap-10 items-center">
                     <div className="rounded-full h-10 w-10">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                     </div>
                     <div className="w-1/2">
                       <p className="font-semibold">Adhil Ali</p>
@@ -158,7 +158,7 @@ function ServiceDetails() {
                 <div>
                   <div className="flex gap-10 items-center">
                     <div className="rounded-full h-10 w-10 ">
-                    <img className="rounded-full " src="/src/assets/img/images.jpg" alt="" />
+                    <img className="rounded-full " src="/assets/img/images.jpg" alt="" />
                     </div>
                     <div className="w-1/2">
                       <p className="font-semibold">Adhil Ali</p>

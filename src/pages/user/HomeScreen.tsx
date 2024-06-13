@@ -27,7 +27,7 @@ function HomeScreen() {
             />
             <img
               className="w-full rounded-xl md:hidden"
-              src="/assets/img/banner mobile.jpg"
+              src="/assets/img/FINAL MOBILE BANNER-01.png"
               alt=""
             />
           </div>
