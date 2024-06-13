@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactMapGL, { Marker, NavigationControl, GeolocateControl, Source, Layer } from 'react-map-gl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { IBooking } from "../../@types/schema";
+import { RiMotorbikeFill } from "react-icons/ri";
+import { FaCar } from "react-icons/fa";
+import { IoMdBicycle } from "react-icons/io";
+import { IoMdWalk } from "react-icons/io";
 
-const LocationTracking = ({ bookings }: { bookings: IBooking }) => {
+
+
+const LocationTracking = (props: 
+    { bookings: IBooking,  
+    setTracking: (value: boolean) => void;  
+    }) => {
     const [viewport, setViewport] = useState({
-        latitude: bookings.latitude,
-        longitude: bookings.longitude,
+        latitude: props.bookings.latitude,
+        longitude: props.bookings.longitude,
         zoom: 8,
         width: '100%',
         height: '400px'
@@ -41,7 +50,7 @@ const LocationTracking = ({ bookings }: { bookings: IBooking }) => {
 
     const fetchDirections = (startLat: number, startLng: number, mode: 'driving' | 'cycling' | 'walking') => {
         const accessToken: string = import.meta.env.VITE_MAPBOX_TOKEN;
-        const url = `https://api.mapbox.com/directions/v5/mapbox/${mode}/${startLng},${startLat};${bookings.longitude},${bookings.latitude}?steps=true&geometries=geojson&access_token=${accessToken}`;
+        const url = `https://api.mapbox.com/directions/v5/mapbox/${mode}/${startLng},${startLat};${props.bookings.longitude},${props.bookings.latitude}?steps=true&geometries=geojson&access_token=${accessToken}`;
         
         fetch(url)
             .then(response => response.json())
@@ -74,14 +83,15 @@ const LocationTracking = ({ bookings }: { bookings: IBooking }) => {
 
     return (
         <div>
-            <div className="w-full h-full" style={{ height: '400px' }}>
+            <button onClick={()=>props.setTracking(false)} className='text-blue-600 font-Sans font-semibold text-xl'>Back</button>
+            <div className="w-full h-full mt-5" style={{ height: '400px' }}>
                 <ReactMapGL
                     {...viewport}
                     mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
                     mapStyle="mapbox://styles/mapbox/streets-v12"
                     onMove={evt => handleViewportChange(evt.viewState)}
                 >
-                    <Marker latitude={bookings.latitude} longitude={bookings.longitude}>
+                    <Marker latitude={props.bookings.latitude} longitude={props.bookings.longitude}>
                         <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 h-7" style={{ color: 'red', border: '2px solid #003e29', borderRadius: '50%' }} />
                     </Marker>
                     {userLocation.latitude && userLocation.longitude && (
@@ -116,15 +126,15 @@ const LocationTracking = ({ bookings }: { bookings: IBooking }) => {
                 </ReactMapGL>
             </div>
            <div className='flex justify-between mt-3 items-center'>
-           <div className="mt-3">
-                <button onClick={() => handleModeChange('driving')} className={`mr-2 px-4 py-2 ${mode === 'driving' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
-                    Car or Bike
+           <div className="mt-3 flex items-center">
+                <button onClick={() => handleModeChange('driving')} className={`mr-2 rounded-md px-4 py-2 ${mode === 'driving' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
+                    <p className='flex items-center gap-2'><RiMotorbikeFill/> or <FaCar/></p>
                 </button>
-                <button onClick={() => handleModeChange('cycling')} className={`mr-2 px-4 py-2 ${mode === 'cycling' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
-                  Cycle
+                <button onClick={() => handleModeChange('cycling')} className={`mr-2 px-4 rounded-md py-2 ${mode === 'cycling' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
+                  <IoMdBicycle size={23}/>
                 </button>
-                <button onClick={() => handleModeChange('walking')} className={`px-4 py-2 ${mode === 'walking' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
-                    Walk
+                <button onClick={() => handleModeChange('walking')} className={`px-4 py-2 rounded-md ${mode === 'walking' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}>
+                   <IoMdWalk size={23}/>
                 </button> 
             </div>
             <div>
