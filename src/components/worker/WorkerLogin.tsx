@@ -124,7 +124,7 @@ function WorkerLogin() {
           </p>
         </div>
         <div className="flex justify-center mt-8">
-        <img className="ml-8 w-11/12 max-w-lg rounded-lg" src="/assets/img/workerLogin.png" />
+        <img className="ml-8 w-11/12 max-w-lg rounded-lg" src="/assets/img/workerLogin.png"/>
         </div>
       </div>
     </div>

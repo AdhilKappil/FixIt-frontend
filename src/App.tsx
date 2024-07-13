@@ -9,7 +9,6 @@ import AdminRoutes from "./routes/AdminRoutes";
 import { createContext, useContext, useMemo} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "react-toastify/dist/ReactToastify.css";
 import { io, Socket } from "socket.io-client";
 
 const SocketContext = createContext<Socket | null>(null);
